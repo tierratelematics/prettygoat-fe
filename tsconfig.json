@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "es5",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "exclude": [
+        "node_modules",
+        "typings"
+    ]
+}
