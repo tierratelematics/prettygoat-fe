@@ -5,6 +5,7 @@ import {IDialogService} from "ninjagoat-dialogs";
 import StopProjectionCommand from "./command/StopProjectionCommand";
 import {ICommandDispatcher} from "ninjagoat-commands";
 import PauseProjectionCommand from "./command/PauseProjectionCommand";
+let autobind = require("autobind-decorator");
 
 @ViewModel("Size")
 class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
@@ -16,6 +17,7 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
         super();
     }
 
+    @autobind
     stop(name: string) {
         console.log("ARRIVED NAME", name,this);
 
@@ -28,6 +30,7 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
         );
     }
 
+    @autobind
     pause(name: string) {
         this.commandDispatcher.dispatch(new PauseProjectionCommand(name)).then(
             (value) => {
@@ -39,6 +42,7 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
         );
     };
 
+    @autobind
     resume(name: string) {
         this.commandDispatcher.dispatch(new PauseProjectionCommand(name)).then(
             (value) => {

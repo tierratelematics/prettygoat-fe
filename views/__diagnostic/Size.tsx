@@ -9,7 +9,10 @@ export default class Size extends View<DiagnosticViewModel> {
 
     render() {
         let projections = _.map(this.viewModel.model, (value:any, key:string) => {
-            return <ProjectionPanel title={key} projection={value} stop={() => this.viewModel.stop(key)} />
+            return <ProjectionPanel title={key} projection={value}
+                                    stop={() => this.viewModel.stop(key)}
+                                    pause={() => this.viewModel.pause(key)}
+                                    resume={() => this.viewModel.resume(key)}/>
         });
 
         return (
