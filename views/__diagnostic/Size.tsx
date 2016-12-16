@@ -3,12 +3,13 @@ import * as React from "react";
 import DiagnosticViewModel from "../../scripts/DiagnosticViewModel";
 import {Grid,Row,Col,Button,PageHeader,Alert} from "react-bootstrap";
 import * as _ from "lodash";
+import ProjectionPanel from "../ProjectionPanel";
 
 export default class Size extends View<DiagnosticViewModel> {
 
     render() {
-        let rows = _.map(this.viewModel.model, function(value, key) {
-            return <li><b>{key}</b></li>;
+        let projections = _.map(this.viewModel.model, (value:any, key:string) => {
+            return <ProjectionPanel title={key} projection={value} stop={() => this.viewModel.stop(key)} />
         });
 
         return (
@@ -16,12 +17,9 @@ export default class Size extends View<DiagnosticViewModel> {
                 <Grid>
                     <PageHeader>Projections<small>Overview</small></PageHeader>
                     <Row>
-                        <ul>
-                            {rows}
-                        </ul>
+                        {projections}
                     </Row>
                 </Grid>
-                {this.props.children}
             </div>
         );
     }

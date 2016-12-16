@@ -25,7 +25,6 @@ class AppModule implements IModule {
 
         kernel.unbind("CommandDispatcher");
         kernel.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
-
         kernel.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
 
