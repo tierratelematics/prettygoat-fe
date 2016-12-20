@@ -12,19 +12,19 @@ import {IBaseConfig} from "ninjagoat";
 @injectable()
 class ApiCommandDispatcher extends CommandDispatcher {
 
-    constructor(@inject("IDateRetriever") dateRetriever:IDateRetriever,
-                @inject("IGUIDGenerator") guidGenerator:IGUIDGenerator,
-                @inject("IHttpClient") private httpClient:IHttpClient,
-                @inject("IBaseConfig") private config:IBaseConfig,
-                @inject("IApiCommandConfig") private apiCommandConfig:IApiCommandConfig) {
+    constructor(@inject("IDateRetriever") dateRetriever: IDateRetriever,
+                @inject("IGUIDGenerator") guidGenerator: IGUIDGenerator,
+                @inject("IHttpClient") private httpClient: IHttpClient,
+                @inject("IBaseConfig") private config: IBaseConfig,
+                @inject("IApiCommandConfig") private apiCommandConfig: IApiCommandConfig) {
         super(dateRetriever, guidGenerator);
     }
 
-    canExecuteCommand(command:Object):boolean {
+    canExecuteCommand(command: Object): boolean {
         return this.transport === Transport.HTTP_Post && !this.authentication;
     }
 
-    executeCommand(envelope:CommandEnvelope):Promise<CommandResponse> {
+    executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
         return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, this.apiCommandConfig).toPromise();
     }
 

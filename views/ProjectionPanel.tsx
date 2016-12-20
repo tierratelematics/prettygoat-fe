@@ -1,12 +1,10 @@
 import * as React from "react";
-import {ButtonGroup,Row,ButtonToolbar,Button} from "react-bootstrap";
+import {ButtonGroup, Row, ButtonToolbar, Button} from "react-bootstrap";
 
 export default class ProjectionPanel extends React.Component<any,any> {
-    constructor(props,context: any) {
-        super(props,context);
-        this.state = {
 
-        }
+    constructor(props, context: any) {
+        super(props, context);
     }
 
     render() {

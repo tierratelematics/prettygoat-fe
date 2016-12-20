@@ -5,10 +5,10 @@ import {Transport} from "ninjagoat-commands";
 @command.Endpoint("/api/projections/stop")
 @command.Transport(Transport.HTTP_Post)
 class StopProjections {
-    name:string;
+    name: string;
 
-    constructor(nameProjection:string){
-        this.name=nameProjection;
+    constructor(nameProjection: string) {
+        this.name = nameProjection;
     }
 }
 

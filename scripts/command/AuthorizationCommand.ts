@@ -5,10 +5,10 @@ import {Transport} from "ninjagoat-commands";
 @command.Endpoint("/api/authorization/check")
 @command.Transport(Transport.HTTP_Post)
 class AuthorizationCommand {
-    token:string;
+    token: string;
 
-    constructor(token:string){
-        this.token=token;
+    constructor(token: string) {
+        this.token = token;
     }
 }
 

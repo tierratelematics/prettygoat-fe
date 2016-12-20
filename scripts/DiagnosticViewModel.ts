@@ -2,9 +2,8 @@ import {ObservableViewModel, ViewModel, Dictionary} from "ninjagoat";
 import {ModelState} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
-import StopProjectionCommand from "./command/StopProjectionCommand";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import PauseProjectionCommand from "./command/PauseProjectionCommand";
+import {StopProjectionCommand, PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
 let autobind = require("autobind-decorator");
 
 @ViewModel("Size")
@@ -19,8 +18,6 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
 
     @autobind
     stop(name: string) {
-        console.log("ARRIVED NAME", name,this);
-
         this.commandDispatcher.dispatch(new StopProjectionCommand(name)).then(
             (value) => {
             },
@@ -44,7 +41,7 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
 
     @autobind
     resume(name: string) {
-        this.commandDispatcher.dispatch(new PauseProjectionCommand(name)).then(
+        this.commandDispatcher.dispatch(new ResumeProjectionCommand(name)).then(
             (value) => {
 
             },
