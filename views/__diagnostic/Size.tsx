@@ -21,9 +21,21 @@ export default class Size extends View<DiagnosticViewModel> {
                     <PageHeader>Projections
                         <small>Overview</small>
                     </PageHeader>
-                    <Row>
-                        {projections}
-                    </Row>
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Projection Name</th>
+                            <th>Status</th>
+                            <th>Size</th>
+                            <th>Events</th>
+                            <th>ReadModels</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {projections}
+                        </tbody>
+                    </table>
                 </Grid>
             </div>
         );
