@@ -6,6 +6,7 @@
         "ninjagoat-projections": "npm:ninjagoat-projections/dts/ninjagoat-projections.d.ts",
         "ninjagoat-translations": "npm:ninjagoat-translations/dts/ninjagoat-translations.d.ts",
         "ninjagoat-auth": "npm:ninjagoat-auth/dts/ninjagoat-auth.d.ts",
+        "class-validator": "npm:class-validator/class-validator.d.ts",
         "prettygoat": "npm:prettygoat/dts/prettygoat.d.ts"
     },
     "globalDependencies": {

@@ -4,17 +4,22 @@ import {autobind} from "core-decorators";
 import {IDialogService} from "ninjagoat-dialogs";
 import {inject} from "inversify";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {IApiCommandConfig} from "./configs/IApiCommandConfig";
 import {IBaseConfig} from "ninjagoat";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {ISocketConfig} from "prettygoat";
+import {Validate, validate, isValid} from "class-validator";
+import {NotBlank} from "../customValidators/CustomValidators";
 
 @autobind
 @ViewModel("Index")
 class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
+
+    @Validate(NotBlank, { message: "The Token is required" })
     token:string;
+    @Validate(NotBlank, { message: "The Endpoint is required" })
     endPoint:string;
+    @Validate(NotBlank, { message: "The Path is required" })
     path:string;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
@@ -40,6 +45,11 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
     }
 
     enterLogin(){
+        if(!isValid(this)){
+            this.dialogService.alert(validate(this)[0].errorMessage);
+            return;
+        }
+
         this.config['endpoint'] = this.endPoint;
         this.socketConfig['endpoint'] = this.endPoint;
         this.socketConfig['path'] = this.path;
