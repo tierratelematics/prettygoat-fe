@@ -3,7 +3,12 @@ import {ButtonGroup, Row, ButtonToolbar, Button} from "react-bootstrap";
 import {ProjectionRunnerStatus} from "../scripts/projection/ProjectionRunnerStatus";
 import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
 
-export default class ProjectionPanel extends React.Component<IProjectionPanel> {
+export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
+
+    constructor(props: IProjectionPanel, context: any) {
+        super(props, context);
+    }
+
     render() {
         return (
             <tr>
@@ -18,7 +23,7 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel> {
                             <Button onClick={() => this.props.stop()}
                                     disabled={this.props.projection.status==ProjectionRunnerStatus.Stop}>Stop</Button>
                             <Button onClick={() => this.props.pause()}
-                                    disabled={this.props.projection.status!=ProjectionRunnerStatus.Run} >Pause</Button>
+                                    disabled={this.props.projection.status!=ProjectionRunnerStatus.Run}>Pause</Button>
                             <Button onClick={() => this.props.resume()}
                                     disabled={this.props.projection.status!=ProjectionRunnerStatus.Pause}>Resume</Button>
                         </ButtonGroup>

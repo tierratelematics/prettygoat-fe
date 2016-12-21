@@ -1,4 +1,4 @@
-import {ObservableViewModel, ViewModel} from "ninjagoat";
+import {ObservableViewModel, ViewModel, ISettingsManager} from "ninjagoat";
 import {ModelState} from "ninjagoat-projections";
 import {autobind} from "core-decorators";
 import {IDialogService} from "ninjagoat-dialogs";
@@ -19,10 +19,11 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher:ICommandDispatcher,
-                @inject("IApiCommandConfig") private apiCommandConfig:IApiCommandConfig,
                 @inject("IBaseConfig") private config:IBaseConfig,
                 @inject("ISocketConfig") private socketConfig:ISocketConfig,
-                @inject("INavigationManager") private navigationManager: INavigationManager) {
+                @inject("INavigationManager") private navigationManager: INavigationManager,
+                @inject("ISettingsManager") private settingsManager: ISettingsManager
+    ) {
         super();
     }
 
@@ -39,13 +40,13 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
     }
 
     enterLogin(){
-        this.apiCommandConfig['Authorization'] = this.token;
         this.config['endpoint'] = this.endPoint;
         this.socketConfig['endpoint'] = this.endPoint;
         this.socketConfig['path'] = this.path;
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token)).then(
             (value) => {
+                this.settingsManager.setValue<string>("tokenAPI",this.token);
                 this.navigationManager.navigate("__diagnostic","size");
             },
             (error) => {

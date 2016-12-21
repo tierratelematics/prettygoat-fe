@@ -12,6 +12,8 @@ import {ITranslationsConfig} from "ninjagoat-translations";
 import {IApiCommandConfig} from "./configs/IApiCommandConfig";
 import {CommandDispatcher} from "ninjagoat-commands";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
+import {IRouteStrategy} from "ninjagoat";
+import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
 
 class AppModule implements IModule {
 
@@ -21,10 +23,13 @@ class AppModule implements IModule {
         kernel.bind<IBaseConfig>("IBaseConfig").toConstantValue(config.base);
         kernel.bind<ISocketConfig>("ISocketConfig").toConstantValue(config.websocket);
         kernel.bind<ITranslationsConfig>("ITranslationsConfig").toConstantValue(config.translations);
-        kernel.bind<IApiCommandConfig>("IApiCommandConfig").toConstantValue({});
 
         kernel.unbind("CommandDispatcher");
         kernel.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
+
+        kernel.unbind("IRouteStrategy");
+        kernel.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
+
         kernel.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
 

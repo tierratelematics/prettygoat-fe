@@ -4,10 +4,11 @@ import {IGUIDGenerator} from "ninjagoat";
 import {IHttpClient} from "ninjagoat";
 import {CommandResponse} from "ninjagoat-commands";
 import {CommandDispatcher} from "ninjagoat-commands";
-import {IApiCommandConfig} from "../configs/IApiCommandConfig";
 import {CommandEnvelope} from "ninjagoat-commands";
 import {Transport} from "ninjagoat-commands";
 import {IBaseConfig} from "ninjagoat";
+import {ISettingsManager} from "ninjagoat";
+import {IApiCommandConfig} from "../configs/IApiCommandConfig";
 
 @injectable()
 class ApiCommandDispatcher extends CommandDispatcher {
@@ -16,7 +17,7 @@ class ApiCommandDispatcher extends CommandDispatcher {
                 @inject("IGUIDGenerator") guidGenerator: IGUIDGenerator,
                 @inject("IHttpClient") private httpClient: IHttpClient,
                 @inject("IBaseConfig") private config: IBaseConfig,
-                @inject("IApiCommandConfig") private apiCommandConfig: IApiCommandConfig) {
+                @inject("ISettingsManager") private settingsManager: ISettingsManager) {
         super(dateRetriever, guidGenerator);
     }
 
@@ -25,7 +26,8 @@ class ApiCommandDispatcher extends CommandDispatcher {
     }
 
     executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
-        return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, this.apiCommandConfig).toPromise();
+        let apiCommandConfig:IApiCommandConfig = {'Authorization': this.settingsManager.getValue<string>("tokenAPI")};
+        return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, apiCommandConfig).toPromise();
     }
 
 }
