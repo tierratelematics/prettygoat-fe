@@ -3,15 +3,21 @@ import * as React from "react";
 import RootViewModel from "../scripts/RootViewModel";
 import IndexDialog from "./IndexDialog";
 import {NinjagoatDialog} from "ninjagoat-dialogs";
+import {Button,Grid} from "react-bootstrap";
+
 
 export default class Master extends View<RootViewModel> {
 
     render() {
+        let buttonLogout = (this.viewModel.getToken()) ?
+                <Button onClick={() => this.viewModel.logout()}>Logout</Button> : null;
+
         return (
-            <div>
+            <Grid>
+                <div className="pull-right marginTop10">{buttonLogout}</div>
                 {this.props.children}
                 <NinjagoatDialog dialogService={ this.viewModel.dialogService } templates={{ testDialog:IndexDialog }}/>
-            </div>
+            </Grid>
         );
     }
 }

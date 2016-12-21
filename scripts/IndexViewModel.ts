@@ -43,13 +43,14 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.config['endpoint'] = this.endPoint;
         this.socketConfig['endpoint'] = this.endPoint;
         this.socketConfig['path'] = this.path;
+        this.settingsManager.setValue<string>("tokenAPI",this.token);
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token)).then(
             (value) => {
-                this.settingsManager.setValue<string>("tokenAPI",this.token);
                 this.navigationManager.navigate("__diagnostic","size");
             },
             (error) => {
+                this.settingsManager.setValue<string>("tokenAPI","");
                 this.dialogService.alert("API Key or Endpoint not valid");
             }
         );
