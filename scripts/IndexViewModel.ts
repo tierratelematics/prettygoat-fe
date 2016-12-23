@@ -1,5 +1,5 @@
 import {ObservableViewModel, ViewModel, ISettingsManager} from "ninjagoat";
-import {ModelState} from "ninjagoat-projections";
+import {ModelState, ISocketConfig} from "ninjagoat-projections";
 import {autobind} from "core-decorators";
 import {IDialogService} from "ninjagoat-dialogs";
 import {inject} from "inversify";
@@ -7,7 +7,6 @@ import {ICommandDispatcher} from "ninjagoat-commands";
 import {IBaseConfig} from "ninjagoat";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
-import {ISocketConfig} from "prettygoat";
 import {Validate, validate, isValid} from "class-validator";
 import {NotBlank} from "../customValidators/CustomValidators";
 
