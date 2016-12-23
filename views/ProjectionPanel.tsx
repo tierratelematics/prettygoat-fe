@@ -1,6 +1,5 @@
 import * as React from "react";
 import {ButtonGroup, Row, ButtonToolbar, Button} from "react-bootstrap";
-import {ProjectionRunnerStatus} from "../scripts/projection/ProjectionRunnerStatus";
 import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
 
 export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
@@ -21,11 +20,11 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                     <ButtonToolbar>
                         <ButtonGroup>
                             <Button onClick={() => this.props.stop()}
-                                    disabled={this.props.projection.status==ProjectionRunnerStatus.Stop}>Stop</Button>
+                                    disabled={this.props.projection.status=='run'}>Stop</Button>
                             <Button onClick={() => this.props.pause()}
-                                    disabled={this.props.projection.status!=ProjectionRunnerStatus.Run}>Pause</Button>
+                                    disabled={this.props.projection.status!='pause'}>Pause</Button>
                             <Button onClick={() => this.props.resume()}
-                                    disabled={this.props.projection.status!=ProjectionRunnerStatus.Pause}>Resume</Button>
+                                    disabled={this.props.projection.status!='resume'}>Resume</Button>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </td>

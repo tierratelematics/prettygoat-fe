@@ -9,7 +9,6 @@ import {IModelRetriever} from "ninjagoat-projections";
 import {ISocketConfig} from "ninjagoat-projections";
 import DiagnosticViewModel from "./DiagnosticViewModel";
 import {ITranslationsConfig} from "ninjagoat-translations";
-import {IApiCommandConfig} from "./configs/IApiCommandConfig";
 import {CommandDispatcher} from "ninjagoat-commands";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
 import {IRouteStrategy} from "ninjagoat";
@@ -17,20 +16,20 @@ import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
 
 class AppModule implements IModule {
 
-    modules = (kernel:interfaces.Kernel) => {
+    modules = (container:interfaces.Container) => {
         let config = require('../settings/config.json');
 
-        kernel.bind<IBaseConfig>("IBaseConfig").toConstantValue(config.base);
-        kernel.bind<ISocketConfig>("ISocketConfig").toConstantValue(config.websocket);
-        kernel.bind<ITranslationsConfig>("ITranslationsConfig").toConstantValue(config.translations);
+        container.bind<IBaseConfig>("IBaseConfig").toConstantValue(config.base);
+        container.bind<ISocketConfig>("ISocketConfig").toConstantValue(config.websocket);
+        container.bind<ITranslationsConfig>("ITranslationsConfig").toConstantValue(config.translations);
 
-        kernel.unbind("CommandDispatcher");
-        kernel.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
+        container.unbind("CommandDispatcher");
+        container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
 
-        kernel.unbind("IRouteStrategy");
-        kernel.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
+        container.unbind("IRouteStrategy");
+        container.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
 
-        kernel.bind<{}>("Views").toConstantValue(require('../views/export'));
+        container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
 
     register(registry:IViewModelRegistry, serviceLocator?:IServiceLocator, overrides?:any):void {

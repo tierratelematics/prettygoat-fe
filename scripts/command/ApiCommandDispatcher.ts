@@ -9,6 +9,7 @@ import {Transport} from "ninjagoat-commands";
 import {IBaseConfig} from "ninjagoat";
 import {ISettingsManager} from "ninjagoat";
 import {IApiCommandConfig} from "../configs/IApiCommandConfig";
+import * as Promise from "bluebird";
 
 @injectable()
 class ApiCommandDispatcher extends CommandDispatcher {

@@ -1,9 +1,7 @@
-const ViewImportTask = require('requireg')('smild/lib/tasks/extra/ViewImportTask');
+const ViewsImport = require("./buildtools/ViewsImport");
 
 module.exports = {
-    "projectType": "frontend",
-    "typescript": true,
-    "test": "test/**/*.ts",
-    "babel": false,
-    "onPreBuild": [ViewImportTask]
+        "projectType": "frontend",
+        "revisionExclude": "*",
+        "preBuild": () = > ViewsImport()
 };

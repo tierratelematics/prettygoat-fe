@@ -1,4 +1,3 @@
-/// <reference path="../../typings/index.d.ts" />
 import "bluebird";
 import "reflect-metadata";
 import {ProjectionsModule} from "ninjagoat-projections";

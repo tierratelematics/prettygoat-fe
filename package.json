@@ -1,39 +1,45 @@
 {
-  "name": "lug-demo",
+  "name": "commandAndControlGUI",
   "version": "0.0.1",
   "dependencies": {
+    "@types/bluebird": "~3.0.36",
+    "@types/history": "~2.0.41",
+    "@types/lodash": "~4.14.43",
+    "@types/node": "~6.0.52",
+    "@types/socket.io": "~1.4.27",
+    "@types/core-decorators": "~0.10.30",
+    "@types/react-router": "~2.0.41",
+    "@types/react": "~0.14.55",
+    "@types/react-dom": "~0.14.19",
+    "@types/react-bootstrap": "~0.0.37",
     "autobind-decorator": "^1.3.4",
-    "bluebird": "^3.3.4",
+    "bluebird": "~3.3.4",
+    "inversify": "~3.0.0-rc.2",
+    "lodash": "~4.10.0",
+    "reflect-metadata": "0.1.8",
+    "rx": "~4.1.0",
+    "socket.io": "~1.4.6",
     "bootstrap": "^3.3.6",
     "class-validator": "0.3.2",
     "core-decorators": "^0.12.2",
-    "cors": "^2.7.1",
-    "envify": "^3.4.0",
-    "express": "^4.13.4",
-    "inversify": "~2.0.0-rc.1",
-    "inversify-dts": "~1.4.0",
-    "lodash": "^4.10.0",
-    "ninjagoat": "^0.11.0",
-    "ninjagoat-commands": "^0.3.0",
-    "ninjagoat-dialogs": "^0.4.0",
-    "ninjagoat-projections": "^0.3.0",
-    "react": "^15.0.1",
-    "react-bootstrap": "^0.29.4",
-    "react-dom": "^15.0.1",
-    "react-router": "^2.1.1",
-    "requireg": "^0.1.5",
-    "retyped-react-bootstrap-tsd-ambient": "0.0.0-0",
-    "rx": "^4.1.0",
-    "socket.io": "^1.4.5",
-    "whatwg-fetch": "^0.11.0"
+    "react-bootstrap": "^0.30.0",
+    "ninjagoat": "^0.15.0",
+    "ninjagoat-commands": "^0.4.0",
+    "ninjagoat-dialogs": "^0.5.0",
+    "ninjagoat-auth": "^0.9.0",
+    "ninjagoat-projections": "^0.4.0",
+    "ninjagoat-translations": "^0.3.0"
   },
   "devDependencies": {
-    "expect.js": "^0.3.1",
-    "sinon": "^1.17.3"
+    "@types/expect.js": "~0.3.29",
+    "@types/mocha": "~2.2.33",
+    "@types/sinon": "~1.16.33",
+    "expect.js": "~0.3.1",
+    "sinon": "~1.17.3"
   },
-  "browserify": {
-    "transform": [
-      "envify"
-    ]
+  "peerDependencies": {
+  },
+  "scripts": {
+    "test": "smild test"
   }
 }
