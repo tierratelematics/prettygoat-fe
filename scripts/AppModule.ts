@@ -5,7 +5,7 @@ import * as Rx from "rx";
 import RootViewModel from "./RootViewModel";
 import {IServiceLocator} from "ninjagoat";
 import {IBaseConfig} from "ninjagoat";
-import {IModelRetriever} from "ninjagoat-projections";
+import {IModelRetriever, INotificationManager} from "ninjagoat-projections";
 import {ISocketConfig} from "ninjagoat-projections";
 import DiagnosticViewModel from "./DiagnosticViewModel";
 import {ITranslationsConfig} from "ninjagoat-translations";
@@ -13,6 +13,7 @@ import {CommandDispatcher} from "ninjagoat-commands";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
 import {IRouteStrategy} from "ninjagoat";
 import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
+import ApiNotificationManager from "./notification/ApiNotificationManager";
 
 class AppModule implements IModule {
 
@@ -28,6 +29,9 @@ class AppModule implements IModule {
 
         container.unbind("IRouteStrategy");
         container.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
+
+        container.unbind("INotificationManager");
+        container.bind<INotificationManager>("INotificationManager").to(ApiNotificationManager).inSingletonScope();
 
         container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };

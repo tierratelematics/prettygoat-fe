@@ -1,10 +1,10 @@
 {
     "base": {
-        "endpoint": "http://127.0.0.1:3000"
+        "endpoint": ""
     },
     "websocket": {
-        "endpoint": "http://127.0.0.1:3000",
-        "path": "/custom-endpoint"
+        "endpoint": "",
+        "path": ""
     },
     "translations": {
         "endpoint": "http://www.dev.tierra.io/translations/lang"

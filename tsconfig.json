@@ -7,8 +7,9 @@
         "module": "commonjs",
         "types": [
             "mocha",
-            "node",
-            "reflect-metadata"
+            "node",	
+            "reflect-metadata",
+            "socket.io-client"
         ],
         "lib": [
             "es5",
