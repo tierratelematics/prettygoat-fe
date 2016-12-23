@@ -11,7 +11,8 @@ class ApiNotificationManager implements INotificationManager{
 
     constructor(@inject("SocketIOClient.Socket") private client:SocketIOClient.Socket,
                 @inject("ISocketConfig") private socketConfig: ISocketConfig,
-            @inject("ISettingsManager") private settingsManager: ISettingsManager
+                @inject("ISettingsManager") private settingsManager: ISettingsManager,
+                @inject("IObjectContainer") private container: IObjectContainer
     ) {
         this.socketConfig.endpoint = this.settingsManager.getValue<string>("endpoint");
         this.socketConfig.path = this.settingsManager.getValue<string>("path");
@@ -48,10 +49,10 @@ class ApiNotificationManager implements INotificationManager{
     }
 
     private updateClientSocket():void{
-        console.log(this.socketConfig);
         if(this.socketEndPoint!=this.socketConfig.endpoint+this.socketConfig.path){
-            this.client = io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"});
             this.socketEndPoint = this.socketConfig.endpoint+this.socketConfig.path;
+            this.container.set<SocketIOClient.Socket>("SocketIOClient.Socket",
+                io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"}));
             console.log("NEW SOCKET CLIENT",this.socketEndPoint);
         }
     }
