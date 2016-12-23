@@ -5,6 +5,7 @@ import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
 import {StopProjectionCommand, PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
+import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 let autobind = require("autobind-decorator");
 
 @ViewModel("Size")
@@ -47,6 +48,33 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.commandDispatcher.dispatch(new ResumeProjectionCommand(name)).then(
             (value) => {
                 this.dialogService.alert("Projection now is runned");
+
+            },
+            (error) => {
+                this.dialogService.alert(error.response.error);
+            }
+        );
+    };
+
+
+    @autobind
+    saveSnapshot(name: string) {
+        this.commandDispatcher.dispatch(new SaveSnapshotCommand(name)).then(
+            (value) => {
+                this.dialogService.alert("Snapshot created");
+
+            },
+            (error) => {
+                this.dialogService.alert(error.response.error);
+            }
+        );
+    };
+
+    @autobind
+    deleteSnapshot(name: string) {
+        this.commandDispatcher.dispatch(new DeleteSnapshotCommand(name)).then(
+            (value) => {
+                this.dialogService.alert("Snapshot removed");
 
             },
             (error) => {

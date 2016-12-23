@@ -29,6 +29,14 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                         </ButtonGroup>
                     </ButtonToolbar>
                 </td>
+                <td>
+                    <ButtonToolbar>
+                        <ButtonGroup>
+                            <Button onClick={() => this.props.saveSnapshot()}>Create</Button>
+                            <Button onClick={() => this.props.deleteSnapshot()}>Delete</Button>
+                        </ButtonGroup>
+                    </ButtonToolbar>
+                </td>
             </tr>
         );
     }

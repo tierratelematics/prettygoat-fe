@@ -5,4 +5,6 @@ export interface IProjectionPanel{
     stop():void;
     pause():void;
     resume():void;
+    saveSnapshot():void;
+    deleteSnapshot():void;
 }

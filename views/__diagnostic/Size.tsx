@@ -13,7 +13,9 @@ export default class Size extends View<DiagnosticViewModel> {
             return <ProjectionPanel title={key} projection={value}
                                     stop={() => this.viewModel.stop(key)}
                                     pause={() => this.viewModel.pause(key)}
-                                    resume={() => this.viewModel.resume(key)}/>
+                                    resume={() => this.viewModel.resume(key)}
+                                    saveSnapshot={() => this.viewModel.saveSnapshot(key)}
+                                    deleteSnapshot={() => this.viewModel.deleteSnapshot(key)}/>
         });
 
         return (
@@ -28,6 +30,7 @@ export default class Size extends View<DiagnosticViewModel> {
                             <th>Events</th>
                             <th>ReadModels</th>
                             <th>Actions</th>
+                            <th>Snapshot</th>
                         </tr>
                         </thead>
                         <tbody>
