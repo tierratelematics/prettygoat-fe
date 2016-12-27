@@ -53,7 +53,6 @@ class ApiNotificationManager implements INotificationManager {
             this.client = socketConnection;
         }
     }
-
 }
 
 export default ApiNotificationManager
