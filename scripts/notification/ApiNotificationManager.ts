@@ -6,39 +6,37 @@ import * as io from "socket.io-client";
 
 
 @injectable()
-class ApiNotificationManager implements INotificationManager{
-    socketEndPoint:string;
+class ApiNotificationManager implements INotificationManager {
+    socketEndPoint: string = "";
 
-    constructor(@inject("SocketIOClient.Socket") private client:SocketIOClient.Socket,
+    constructor(@inject("SocketIOClient.Socket") private client: SocketIOClient.Socket,
                 @inject("ISocketConfig") private socketConfig: ISocketConfig,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager,
-                @inject("IObjectContainer") private container: IObjectContainer
-    ) {
+                @inject("IObjectContainer") private container: IObjectContainer) {
         this.socketConfig.endpoint = this.settingsManager.getValue<string>("endpoint");
         this.socketConfig.path = this.settingsManager.getValue<string>("path");
-        this.socketEndPoint = "";
     }
 
-    notificationsFor(context:ViewModelContext):Rx.Observable<Notification> {
+    notificationsFor(context: ViewModelContext): Rx.Observable<Notification> {
         this.subscribeToChannel(context);
         return this.getNotificationStream(context).finally(() => this.unsubscribeFromChannel(context));
     }
 
-    protected getNotificationStream(context:ViewModelContext):Rx.Observable<Notification> {
+    protected getNotificationStream(context: ViewModelContext): Rx.Observable<Notification> {
         this.updateClientSocket();
-        console.log("GET NOTIFICATION STREAM",context.area,context.viewmodelId,this.client);
+        console.log("GET NOTIFICATION STREAM", context.area, context.viewmodelId, this.client);
         return Rx.Observable.fromEvent<Notification>(this.client, `${context.area}:${context.viewmodelId}`);
     }
 
-    private subscribeToChannel(context:ViewModelContext):void {
+    private subscribeToChannel(context: ViewModelContext): void {
         this.operateOnChannel('subscribe', context);
     }
 
-    private unsubscribeFromChannel(context:ViewModelContext):void {
+    private unsubscribeFromChannel(context: ViewModelContext): void {
         this.operateOnChannel('unsubscribe', context);
     }
 
-    private operateOnChannel(operation:string, context:ViewModelContext):void {
+    private operateOnChannel(operation: string, context: ViewModelContext): void {
         this.updateClientSocket();
         // console.log("OPERATE ON CHANNEL",this.client);
         this.client.emit(operation, {
@@ -48,12 +46,13 @@ class ApiNotificationManager implements INotificationManager{
         });
     }
 
-    private updateClientSocket():void{
-        if(this.socketEndPoint!=this.socketConfig.endpoint+this.socketConfig.path){
-            this.socketEndPoint = this.socketConfig.endpoint+this.socketConfig.path;
+    private updateClientSocket(): void {
+        let socketEndPoint = this.socketConfig.endpoint + "__" + this.socketConfig.path;
+        if (this.socketEndPoint != socketEndPoint) {
+            this.socketEndPoint = socketEndPoint;
             this.container.set<SocketIOClient.Socket>("SocketIOClient.Socket",
                 io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"}));
-            console.log("NEW SOCKET CLIENT",this.socketEndPoint);
+            console.log("NEW SOCKET CLIENT", this.socketEndPoint);
         }
     }
 
