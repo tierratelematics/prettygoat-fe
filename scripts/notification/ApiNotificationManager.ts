@@ -4,7 +4,6 @@ import {ViewModelContext, IObjectContainer, ISettingsManager} from "ninjagoat";
 import {injectable, inject} from "inversify";
 import * as io from "socket.io-client";
 
-
 @injectable()
 class ApiNotificationManager implements INotificationManager {
     socketEndPoint: string = "";

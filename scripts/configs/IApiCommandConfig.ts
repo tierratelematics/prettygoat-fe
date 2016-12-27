@@ -1,4 +1,4 @@
-export interface IApiCommandConfig{
-    [index:string]:string
+export interface IApiCommandConfig {
+    [index: string]: string
 }
 

@@ -1,4 +1,4 @@
-import {ObservableViewModel, ViewModel, Dictionary, Refresh} from "ninjagoat";
+import {ObservableViewModel, ViewModel} from "ninjagoat";
 import {ModelState} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";

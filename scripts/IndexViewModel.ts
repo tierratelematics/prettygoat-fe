@@ -1,10 +1,9 @@
 import {ObservableViewModel, ViewModel, ISettingsManager} from "ninjagoat";
-import {ModelState, ISocketConfig} from "ninjagoat-projections";
+import {ModelState} from "ninjagoat-projections";
 import {autobind} from "core-decorators";
 import {IDialogService} from "ninjagoat-dialogs";
 import {inject} from "inversify";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {IBaseConfig} from "ninjagoat";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
@@ -23,8 +22,6 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
-                @inject("IBaseConfig") private config: IBaseConfig,
-                @inject("ISocketConfig") private socketConfig: ISocketConfig,
                 @inject("INavigationManager") private navigationManager: INavigationManager,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager) {
         super();

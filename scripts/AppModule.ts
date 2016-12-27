@@ -1,23 +1,18 @@
-import {IViewModelRegistry, IModule} from "ninjagoat";
-import {interfaces} from "inversify";
-import IndexViewModel from "./IndexViewModel";
 import * as Rx from "rx";
-import RootViewModel from "./RootViewModel";
-import {IServiceLocator} from "ninjagoat";
-import {IBaseConfig} from "ninjagoat";
-import {IModelRetriever, INotificationManager} from "ninjagoat-projections";
-import {ISocketConfig} from "ninjagoat-projections";
-import DiagnosticViewModel from "./DiagnosticViewModel";
+import {interfaces} from "inversify";
+import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule} from "ninjagoat";
+import {IModelRetriever, INotificationManager, ISocketConfig} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
+import DiagnosticViewModel from "./DiagnosticViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
-import {IRouteStrategy} from "ninjagoat";
 import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
 import ApiNotificationManager from "./notification/ApiNotificationManager";
-
+import IndexViewModel from "./IndexViewModel";
+import RootViewModel from "./RootViewModel";
 
 class AppModule implements IModule {
 
-    modules = (container:interfaces.Container) => {
+    modules = (container: interfaces.Container) => {
         let config = require('../settings/config.json');
 
         container.bind<IBaseConfig>("IBaseConfig").toConstantValue(config.base);
@@ -40,7 +35,7 @@ class AppModule implements IModule {
         container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
 
-    register(registry:IViewModelRegistry, serviceLocator?:IServiceLocator, overrides?:any):void {
+    register(registry: IViewModelRegistry, serviceLocator?: IServiceLocator, overrides?: any): void {
         let modelRetriever = serviceLocator.get<IModelRetriever>("IModelRetriever");
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
