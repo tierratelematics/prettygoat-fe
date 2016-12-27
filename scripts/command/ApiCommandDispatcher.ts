@@ -20,6 +20,7 @@ class ApiCommandDispatcher extends CommandDispatcher {
                 @inject("IBaseConfig") private config: IBaseConfig,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager) {
         super(dateRetriever, guidGenerator);
+        this.config.endpoint = this.settingsManager.getValue<string>("endpoint");
     }
 
     canExecuteCommand(command: Object): boolean {
