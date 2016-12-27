@@ -20,11 +20,11 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                     <ButtonToolbar>
                         <ButtonGroup>
                             <Button onClick={() => this.props.stop()}
-                                    disabled={this.props.projection.status=='run'}>Stop</Button>
+                                    disabled={this.props.projection.status=='stop'}>Stop</Button>
                             <Button onClick={() => this.props.pause()}
-                                    disabled={this.props.projection.status!='pause'}>Pause</Button>
+                                    disabled={this.props.projection.status!='run'}>Pause</Button>
                             <Button onClick={() => this.props.resume()}
-                                    disabled={this.props.projection.status!='resume'}>Resume</Button>
+                                    disabled={this.props.projection.status!='pause'}>Resume</Button>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </td>

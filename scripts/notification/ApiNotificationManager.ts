@@ -24,7 +24,6 @@ class ApiNotificationManager implements INotificationManager {
 
     protected getNotificationStream(context: ViewModelContext): Rx.Observable<Notification> {
         this.updateClientSocket();
-        console.log("GET NOTIFICATION STREAM", context.area, context.viewmodelId, this.client);
         return Rx.Observable.fromEvent<Notification>(this.client, `${context.area}:${context.viewmodelId}`);
     }
 
@@ -38,7 +37,6 @@ class ApiNotificationManager implements INotificationManager {
 
     private operateOnChannel(operation: string, context: ViewModelContext): void {
         this.updateClientSocket();
-        // console.log("OPERATE ON CHANNEL",this.client);
         this.client.emit(operation, {
             area: context.area,
             viewmodelId: context.viewmodelId,
@@ -50,9 +48,9 @@ class ApiNotificationManager implements INotificationManager {
         let socketEndPoint = this.socketConfig.endpoint + "__" + this.socketConfig.path;
         if (this.socketEndPoint != socketEndPoint) {
             this.socketEndPoint = socketEndPoint;
-            this.container.set<SocketIOClient.Socket>("SocketIOClient.Socket",
-                io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"}));
-            console.log("NEW SOCKET CLIENT", this.socketEndPoint);
+            let socketConnection:SocketIOClient.Socket = io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"});
+            this.container.set<SocketIOClient.Socket>("SocketIOClient.Socket", socketConnection);
+            this.client = socketConnection;
         }
     }
 
