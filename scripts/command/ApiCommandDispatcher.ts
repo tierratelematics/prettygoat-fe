@@ -20,7 +20,6 @@ class ApiCommandDispatcher extends CommandDispatcher {
                 @inject("IBaseConfig") private config: IBaseConfig,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager) {
         super(dateRetriever, guidGenerator);
-        this.config.endpoint = this.settingsManager.getValue<string>("endpoint");
     }
 
     canExecuteCommand(command: Object): boolean {
@@ -28,6 +27,7 @@ class ApiCommandDispatcher extends CommandDispatcher {
     }
 
     executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
+        this.config.endpoint = this.settingsManager.getValue<string>("endpoint");
         let apiCommandConfig:IApiCommandConfig = {'Authorization': this.settingsManager.getValue<string>("tokenAPI")};
         return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, apiCommandConfig).toPromise();
     }

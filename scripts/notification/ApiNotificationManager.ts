@@ -13,8 +13,6 @@ class ApiNotificationManager implements INotificationManager {
                 @inject("ISocketConfig") private socketConfig: ISocketConfig,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager,
                 @inject("IObjectContainer") private container: IObjectContainer) {
-        this.socketConfig.endpoint = this.settingsManager.getValue<string>("endpoint");
-        this.socketConfig.path = this.settingsManager.getValue<string>("path");
     }
 
     notificationsFor(context: ViewModelContext): Rx.Observable<Notification> {
@@ -45,10 +43,12 @@ class ApiNotificationManager implements INotificationManager {
     }
 
     private updateClientSocket(): void {
-        let socketEndPoint = this.socketConfig.endpoint + "__" + this.socketConfig.path;
+        this.socketConfig.endpoint = this.settingsManager.getValue<string>("endpoint");
+        this.socketConfig.path = this.settingsManager.getValue<string>("path");
+        let socketEndPoint = this.socketConfig.endpoint + this.socketConfig.path;
         if (this.socketEndPoint != socketEndPoint) {
             this.socketEndPoint = socketEndPoint;
-            let socketConnection:SocketIOClient.Socket = io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"});
+            let socketConnection: SocketIOClient.Socket = io.connect(this.socketConfig.endpoint, {path: this.socketConfig.path || "/socket.io"});
             this.container.set<SocketIOClient.Socket>("SocketIOClient.Socket", socketConnection);
             this.client = socketConnection;
         }

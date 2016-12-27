@@ -14,6 +14,8 @@ import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
 import {IRouteStrategy} from "ninjagoat";
 import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
 import ApiNotificationManager from "./notification/ApiNotificationManager";
+import * as io from "socket.io-client";
+
 
 class AppModule implements IModule {
 
@@ -32,6 +34,11 @@ class AppModule implements IModule {
 
         container.unbind("INotificationManager");
         container.bind<INotificationManager>("INotificationManager").to(ApiNotificationManager).inSingletonScope();
+
+        container.unbind("SocketIOClient.Socket");
+        container.bind<SocketIOClient.Socket>("SocketIOClient.Socket").toDynamicValue(() => {
+            return null;
+        });
 
         container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
