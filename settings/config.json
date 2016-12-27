@@ -6,8 +6,5 @@
         "endpoint": "",
         "path": ""
 
-    },
-    "translations": {
-        "endpoint": "http://www.dev.tierra.io/translations/lang"
     }
 }

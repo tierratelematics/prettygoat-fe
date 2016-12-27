@@ -8,13 +8,11 @@ import {IBaseConfig} from "ninjagoat";
 import {IModelRetriever, INotificationManager} from "ninjagoat-projections";
 import {ISocketConfig} from "ninjagoat-projections";
 import DiagnosticViewModel from "./DiagnosticViewModel";
-import {ITranslationsConfig} from "ninjagoat-translations";
 import {CommandDispatcher} from "ninjagoat-commands";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
 import {IRouteStrategy} from "ninjagoat";
 import AuthRouteStrategy from "./Authorization/AuthRouteStrategy";
 import ApiNotificationManager from "./notification/ApiNotificationManager";
-import * as io from "socket.io-client";
 
 
 class AppModule implements IModule {
@@ -24,7 +22,6 @@ class AppModule implements IModule {
 
         container.bind<IBaseConfig>("IBaseConfig").toConstantValue(config.base);
         container.bind<ISocketConfig>("ISocketConfig").toConstantValue(config.websocket);
-        container.bind<ITranslationsConfig>("ITranslationsConfig").toConstantValue(config.translations);
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
