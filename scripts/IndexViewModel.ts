@@ -51,7 +51,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token)).then(
             (value) => {
-                this.navigationManager.navigate("__diagnostic", "size");
+                this.navigationManager.navigate("dashboard", "size");
             },
             (error) => {
                 this.settingsManager.setValue<string>("tokenAPI", "");
