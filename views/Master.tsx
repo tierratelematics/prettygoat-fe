@@ -13,7 +13,7 @@ export default class Master extends View<RootViewModel> {
 
         return (
             <Grid>
-                <div className="pull-right marginTop10">{buttonLogout}</div>
+                <div className="pull-right toolbar-button">{buttonLogout}</div>
                 {this.props.children}
                 <NinjagoatDialog dialogService={ this.viewModel.dialogService }/>
             </Grid>
