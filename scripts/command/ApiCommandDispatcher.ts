@@ -1,13 +1,6 @@
 import {injectable, inject} from "inversify";
-import {IDateRetriever} from "ninjagoat";
-import {IGUIDGenerator} from "ninjagoat";
-import {IHttpClient} from "ninjagoat";
-import {CommandResponse} from "ninjagoat-commands";
-import {CommandDispatcher} from "ninjagoat-commands";
-import {CommandEnvelope} from "ninjagoat-commands";
-import {Transport} from "ninjagoat-commands";
-import {IBaseConfig} from "ninjagoat";
-import {ISettingsManager} from "ninjagoat";
+import {IDateRetriever,IBaseConfig,IGUIDGenerator,IHttpClient,ISettingsManager} from "ninjagoat";
+import {CommandResponse,CommandDispatcher,CommandEnvelope,Transport} from "ninjagoat-commands";
 import {IApiCommandConfig} from "../configs/IApiCommandConfig";
 import * as Promise from "bluebird";
 
