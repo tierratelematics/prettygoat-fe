@@ -27,59 +27,54 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<IDiagnosticProj
         }
     }
 
-    stop(name: string) {
-        this.commandDispatcher.dispatch(new StopProjectionCommand(name)).then(
-            (value) => {
-                this.dialogService.alert("Projection now is stopped");
-            },
-            (error) => {
-                this.dialogService.alert(error.response.error);
-            }
-        );
+    async stop(name: string) {
+        try{
+            await this.commandDispatcher.dispatch(new StopProjectionCommand(name));
+            this.dialogService.alert("Projection now is stopped");
+        }
+        catch(error){
+            this.dialogService.alert(error.response.error);
+        }
     }
 
-    pause(name: string) {
-        this.commandDispatcher.dispatch(new PauseProjectionCommand(name)).then(
-            (value) => {
-                this.dialogService.alert("Projection now is paused");
-            },
-            (error) => {
-                this.dialogService.alert(error.response.error);
-            }
-        );
+    async pause(name: string) {
+        try{
+            await this.commandDispatcher.dispatch(new PauseProjectionCommand(name));
+            this.dialogService.alert("Projection now is paused");
+        }
+        catch(error){
+            this.dialogService.alert(error.response.error);
+        }
     }
 
-    resume(name: string) {
-        this.commandDispatcher.dispatch(new ResumeProjectionCommand(name)).then(
-            (value) => {
-                this.dialogService.alert("Projection now is runned");
-            },
-            (error) => {
-                this.dialogService.alert(error.response.error);
-            }
-        );
+    async resume(name: string) {
+        try{
+            await this.commandDispatcher.dispatch(new ResumeProjectionCommand(name));
+            this.dialogService.alert("Projection now is runned");
+        }
+        catch(error){
+            this.dialogService.alert(error.response.error);
+        }
     }
 
-    saveSnapshot(name: string) {
-        this.commandDispatcher.dispatch(new SaveSnapshotCommand(name)).then(
-            (value) => {
-                this.dialogService.alert("Snapshot created");
-            },
-            (error) => {
-                this.dialogService.alert(error.response.error);
-            }
-        );
+    async saveSnapshot(name: string) {
+        try{
+            await this.commandDispatcher.dispatch(new SaveSnapshotCommand(name));
+            this.dialogService.alert("Snapshot created");
+        }
+        catch(error){
+            this.dialogService.alert(error.response.error);
+        }
     }
 
-    deleteSnapshot(name: string) {
-        this.commandDispatcher.dispatch(new DeleteSnapshotCommand(name)).then(
-            (value) => {
-                this.dialogService.alert("Snapshot removed");
-            },
-            (error) => {
-                this.dialogService.alert(error.response.error);
-            }
-        );
+    async deleteSnapshot(name: string) {
+        try{
+            await this.commandDispatcher.dispatch(new DeleteSnapshotCommand(name));
+            this.dialogService.alert("Snapshot removed");
+        }
+        catch(error){
+            this.dialogService.alert(error.response.error);
+        }
     }
 }
 
