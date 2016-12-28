@@ -1,8 +1,9 @@
 import {INotificationManager, Notification, ISocketConfig} from "ninjagoat-projections";
 import * as Rx from "rx";
-import {ViewModelContext, IObjectContainer, ISettingsManager} from "ninjagoat";
+import {ViewModelContext, IObjectContainer} from "ninjagoat";
 import {injectable, inject} from "inversify";
 import * as io from "socket.io-client";
+import {ISocketConfigRetriever} from "../configs/ISocketConfigRetriever";
 
 @injectable()
 class ApiNotificationManager implements INotificationManager {
@@ -10,8 +11,8 @@ class ApiNotificationManager implements INotificationManager {
 
     constructor(@inject("SocketIOClient.Socket") private client: SocketIOClient.Socket,
                 @inject("ISocketConfig") private socketConfig: ISocketConfig,
-                @inject("ISettingsManager") private settingsManager: ISettingsManager,
-                @inject("IObjectContainer") private container: IObjectContainer) {
+                @inject("IObjectContainer") private container: IObjectContainer,
+                @inject("ISocketConfigRetriever") private socketConfigRetriever: ISocketConfigRetriever) {
     }
 
     notificationsFor(context: ViewModelContext): Rx.Observable<Notification> {
@@ -42,8 +43,7 @@ class ApiNotificationManager implements INotificationManager {
     }
 
     private updateClientSocket(): void {
-        this.socketConfig.endpoint = this.settingsManager.getValue<string>("endpoint");
-        this.socketConfig.path = this.settingsManager.getValue<string>("path");
+        this.socketConfig = this.socketConfigRetriever.getSocketConfig();
         let socketEndPoint = this.socketConfig.endpoint + this.socketConfig.path;
         if (this.socketEndPoint != socketEndPoint) {
             this.socketEndPoint = socketEndPoint;

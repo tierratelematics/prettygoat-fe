@@ -1,8 +1,10 @@
 import {injectable, inject} from "inversify";
-import {IDateRetriever,IBaseConfig,IGUIDGenerator,IHttpClient,ISettingsManager} from "ninjagoat";
+import {IDateRetriever, IBaseConfig, IGUIDGenerator, IHttpClient, ISettingsManager, Dictionary} from "ninjagoat";
 import {CommandResponse,CommandDispatcher,CommandEnvelope,Transport} from "ninjagoat-commands";
 import {IApiCommandConfig} from "../configs/IApiCommandConfig";
 import * as Promise from "bluebird";
+import {IBaseConfigRetriever} from "../configs/IBaseConfigRetriever";
+import {ITokenRetriever} from "../configs/ITokenRetriever";
 
 @injectable()
 class ApiCommandDispatcher extends CommandDispatcher {
@@ -11,7 +13,8 @@ class ApiCommandDispatcher extends CommandDispatcher {
                 @inject("IGUIDGenerator") guidGenerator: IGUIDGenerator,
                 @inject("IHttpClient") private httpClient: IHttpClient,
                 @inject("IBaseConfig") private config: IBaseConfig,
-                @inject("ISettingsManager") private settingsManager: ISettingsManager) {
+                @inject("IBaseConfigRetriever") private baseConfigRetriever: IBaseConfigRetriever,
+                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever) {
         super(dateRetriever, guidGenerator);
     }
 
@@ -20,8 +23,8 @@ class ApiCommandDispatcher extends CommandDispatcher {
     }
 
     executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
-        this.config.endpoint = this.settingsManager.getValue<string>("endpoint");
-        let apiCommandConfig: IApiCommandConfig = {'Authorization': this.settingsManager.getValue<string>("tokenAPI")};
+        this.config = this.baseConfigRetriever.getBaseConfig();
+        let apiCommandConfig: Dictionary<string> = {'Authorization': this.tokenRetriever.getToken()};
         return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, apiCommandConfig).toPromise();
     }
 

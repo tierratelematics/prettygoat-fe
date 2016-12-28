@@ -4,13 +4,15 @@ import {NinjagoatDialogService} from "ninjagoat-dialogs";
 import {INavigationManager} from "ninjagoat";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager} from "ninjagoat";
+import {ITokenRetriever} from "./configs/ITokenRetriever";
 
 @ViewModel("Root")
 class RootViewModel extends ObservableViewModel<any> {
 
     constructor(@inject("IDialogService") public dialogService: NinjagoatDialogService,
                 @inject("INavigationManager") private navigationManager: INavigationManager,
-                @inject("ISettingsManager") private settingsManager: ISettingsManager) {
+                @inject("ISettingsManager") private settingsManager: ISettingsManager,
+                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever) {
         super();
     }
 
@@ -20,7 +22,7 @@ class RootViewModel extends ObservableViewModel<any> {
     }
 
     getToken(): string {
-        return this.settingsManager.getValue<string>("tokenAPI");
+        return this.tokenRetriever.getToken();
     }
 }
 
