@@ -7,7 +7,7 @@ import {ICommandDispatcher} from "ninjagoat-commands";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
-import {NotBlank} from "../customValidators/CustomValidators";
+import {NotBlank} from "./validator/Validators";
 
 @autobind
 @ViewModel("Index")

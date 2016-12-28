@@ -1,9 +1,9 @@
 import {View} from "ninjagoat";
 import * as React from "react";
-import DiagnosticViewModel from "../scripts/DiagnosticViewModel";
+import DiagnosticViewModel from "../../scripts/DiagnosticViewModel";
 import {PageHeader} from "react-bootstrap";
 import * as _ from "lodash";
-import ProjectionPanel from "./ProjectionPanel";
+import ProjectionPanel from "../ProjectionPanel";
 
 export default class Size extends View<DiagnosticViewModel> {
 

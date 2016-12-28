@@ -19,8 +19,6 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>
-                            <Button onClick={() => this.props.stop()}
-                                    disabled={this.props.projection.status=='stop'}>Stop</Button>
                             <Button onClick={() => this.props.pause()}
                                     disabled={this.props.projection.status!='run'}>Pause</Button>
                             <Button onClick={() => this.props.resume()}

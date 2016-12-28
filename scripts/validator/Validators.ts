@@ -5,6 +5,6 @@ const validator = new Validator();
 export class NotBlank implements ValidatorInterface {
 
     validate(text: string): boolean {
-        return text && text.trim().length > 0;
+        return text && text.trim().length>0;
     }
 }

@@ -3,4 +3,5 @@ export interface IProjectionStats {
     events: number;
     readModels: number;
     status: string;
+    splits: number;
 }
