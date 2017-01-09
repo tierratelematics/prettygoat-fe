@@ -1,5 +1,5 @@
 import {ISocketConfig} from "ninjagoat-projections";
 
-export interface ISocketConfigRetriever{
-    getSocketConfig():ISocketConfig;
+export interface ISocketConfigRetriever {
+    socketConfig(): ISocketConfig;
 }

@@ -1,3 +1,3 @@
-export interface ITokenRetriever{
-    getToken():string;
+export interface ITokenRetriever {
+    token(): string;
 }

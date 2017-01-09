@@ -22,7 +22,7 @@ class RootViewModel extends ObservableViewModel<any> {
     }
 
     getToken(): string {
-        return this.tokenRetriever.getToken();
+        return this.tokenRetriever.token();
     }
 }
 

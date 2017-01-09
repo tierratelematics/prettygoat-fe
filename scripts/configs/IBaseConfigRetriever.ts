@@ -1,5 +1,5 @@
 import {IBaseConfig} from "ninjagoat";
 
-export interface IBaseConfigRetriever{
-    getBaseConfig():IBaseConfig;
+export interface IBaseConfigRetriever {
+    baseConfig(): IBaseConfig;
 }

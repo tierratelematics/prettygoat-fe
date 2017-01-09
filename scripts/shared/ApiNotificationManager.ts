@@ -43,7 +43,7 @@ class ApiNotificationManager implements INotificationManager {
     }
 
     private updateClientSocket(): void {
-        this.socketConfig = this.socketConfigRetriever.getSocketConfig();
+        this.socketConfig = this.socketConfigRetriever.socketConfig();
         let socketEndPoint = this.socketConfig.endpoint + this.socketConfig.path;
         if (this.socketEndPoint != socketEndPoint) {
             this.socketEndPoint = socketEndPoint;

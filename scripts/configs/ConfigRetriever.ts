@@ -11,7 +11,7 @@ class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, IT
     constructor(@inject("ISettingsManager") private settingsManager: ISettingsManager){
     }
 
-    getBaseConfig(): IBaseConfig {
+    baseConfig(): IBaseConfig {
         let endPoint:string = this.settingsManager.getValue<string>("endpoint");
 
         if(!endPoint)
@@ -20,7 +20,7 @@ class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, IT
         return {"endpoint":endPoint};
     }
 
-    getSocketConfig(): ISocketConfig {
+    socketConfig(): ISocketConfig {
         let endPoint:string = this.settingsManager.getValue<string>("endpoint");
         let path:string = this.settingsManager.getValue<string>("path");
 
@@ -31,7 +31,7 @@ class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, IT
     }
 
 
-    getToken(): string {
+    token(): string {
         return this.settingsManager.getValue<string>("tokenAPI")||"";
     }
 }
