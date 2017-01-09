@@ -14,65 +14,63 @@ let autobind = require("autobind-decorator");
 @autobind
 class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
-    model: any[] = [];
+    model: IDiagnosticProjection;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher) {
         super();
     }
 
-    protected onData(data: ModelState<any[]>): void {
-        if (data.model) {
-            this.model = data.model['list'];
-        }
+    protected onData(data: ModelState<IDiagnosticProjection>): void {
+        this.model = data.model;
     }
 
     async stop(name: string) {
-        try{
+        try {
             await this.commandDispatcher.dispatch(new StopProjectionCommand(name));
             this.dialogService.alert("Projection now is stopped");
         }
-        catch(error){
+        catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
 
     async pause(name: string) {
-        try{
+        try {
             await this.commandDispatcher.dispatch(new PauseProjectionCommand(name));
             this.dialogService.alert("Projection now is paused");
         }
-        catch(error){
+        catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
 
     async resume(name: string) {
-        try{
+        try {
             await this.commandDispatcher.dispatch(new ResumeProjectionCommand(name));
             this.dialogService.alert("Projection now is runned");
         }
-        catch(error){
+        catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
 
     async saveSnapshot(name: string) {
-        try{
+        try {
             await this.commandDispatcher.dispatch(new SaveSnapshotCommand(name));
             this.dialogService.alert("Snapshot created");
         }
-        catch(error){
+        catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
 
     async deleteSnapshot(name: string) {
-        try{
+        try {
             await this.commandDispatcher.dispatch(new DeleteSnapshotCommand(name));
             this.dialogService.alert("Snapshot removed");
         }
-        catch(error){
+        catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
