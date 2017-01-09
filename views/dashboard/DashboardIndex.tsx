@@ -4,10 +4,14 @@ import {PageHeader} from "react-bootstrap";
 import * as _ from "lodash";
 import ProjectionPanel from "../ProjectionPanel";
 import DashboardViewModel from "../../scripts/DashboardViewModel";
+import {ISocketConfig} from "ninjagoat-projections";
+import IEngineData from "../../scripts/configs/IEngineData";
 
 export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
+        let engineData:IEngineData = this.viewModel.engineDataRetriever.engineData();
+
         let projections = [];
         if (this.viewModel.model) //model is ReadyState
             projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
@@ -21,9 +25,10 @@ export default class DashboardIndex extends View<DashboardViewModel> {
 
         return (
             <div>
-                <PageHeader>Projections
-                    <small>Overview</small>
+                <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
+                    Projections <small>{engineData.name}</small>
                 </PageHeader>
+
                 <table className="table table-striped">
                     <thead>
                     <tr>

@@ -14,6 +14,7 @@ import {IBaseConfigRetriever} from "./configs/IBaseConfigRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import ConfigRetriever from "./configs/ConfigRetriever";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
+import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 
 class AppModule implements IModule {
 
@@ -39,6 +40,7 @@ class AppModule implements IModule {
         container.bind<IBaseConfigRetriever>("IBaseConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ISocketConfigRetriever>("ISocketConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ITokenRetriever>("ITokenRetriever").to(ConfigRetriever).inSingletonScope();
+        container.bind<IEngineDataRetriever>("IEngineDataRetriever").to(ConfigRetriever).inSingletonScope();
 
         container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };

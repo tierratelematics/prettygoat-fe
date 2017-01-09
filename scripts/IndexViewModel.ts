@@ -8,6 +8,8 @@ import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
 import {NotBlank} from "./shared/Validators";
+import IEngineData from "./configs/IEngineData";
+import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 
 @autobind
 @ViewModel("Index")
@@ -51,6 +53,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token)).then(
             (value) => {
+                this.settingsManager.setValue<IEngineData>("engineData", <IEngineData>value.response.engineData);
                 this.navigationManager.navigate("dashboard");
             },
             (error) => {

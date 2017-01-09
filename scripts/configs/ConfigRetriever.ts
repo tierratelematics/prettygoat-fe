@@ -4,9 +4,11 @@ import {ISocketConfig} from "ninjagoat-projections";
 import {IBaseConfig, ISettingsManager} from "ninjagoat";
 import {ITokenRetriever} from "./ITokenRetriever";
 import {injectable, inject} from "inversify";
+import {IEngineDataRetriever} from "./IEngineDataRetriever";
+import IEngineData from "./IEngineData";
 
 @injectable()
-class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, ITokenRetriever{
+class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, ITokenRetriever, IEngineDataRetriever{
 
     constructor(@inject("ISettingsManager") private settingsManager: ISettingsManager){
     }
@@ -34,6 +36,11 @@ class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, IT
     token(): string {
         return this.settingsManager.getValue<string>("tokenAPI")||"";
     }
+
+    engineData(): IEngineData{
+        return this.settingsManager.getValue<IEngineData>("engineData");
+    }
+
 }
 
 export default ConfigRetriever

@@ -7,6 +7,8 @@ import {StopProjectionCommand, PauseProjectionCommand, ResumeProjectionCommand} 
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
+import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
+import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
@@ -17,7 +19,9 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     model: IDiagnosticProjection;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
-                @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher) {
+                @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
+                @inject("IEngineDataRetriever") public engineDataRetriever: IEngineDataRetriever,
+                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever) {
         super();
     }
 
