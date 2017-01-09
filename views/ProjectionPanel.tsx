@@ -9,9 +9,11 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
     }
 
     render() {
+        let splitProjectionLabel = (typeof this.props.projection.splits !== 'undefined') ? this.props.projection.splits : "Na";
+
         return (
             <tr>
-                <td>{ this.props.title }</td>
+                <td>{ this.props.title } ({splitProjectionLabel})</td>
                 <td>{ this.props.projection.status }</td>
                 <td>{ this.props.projection.size }</td>
                 <td>{ this.props.projection.events }</td>
