@@ -9,7 +9,6 @@ import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
 import {NotBlank} from "./shared/Validators";
 import IEngineData from "./configs/IEngineData";
-import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 
 @autobind
 @ViewModel("Index")
