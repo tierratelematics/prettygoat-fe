@@ -11,6 +11,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
         let engineData:IEngineData = this.viewModel.engineDataRetriever.engineData();
+        let socketConfig:ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
 
         let projections = [];
         if (this.viewModel.model) //model is ReadyState
@@ -26,7 +27,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
         return (
             <div>
                 <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
-                    Projections <small>{engineData.name}</small>
+                    Projections - {engineData.name} <small>{socketConfig.endpoint+socketConfig.path}</small>
                 </PageHeader>
 
                 <table className="table table-striped">
