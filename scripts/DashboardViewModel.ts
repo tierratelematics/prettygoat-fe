@@ -9,10 +9,10 @@ import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotComm
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
 let autobind = require("autobind-decorator");
 
-@ViewModel("Size")
+@ViewModel("DashboardIndex")
 @Authorized()
 @autobind
-class DiagnosticViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
+class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
     model: any[] = [];
 
@@ -78,4 +78,4 @@ class DiagnosticViewModel extends ObservableViewModel<ModelState<IDiagnosticProj
     }
 }
 
-export default DiagnosticViewModel;
+export default DashboardViewModel;

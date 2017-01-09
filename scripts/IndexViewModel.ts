@@ -7,7 +7,7 @@ import {ICommandDispatcher} from "ninjagoat-commands";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
-import {NotBlank} from "./validator/Validators";
+import {NotBlank} from "./shared/Validators";
 
 @autobind
 @ViewModel("Index")
@@ -51,7 +51,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token)).then(
             (value) => {
-                this.navigationManager.navigate("dashboard", "size");
+                this.navigationManager.navigate("dashboard");
             },
             (error) => {
                 this.settingsManager.setValue<string>("tokenAPI", "");

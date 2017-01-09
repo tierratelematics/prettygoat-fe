@@ -1,11 +1,11 @@
 import {View} from "ninjagoat";
 import * as React from "react";
-import DiagnosticViewModel from "../../scripts/DiagnosticViewModel";
 import {PageHeader} from "react-bootstrap";
 import * as _ from "lodash";
 import ProjectionPanel from "../ProjectionPanel";
+import DashboardViewModel from "../../scripts/DashboardViewModel";
 
-export default class Size extends View<DiagnosticViewModel> {
+export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
         let projections = _.map(this.viewModel.model, (value: any, key: string) => {

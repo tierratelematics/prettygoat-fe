@@ -3,10 +3,10 @@ import {interfaces} from "inversify";
 import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
 import {IModelRetriever, INotificationManager, ISocketConfig} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
-import DiagnosticViewModel from "./DiagnosticViewModel";
+import DiagnosticViewModel from "./DashboardViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
-import AuthRouteStrategy from "./authorization/AuthRouteStrategy";
-import ApiNotificationManager from "./notification/ApiNotificationManager";
+import AuthRouteStrategy from "./shared/AuthRouteStrategy";
+import ApiNotificationManager from "./shared/ApiNotificationManager";
 import IndexViewModel from "./IndexViewModel";
 import RootViewModel from "./RootViewModel";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
@@ -47,7 +47,8 @@ class AppModule implements IModule {
         let modelRetriever = serviceLocator.get<IModelRetriever>("IModelRetriever");
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
-        registry.add(DiagnosticViewModel, () => modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "Size"))).forArea("dashboard");
+        registry.add(DiagnosticViewModel,
+            () => modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "Size"))).forArea("dashboard");
     }
 }
 
