@@ -9,7 +9,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
         let projections = [];
-        if(this.viewModel.model) ///model is ReadyState
+        if (this.viewModel.model) //model is ReadyState
             projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
                 return <ProjectionPanel title={key} projection={value}
                                         stop={() => this.viewModel.stop(key)}
@@ -39,6 +39,17 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     <tbody>
                     {projections}
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Total Number: {(this.viewModel.model) ? _.keys(this.viewModel.model.list).length : 0}</th>
+                        <th>&nbsp;</th>
+                        <th>{(this.viewModel.model) ? this.viewModel.model.totalSize : ""}</th>
+                        <th>{(this.viewModel.model) ? this.viewModel.model.processedEvents : ""}</th>
+                        <th>{(this.viewModel.model) ? this.viewModel.model.processedReadModels : ""}</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         );
