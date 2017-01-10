@@ -22,7 +22,7 @@ class ApiNotificationManager implements INotificationManager {
 
     protected getNotificationStream(context: ViewModelContext): Rx.Observable<Notification> {
         this.updateClientSocket();
-        return Rx.Observable.fromEvent<Notification>(this.client, `${context.area}:${context.viewmodelId}`);
+        return Rx.Observable.fromEvent<Notification>(this.client, `${context.area}:${context.viewmodelId}`).delay(50000);
     }
 
     private subscribeToChannel(context: ViewModelContext): void {
