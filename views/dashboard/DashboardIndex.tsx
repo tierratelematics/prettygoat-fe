@@ -13,7 +13,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
 
-        if (!this.viewModel.model)
+        if (!this.viewModel.modelReady)
             return (
                 <div>
                     <Loader />

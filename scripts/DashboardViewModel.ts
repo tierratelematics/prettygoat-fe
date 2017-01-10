@@ -1,5 +1,5 @@
 import {ObservableViewModel, ViewModel} from "ninjagoat";
-import {ModelState} from "ninjagoat-projections";
+import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
@@ -19,6 +19,7 @@ let autobind = require("autobind-decorator");
 class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
     model: IDiagnosticProjection;
+    modelReady : boolean = false;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -28,6 +29,7 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     protected onData(data: ModelState<IDiagnosticProjection>): void {
+        this.modelReady = data.phase === ModelPhase.Ready;
         this.model = data.model;
     }
 
