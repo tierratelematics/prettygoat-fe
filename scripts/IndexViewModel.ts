@@ -20,6 +20,8 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
     endPoint: string;
     @Validate(NotBlank, {message: "The Path is required"})
     path: string;
+    @Validate(NotBlank, {message: "The Friendly Name is required"})
+    friendlyName: string;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -40,6 +42,10 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.path = event.target.value;
     }
 
+    setFriendlyName(event) {
+        this.friendlyName = event.target.value;
+    }
+
     enterLogin() {
         if (!isValid(this)) {
             this.dialogService.alert(validate(this)[0].errorMessage);
@@ -52,7 +58,8 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
         this.commandDispatcher.dispatch(new AuthorizationCommand(this.token))
             .then((value:CommandResponse) => {
-                this.settingsManager.setValue<IEngineData>("engineData", <IEngineData>value.response.engineData);
+                let engineData:IEngineData = {"name":this.friendlyName,"type":value.response.environment};
+                this.settingsManager.setValue<IEngineData>("engineData", engineData);
                 this.navigationManager.navigate("dashboard");
             })
             .catch((error) => {

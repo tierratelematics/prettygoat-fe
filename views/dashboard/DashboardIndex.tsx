@@ -14,7 +14,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
         let socketConfig:ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
 
         let projections = [];
-        if (this.viewModel.model) //model is ReadyState
+        if (this.viewModel.model)
             projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
                 return <ProjectionPanel title={key} projection={value}
                                         stop={() => this.viewModel.stop(key)}

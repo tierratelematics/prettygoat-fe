@@ -13,6 +13,7 @@ export default class Index extends View<IndexViewModel> {
                         <h1 className="text-center login-title">Command And Control GUI</h1>
                         <div className="account-wall">
                                 <form className="form-signin">
+                                    <input className="form-control" id="friendlyName" value={this.viewModel.friendlyName} placeholder="Insert Friendly Name" onChange={this.viewModel.setFriendlyName}/>
                                     <input className="form-control" id="apiKey" value={this.viewModel.token} placeholder="Insert API Key" onChange={this.viewModel.setToken}/>
                                     <input className="form-control" id="endpoint" value={this.viewModel.endPoint} placeholder="Endpoint" onChange={this.viewModel.setEndPoint}/>
                                     <input className="form-control" id="Path" value={this.viewModel.path} placeholder="Path WebSocket" onChange={this.viewModel.setPath}/>
