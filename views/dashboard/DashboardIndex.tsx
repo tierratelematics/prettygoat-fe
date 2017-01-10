@@ -6,6 +6,7 @@ import ProjectionPanel from "../ProjectionPanel";
 import DashboardViewModel from "../../scripts/DashboardViewModel";
 import {ISocketConfig} from "ninjagoat-projections";
 import IEngineData from "../../scripts/configs/IEngineData";
+import {IProjectionInfo} from "../../scripts/projection/IProjectionInfo";
 
 export default class DashboardIndex extends View<DashboardViewModel> {
 
@@ -17,12 +18,12 @@ export default class DashboardIndex extends View<DashboardViewModel> {
         if (this.viewModel.model)
             projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
                 return <ProjectionPanel title={key} projection={value}
-                                        stop={() => this.viewModel.stop(key)}
-                                        pause={() => this.viewModel.pause(key)}
-                                        resume={() => this.viewModel.resume(key)}
-                                        saveSnapshot={() => this.viewModel.saveSnapshot(key)}
-                                        deleteSnapshot={() => this.viewModel.deleteSnapshot(key)}
-                                        dependencies={() => this.viewModel.dependenciesOf(value)}/>
+                                        stop={(name:string) => this.viewModel.stop(name)}
+                                        pause={(name:string) => this.viewModel.pause(name)}
+                                        resume={(name:string) => this.viewModel.resume(name)}
+                                        saveSnapshot={(name:string) => this.viewModel.saveSnapshot(name)}
+                                        deleteSnapshot={(name:string) => this.viewModel.deleteSnapshot(name)}
+                                        dependencies={(projection:IProjectionInfo) => this.viewModel.dependenciesOf(projection)}/>
             });
 
         return (

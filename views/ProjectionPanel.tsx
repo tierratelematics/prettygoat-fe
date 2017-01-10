@@ -8,7 +8,7 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
     render() {
         let splitProjectionLabel = !_.isUndefined(this.props.projection.splits) ? this.props.projection.splits : "Na";
         let dependenciesList = !_.isEmpty(this.props.projection.dependencies) ?
-            <Glyphicon glyph="th-list" onClick={() => this.props.dependencies()}/> : "";
+            <Glyphicon glyph="th-list" onClick={() => this.props.dependencies(this.props.projection)}/> : "";
 
         return (
             <tr>
@@ -20,9 +20,9 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>
-                            <Button onClick={() => this.props.pause()}
+                            <Button onClick={() => this.props.pause(this.props.title)}
                                     disabled={this.props.projection.status!='run'}>Pause</Button>
-                            <Button onClick={() => this.props.resume()}
+                            <Button onClick={() => this.props.resume(this.props.title)}
                                     disabled={this.props.projection.status!='pause'}>Resume</Button>
                         </ButtonGroup>
                     </ButtonToolbar>
@@ -30,8 +30,8 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>
-                            <Button onClick={() => this.props.saveSnapshot()}>Create</Button>
-                            <Button onClick={() => this.props.deleteSnapshot()}>Delete</Button>
+                            <Button onClick={() => this.props.saveSnapshot(this.props.title)}>Create</Button>
+                            <Button onClick={() => this.props.deleteSnapshot(this.props.title)}>Delete</Button>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </td>
