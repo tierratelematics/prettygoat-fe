@@ -8,4 +8,5 @@ export interface IProjectionPanel {
     resume(): void;
     saveSnapshot(): void;
     deleteSnapshot(): void;
+    dependenciesOf(): void;
 }

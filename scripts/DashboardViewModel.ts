@@ -9,6 +9,8 @@ import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotComm
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
+import {IProjectionStats} from "./projection/IProjectionStats";
+import * as _ from "lodash";
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
@@ -88,6 +90,11 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
             this.dialogService.alert(error.response.error);
         }
     }
+
+    dependenciesOf(projection:IProjectionStats){
+        this.dialogService.alert(_.join(projection.dependencies,","));
+    }
+
 }
 
 export default DashboardViewModel;

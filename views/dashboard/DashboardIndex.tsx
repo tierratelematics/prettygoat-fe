@@ -21,7 +21,8 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                                         pause={() => this.viewModel.pause(key)}
                                         resume={() => this.viewModel.resume(key)}
                                         saveSnapshot={() => this.viewModel.saveSnapshot(key)}
-                                        deleteSnapshot={() => this.viewModel.deleteSnapshot(key)}/>
+                                        deleteSnapshot={() => this.viewModel.deleteSnapshot(key)}
+                                        dependenciesOf={() => this.viewModel.dependenciesOf(value)}/>
             });
 
         return (
