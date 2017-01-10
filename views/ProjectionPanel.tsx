@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ButtonGroup, Row, ButtonToolbar, Button} from "react-bootstrap";
+import {ButtonGroup, Glyphicon, ButtonToolbar, Button} from "react-bootstrap";
 import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
 
 export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
@@ -13,7 +13,7 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
 
         return (
             <tr>
-                <td>{ this.props.title } ({splitProjectionLabel})</td>
+                <td><Glyphicon glyph="th-list" /> { this.props.title } ({splitProjectionLabel}) </td>
                 <td>{ this.props.projection.status }</td>
                 <td>{ this.props.projection.size }</td>
                 <td>{ this.props.projection.events }</td>
