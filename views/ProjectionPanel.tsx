@@ -5,14 +5,10 @@ import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
 
 export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
 
-    constructor(props: IProjectionPanel, context: any) {
-        super(props, context);
-    }
-
     render() {
         let splitProjectionLabel = !_.isUndefined(this.props.projection.splits) ? this.props.projection.splits : "Na";
         let dependenciesList = !_.isEmpty(this.props.projection.dependencies) ?
-            <Glyphicon glyph="th-list" onClick={() => this.props.dependenciesOf()}/> : "";
+            <Glyphicon glyph="th-list" onClick={() => this.props.dependencies()}/> : "";
 
         return (
             <tr>

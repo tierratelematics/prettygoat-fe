@@ -4,5 +4,5 @@ const BootstrapFontPathOverrider = require("./buildtools/BootstrapFontPathOverri
 module.exports = {
         "projectType": "frontend",
         "revisionExclude": "*",
-        "preBuild": () = > {ViewsImport(); BootstrapFontPathOverrider();}
+        "preBuild": () => Promise.all([ViewsImport(),BootstrapFontPathOverrider()])
         };

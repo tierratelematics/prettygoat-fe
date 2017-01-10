@@ -1,4 +1,4 @@
-export interface IProjectionStats {
+export interface IProjectionInfo {
     size: string;
     events: number;
     readModels: number;

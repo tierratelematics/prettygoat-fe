@@ -22,7 +22,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                                         resume={() => this.viewModel.resume(key)}
                                         saveSnapshot={() => this.viewModel.saveSnapshot(key)}
                                         deleteSnapshot={() => this.viewModel.deleteSnapshot(key)}
-                                        dependenciesOf={() => this.viewModel.dependenciesOf(value)}/>
+                                        dependencies={() => this.viewModel.dependenciesOf(value)}/>
             });
 
         return (

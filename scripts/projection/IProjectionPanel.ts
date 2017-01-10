@@ -1,12 +1,12 @@
-import {IProjectionStats} from "./IProjectionStats";
+import {IProjectionInfo} from "./IProjectionInfo";
 
 export interface IProjectionPanel {
     title: string;
-    projection: IProjectionStats;
+    projection: IProjectionInfo;
     stop(): void;
     pause(): void;
     resume(): void;
     saveSnapshot(): void;
     deleteSnapshot(): void;
-    dependenciesOf(): void;
+    dependencies(): void;
 }
