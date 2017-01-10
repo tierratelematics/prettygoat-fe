@@ -5,4 +5,4 @@ dist
 tmp
 coverage
 views/export.js
-assets/fonts/*
+assets/fonts/
