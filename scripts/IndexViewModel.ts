@@ -14,14 +14,14 @@ import IEngineData from "./configs/IEngineData";
 @ViewModel("Index")
 class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
+    @Validate(NotBlank, {message: "The Friendly Name is required"})
+    friendlyName: string;
     @Validate(NotBlank, {message: "The Token is required"})
     token: string;
     @Validate(NotBlank, {message: "The Endpoint is required"})
     endPoint: string;
     @Validate(NotBlank, {message: "The Path is required"})
     path: string;
-    @Validate(NotBlank, {message: "The Friendly Name is required"})
-    friendlyName: string;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -46,7 +46,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.friendlyName = event.target.value;
     }
 
-    enterLogin() {
+    async enterLogin() {
         if (!isValid(this)) {
             this.dialogService.alert(validate(this)[0].errorMessage);
             return;
@@ -56,16 +56,16 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.settingsManager.setValue<string>("path", this.path);
         this.settingsManager.setValue<string>("tokenAPI", this.token);
 
-        this.commandDispatcher.dispatch(new AuthorizationCommand(this.token))
-            .then((value:CommandResponse) => {
-                let engineData:IEngineData = {"name":this.friendlyName,"type":value.response.environment};
-                this.settingsManager.setValue<IEngineData>("engineData", engineData);
-                this.navigationManager.navigate("dashboard");
-            })
-            .catch((error) => {
-                this.settingsManager.setValue<string>("tokenAPI", "");
-                this.dialogService.alert("API Key or Endpoint not valid");
-            });
+        try {
+            let commandResponse: CommandResponse = await this.commandDispatcher.dispatch(new AuthorizationCommand(this.token));
+            let engineData: IEngineData = {"name": this.friendlyName, "type": commandResponse.response.environment};
+            this.settingsManager.setValue<IEngineData>("engineData", engineData);
+            this.navigationManager.navigate("dashboard");
+        }
+        catch (error) {
+            this.settingsManager.setValue<string>("tokenAPI", "");
+            this.dialogService.alert(error.response.error);
+        }
     }
 
     protected onData(item: ModelState<any[]>): void {
