@@ -63,8 +63,9 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
             this.navigationManager.navigate("dashboard");
         }
         catch (error) {
+            let messageError:string = (error) ? "Endpoint not valid" : error.response.error;
+            this.dialogService.alert(messageError);
             this.settingsManager.setValue<string>("tokenAPI", "");
-            this.dialogService.alert(error.response.error);
         }
     }
 
