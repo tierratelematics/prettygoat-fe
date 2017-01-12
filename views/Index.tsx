@@ -18,7 +18,7 @@ export default class Index extends View<IndexViewModel> {
                                     <input className="form-control" id="endpoint" value={this.viewModel.endPoint} placeholder="Endpoint" onChange={this.viewModel.setEndPoint}/>
                                     <input className="form-control" id="Path" value={this.viewModel.path} placeholder="Path WebSocket" onChange={this.viewModel.setPath}/>
                                     <br />
-                                    <Button onClick={() => this.viewModel.enterLogin()} type="button" bsStyle="primary" bsSize="large" block>Enter</Button>
+                                    <Button onClick={() => this.viewModel.doLogin()} type="button" bsStyle="primary" bsSize="large" block>Enter</Button>
                                 </form>
                         </div>
                     </div>

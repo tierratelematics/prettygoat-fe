@@ -39,7 +39,7 @@ describe('Given a Index ViewModel', () => {
 
         context("and some mandatory fields are missing", () => {
             it('a validation error should displayed', () => {
-                subject.enterLogin();
+                subject.doLogin();
                 dialogService.verify(d => d.alert(TypeMoq.It.isAny()), TypeMoq.Times.once());
                 settingsManager.verify(s => s.setValue<any>(TypeMoq.It.isAny(), TypeMoq.It.isAny()), TypeMoq.Times.never());
                 navigationManager.verify(n => n.navigate("dashboard"), TypeMoq.Times.never());
@@ -58,7 +58,7 @@ describe('Given a Index ViewModel', () => {
                 });
 
                 it('a error should display', () => {
-                    subject.enterLogin();
+                    subject.doLogin();
                     commandDispatcher.verify(d => d.dispatch(TypeMoq.It.isValue(authorizationCommand)), TypeMoq.Times.once());
                     dialogService.verify(d => d.alert(TypeMoq.It.isAnyString()), TypeMoq.Times.once());
                     settingsManager.verify(s => s.setValue<string>("tokenAPI", ""), TypeMoq.Times.once());
@@ -74,7 +74,7 @@ describe('Given a Index ViewModel', () => {
                 });
 
                 it("should save user's credentials", async() => {
-                    await subject.enterLogin();
+                    await subject.doLogin();
                     commandDispatcher.verify(d => d.dispatch(TypeMoq.It.isValue(authorizationCommand)), TypeMoq.Times.once());
                     dialogService.verify(d => d.alert(TypeMoq.It.isAnyString()), TypeMoq.Times.never());
                     navigationManager.verify(n => n.navigate("dashboard"), TypeMoq.Times.once());

@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import ProjectionPanel from "../ProjectionPanel";
 import Loader from "../Loader";
 import DashboardViewModel from "../../scripts/DashboardViewModel";
-import {ISocketConfig} from "ninjagoat-projections";
+import {ISocketConfig, ModelPhase} from "ninjagoat-projections";
 import IEngineData from "../../scripts/configs/IEngineData";
 import {IProjectionInfo} from "../../scripts/projection/IProjectionInfo";
 
@@ -13,7 +13,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
 
-        if (!this.viewModel.modelReady)
+        if (this.viewModel.modelPhase!==ModelPhase.Ready)
             return (
                 <div>
                     <Loader />

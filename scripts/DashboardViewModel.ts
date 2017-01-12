@@ -19,7 +19,7 @@ let autobind = require("autobind-decorator");
 class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
     model: IDiagnosticProjection;
-    modelReady : boolean = false;
+    modelPhase: ModelPhase;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -29,7 +29,7 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     protected onData(data: ModelState<IDiagnosticProjection>): void {
-        this.modelReady = data.phase === ModelPhase.Ready;
+        this.modelPhase = data.phase;
         this.model = data.model;
     }
 

@@ -46,7 +46,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.friendlyName = event.target.value;
     }
 
-    async enterLogin() {
+    async doLogin() {
         if (!isValid(this)) {
             this.dialogService.alert(validate(this)[0].errorMessage);
             return;
