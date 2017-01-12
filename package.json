@@ -35,10 +35,8 @@
   },
   "devDependencies": {
     "@types/expect.js": "~0.3.29",
-    "@types/lolex": "~1.5.30",
     "@types/mocha": "~2.2.33",
     "expect.js": "~0.3.1",
-    "lolex": "~1.5.2",
     "typemoq": "0.3.3"
   },
   "peerDependencies": {

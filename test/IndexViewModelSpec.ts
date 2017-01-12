@@ -2,7 +2,6 @@ import "reflect-metadata";
 import * as Bluebird from "bluebird";
 import expect = require("expect.js");
 import * as TypeMoq from "typemoq";
-import * as lolex from "lolex";
 import IndexViewModel from "../scripts/IndexViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager, INavigationManager} from "ninjagoat";
@@ -19,8 +18,7 @@ describe('Given a Index ViewModel', () => {
         navigationManager: TypeMoq.Mock<INavigationManager>,
         commandDispatcher: TypeMoq.Mock<ICommandDispatcher>,
         settingsManager: TypeMoq.Mock<ISettingsManager>,
-        authorizationCommand: Object,
-        clock: lolex.Clock;
+        authorizationCommand: Object;
 
     beforeEach(
         () => {
