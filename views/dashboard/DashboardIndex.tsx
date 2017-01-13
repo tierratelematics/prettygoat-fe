@@ -17,9 +17,9 @@ export default class DashboardIndex extends View<DashboardViewModel> {
             case ModelPhase.Ready:
                 return this.renderReadyPhase();
             case ModelPhase.Loading:
-                return this.renderLoadingPhase();
+                return(<div><Loader /></div>);
             case ModelPhase.Failed:
-                return this.renderErrorPhase();
+                return(<div><Error /></div>);
         }
     }
 
@@ -71,13 +71,5 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                 </table>
             </div>
         );
-    }
-
-    renderLoadingPhase(){
-        return(<div><Loader /></div>);
-    }
-
-    renderErrorPhase(){
-        return(<div><Error /></div>);
     }
 }
