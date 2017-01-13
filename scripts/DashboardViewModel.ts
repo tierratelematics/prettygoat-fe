@@ -34,57 +34,44 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async pause(name: string) {
-        try {
-            await this.commandDispatcher.dispatch(new PauseProjectionCommand(name));
-            this.dialogService.alert("Projection now is paused");
-        }
-        catch (error) {
-            this.dialogService.alert(error.response.error);
-        }
+        await this.sendCommand(new PauseProjectionCommand(name));
+        this.dialogService.alert("Projection now is paused");
     }
 
     async resume(name: string) {
-        try {
-            await this.commandDispatcher.dispatch(new ResumeProjectionCommand(name));
-            this.dialogService.alert("Projection now is runned");
-        }
-        catch (error) {
-            this.dialogService.alert(error.response.error);
-        }
+        await this.sendCommand(new ResumeProjectionCommand(name));
+        this.dialogService.alert("Projection now is runned");
     }
 
     async saveSnapshot(name: string) {
-        try {
-            await this.commandDispatcher.dispatch(new SaveSnapshotCommand(name));
-            this.dialogService.alert("Snapshot created");
-        }
-        catch (error) {
-            this.dialogService.alert(error.response.error);
-        }
+        await this.sendCommand(new SaveSnapshotCommand(name));
+        this.dialogService.alert("Snapshot created");
     }
 
     async deleteSnapshot(name: string) {
-        try{
-            if(!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
+        try {
+            if (!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
                 this.applyDeleteSnaphost(name)
-        }
-        catch (error){
+        } catch (error) {
 
         }
     }
 
     async applyDeleteSnaphost(name: string) {
+        await this.sendCommand(new DeleteSnapshotCommand(name));
+        this.dialogService.alert("Snapshot removed");
+    }
+
+    async sendCommand(command: Object) {
         try {
-            await this.commandDispatcher.dispatch(new DeleteSnapshotCommand(name));
-            this.dialogService.alert("Snapshot removed");
-        }
-        catch (error) {
+            await this.commandDispatcher.dispatch(command);
+        } catch (error) {
             this.dialogService.alert(error.response.error);
         }
     }
 
-    dependenciesOf(projection:IProjectionInfo){
-        this.dialogService.alert(_.join(projection.dependencies,","));
+    dependenciesOf(projection: IProjectionInfo) {
+        this.dialogService.alert(_.join(projection.dependencies, ","));
     }
 
 }

@@ -13,7 +13,7 @@ import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
 import {MockDialogService} from "./fixtures/MockDialogService";
 
 
-describe('Given a Dashboard ViewModel and a projection name', () => {
+describe("Given a Dashboard ViewModel", () => {
     let subject: DashboardViewModel,
         dialogService: TypeMoq.Mock<IDialogService>,
         commandDispatcher: TypeMoq.Mock<ICommandDispatcher>,
@@ -21,147 +21,70 @@ describe('Given a Dashboard ViewModel and a projection name', () => {
         socketConfigRetriever: TypeMoq.Mock<ISocketConfigRetriever>,
         errorResponse: CommandResponse;
 
-    beforeEach(
-        () => {
+    beforeEach(() => {
             errorResponse = {response: {error: "error generic command"}};
             dialogService = TypeMoq.Mock.ofType(MockDialogService);
             commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
             engineDateRetriever = TypeMoq.Mock.ofType(MockEngineDataRetriever);
             socketConfigRetriever = TypeMoq.Mock.ofType(MockSocketConfigRetriever);
-            subject = new DashboardViewModel(dialogService.object, commandDispatcher.object,
-                engineDateRetriever.object, socketConfigRetriever.object); ///<----
+            subject = new DashboardViewModel(dialogService.object, commandDispatcher.object, engineDateRetriever.object, socketConfigRetriever.object);
         }
     );
 
-    context("when there isn't a projection with that name", () => {
+    context("when I try to alter the state of an inexistent projection or command failed", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
         });
 
-        it('every projection command should be displayed a error', async() => {
+        it("it should display a error", async() => {
+            await subject.sendCommand(null);
+            dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
+        });
+    });
+
+    context("when a projection is paused", () => {
+        beforeEach(() => {
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+        });
+
+        it("it should display a success message", async() => {
             await subject.pause("");
+            dialogService.verify(d => d.alert("Projection now is paused"), TypeMoq.Times.once());
+        });
+
+    });
+
+    context("when a projection is resumed",()=> {
+        beforeEach(() => {
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+        });
+
+        it("it should display a success message", async() => {
             await subject.resume("");
+            dialogService.verify(d => d.alert("Projection now is runned"), TypeMoq.Times.once());
+        });
+
+    });
+
+    context("when a snapshot is created",()=> {
+        beforeEach(() => {
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+        });
+
+        it("it should display a success message", async() => {
             await subject.saveSnapshot("");
+            dialogService.verify(d => d.alert("Snapshot created"), TypeMoq.Times.once());
+        });
+    });
+
+    context("when a snapshot is removed",()=> {
+        beforeEach(() => {
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+        });
+
+        it("it should display a success message", async() => {
             await subject.applyDeleteSnaphost("");
-            dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.exactly(4));
+            dialogService.verify(d => d.alert("Snapshot removed"), TypeMoq.Times.once());
         });
     });
-
-    context("when there is a projection with that name", () => {
-
-        context("and i try to send a projection runner command", () => {
-
-            context("and i try to pause a projection", () => {
-
-                context("and the command failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
-                    });
-
-                    it('a error should be displayed', async() => {
-                        await subject.pause("");
-                        dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
-                    });
-                });
-
-                context("and the command not failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
-                    });
-
-                    it('a success message should be displayed', async() => {
-                        await subject.pause("");
-                        dialogService.verify(d => d.alert("Projection now is paused"), TypeMoq.Times.once());
-                    });
-                });
-            });
-
-            context("and i try to resume a projection", () => {
-
-                context("and the command failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
-                    });
-
-                    it('a error should be displayed', async() => {
-                        await subject.resume("");
-                        dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
-                    });
-
-                });
-
-                context("and the command not failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
-                    });
-
-                    it('a success message should be displayed', async() => {
-                        await subject.resume("");
-                        dialogService.verify(d => d.alert("Projection now is runned"), TypeMoq.Times.once());
-                    });
-
-                });
-            });
-        });
-
-        context("and i try to send a snapshot command", () => {
-
-            context("and i try to create a snapshot", () => {
-
-                context("and the command failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
-                    });
-
-                    it('a error should be displayed', async() => {
-                        await subject.saveSnapshot("");
-                        dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
-                    });
-
-                });
-
-                context("and the command not failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
-                    });
-
-                    it('a success message should be displayed', async() => {
-                        await subject.saveSnapshot("");
-                        dialogService.verify(d => d.alert("Snapshot created"), TypeMoq.Times.once());
-                    });
-
-                });
-            });
-
-            context("and i try to remove a snapshot", () => {
-
-                context("and the command failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
-                    });
-
-                    it('a error should be displayed', async() => {
-                        await subject.applyDeleteSnaphost("");
-                        dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
-                    });
-
-                });
-
-                context("and the command not failed", () => {
-                    beforeEach(() => {
-                        commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
-                    });
-
-                    it('a success message should be displayed', async() => {
-                        await subject.applyDeleteSnaphost("");
-                        dialogService.verify(d => d.alert("Snapshot removed"), TypeMoq.Times.once());
-                    });
-
-                });
-            });
-        });
-
-    });
-
-
 });

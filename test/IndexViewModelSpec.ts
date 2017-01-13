@@ -20,8 +20,7 @@ describe('Given a Index ViewModel', () => {
         settingsManager: TypeMoq.Mock<ISettingsManager>,
         authorizationCommand: Object;
 
-    beforeEach(
-        () => {
+    beforeEach(() => {
             dialogService = TypeMoq.Mock.ofType(MockDialogService);
             settingsManager = TypeMoq.Mock.ofType(MockSettingsManager);
             commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
