@@ -33,16 +33,6 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         this.model = data.model;
     }
 
-    async stop(name: string) {
-        try {
-            await this.commandDispatcher.dispatch(new StopProjectionCommand(name));
-            this.dialogService.alert("Projection now is stopped");
-        }
-        catch (error) {
-            this.dialogService.alert(error.response.error);
-        }
-    }
-
     async pause(name: string) {
         try {
             await this.commandDispatcher.dispatch(new PauseProjectionCommand(name));
