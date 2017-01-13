@@ -1,4 +1,4 @@
-const smildExtra = require("./node_modules/smild-extra/dist/smild-extra");
+const smildExtra = require("smild-extra");
 const bootstrapFontPathOverrider = require("./buildtools/BootstrapFontPathOverrider");
 
 module.exports = {
