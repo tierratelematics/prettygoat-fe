@@ -8,18 +8,22 @@ import DashboardViewModel from "../../scripts/DashboardViewModel";
 import {ISocketConfig, ModelPhase} from "ninjagoat-projections";
 import IEngineData from "../../scripts/configs/IEngineData";
 import {IProjectionInfo} from "../../scripts/projection/IProjectionInfo";
+import Error from "../Error";
 
 export default class DashboardIndex extends View<DashboardViewModel> {
 
     render() {
+        switch (this.viewModel.modelPhase) {
+            case ModelPhase.Ready:
+                return this.renderReadyPhase();
+            case ModelPhase.Loading:
+                return this.renderLoadingPhase();
+            case ModelPhase.Failed:
+                return this.renderErrorPhase();
+        }
+    }
 
-        if (this.viewModel.modelPhase!==ModelPhase.Ready)
-            return (
-                <div>
-                    <Loader />
-                </div>
-            );
-
+    renderReadyPhase(){
         let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
         let projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
@@ -68,5 +72,13 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                 </table>
             </div>
         );
+    }
+
+    renderLoadingPhase(){
+        return(<div><Loader /></div>);
+    }
+
+    renderErrorPhase(){
+        return(<div><Error /></div>);
     }
 }
