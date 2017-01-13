@@ -3,7 +3,7 @@ import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {StopProjectionCommand, PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
+import {PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
@@ -34,18 +34,15 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async pause(name: string) {
-        await this.sendCommand(new PauseProjectionCommand(name));
-        this.dialogService.alert("Projection now is paused");
+        await this.sendCommand(new PauseProjectionCommand(name), "Projection now is paused");
     }
 
     async resume(name: string) {
-        await this.sendCommand(new ResumeProjectionCommand(name));
-        this.dialogService.alert("Projection now is runned");
+        await this.sendCommand(new ResumeProjectionCommand(name), "Projection now is runned");
     }
 
     async saveSnapshot(name: string) {
-        await this.sendCommand(new SaveSnapshotCommand(name));
-        this.dialogService.alert("Snapshot created");
+        await this.sendCommand(new SaveSnapshotCommand(name), "Snapshot created");
     }
 
     async deleteSnapshot(name: string) {
@@ -54,13 +51,13 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async applyDeleteSnaphost(name: string) {
-        await this.sendCommand(new DeleteSnapshotCommand(name));
-        this.dialogService.alert("Snapshot removed");
+        await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
     }
 
-    async sendCommand(command: Object) {
+    async sendCommand(command: Object, successMessage: string) {
         try {
             await this.commandDispatcher.dispatch(command);
+            this.dialogService.alert(successMessage);
         } catch (error) {
             this.dialogService.alert(error.response.error);
         }
