@@ -3,12 +3,12 @@ import * as React from "react";
 import {PageHeader} from "react-bootstrap";
 import * as _ from "lodash";
 import ProjectionPanel from "../ProjectionPanel";
-import Loader from "../Loader";
+import Loader from "../shared/Loader";
 import DashboardViewModel from "../../scripts/DashboardViewModel";
 import {ISocketConfig, ModelPhase} from "ninjagoat-projections";
 import IEngineData from "../../scripts/configs/IEngineData";
 import {IProjectionInfo} from "../../scripts/projection/IProjectionInfo";
-import Error from "../Error";
+import ErrorAlert from "../shared/ErrorAlert";
 
 export default class DashboardIndex extends View<DashboardViewModel> {
 
@@ -19,7 +19,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
             case ModelPhase.Loading:
                 return(<div><Loader /></div>);
             case ModelPhase.Failed:
-                return(<div><Error /></div>);
+                return(<div><ErrorAlert /></div>);
         }
     }
 

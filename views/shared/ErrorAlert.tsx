@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Alert} from "react-bootstrap";
 
-export default class Error extends React.Component<void,never>{
+export default class ErrorAlert extends React.Component<void,never>{
     render() {
         return (
             <Alert bsStyle="warning">
