@@ -32,7 +32,7 @@ describe("Given a Dashboard ViewModel", () => {
         }
     );
 
-    context("when I try to alter the state of an inexistent projection or command failed", () => {
+    context("when a request to the API fails", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
         });
