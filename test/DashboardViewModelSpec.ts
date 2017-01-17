@@ -83,7 +83,7 @@ describe("Given a Dashboard ViewModel", () => {
         });
 
         it("it should display a success message", async() => {
-            await subject.applyDeleteSnaphost("nameProjection");
+            await subject.deleteSnapshot("nameProjection");
             dialogService.verify(d => d.alert("Snapshot removed"), TypeMoq.Times.once());
         });
     });

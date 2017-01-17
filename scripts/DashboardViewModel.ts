@@ -47,11 +47,7 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
 
     async deleteSnapshot(name: string) {
         if (!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
-            this.applyDeleteSnaphost(name)
-    }
-
-    async applyDeleteSnaphost(name: string) {
-        await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
+            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
     }
 
     async sendCommand(command: Object, successMessage: string) {
