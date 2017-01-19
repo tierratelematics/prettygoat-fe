@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import {isUndefined, isEmpty} from "lodash";
 import * as React from "react";
 import {ButtonGroup, Glyphicon, ButtonToolbar, Button} from "react-bootstrap";
 import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
@@ -6,8 +6,8 @@ import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
 export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
 
     render() {
-        let splitProjectionLabel = _.isUndefined(this.props.projection.splits) ? "Na" : this.props.projection.splits;
-        let dependenciesList = _.isEmpty(this.props.projection.dependencies) ? "" :
+        let splitProjectionLabel = isUndefined(this.props.projection.splits) ? "Na" : this.props.projection.splits;
+        let dependenciesList = isEmpty(this.props.projection.dependencies) ? "" :
             <Glyphicon glyph="th-list" onClick={() => this.props.dependencies(this.props.projection)}/>;
 
         return (
