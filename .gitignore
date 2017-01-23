@@ -6,3 +6,5 @@ tmp
 coverage
 views/export.js
 assets/fonts/
+docker/built/
+playbooks/
