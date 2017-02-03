@@ -7,11 +7,13 @@ import {ICommandDispatcher, CommandResponse} from "ninjagoat-commands";
 import {INavigationManager} from "ninjagoat";
 import AuthorizationCommand from "./command/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
+import {Page} from "ninjagoat-analytics";
 import {NotBlank} from "./shared/Validators";
 import IEngineData from "./configs/IEngineData";
 
 @autobind
 @ViewModel("Index")
+@Page()
 class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
 
     @Validate(NotBlank, {message: "The Friendly Name is required"})

@@ -15,6 +15,7 @@ import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import ConfigRetriever from "./configs/ConfigRetriever";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
+import {IAnalyticsConfig, TrackPageRouteStrategy} from "ninjagoat-analytics";
 
 class AppModule implements IModule {
 
@@ -22,12 +23,12 @@ class AppModule implements IModule {
 
         container.bind<IBaseConfig>("IBaseConfig").toConstantValue(null);
         container.bind<ISocketConfig>("ISocketConfig").toConstantValue(null);
+        container.bind<IAnalyticsConfig>("IAnalyticsConfig").toConstantValue({accountID: "UA-91359071-1"});
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
 
-        container.unbind("IRouteStrategy");
-        container.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
+        container.bind<IRouteStrategy>("RouteStrategy").to(AuthRouteStrategy).inSingletonScope().whenInjectedInto(TrackPageRouteStrategy);
 
         container.unbind("INotificationManager");
         container.bind<INotificationManager>("INotificationManager").to(ApiNotificationManager).inSingletonScope();
