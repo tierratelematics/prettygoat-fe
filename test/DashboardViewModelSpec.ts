@@ -44,25 +44,25 @@ describe("Given a Dashboard ViewModel", () => {
         });
     });
 
-    context("when a projection is paused", () => {
+    context("when a projection is stopped", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
-            await subject.pause("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is paused"), TypeMoq.Times.once());
+            await subject.stop("nameProjection");
+            dialogService.verify(d => d.alert("Projection now is stopped"), TypeMoq.Times.once());
         });
     });
 
-    context("when a projection is resumed", () => {
+    context("when a projection is restarted", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
-            await subject.resume("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is runned"), TypeMoq.Times.once());
+            await subject.restart("nameProjection");
+            dialogService.verify(d => d.alert("Projection now is restarted"), TypeMoq.Times.once());
         });
     });
 

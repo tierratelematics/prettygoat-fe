@@ -3,10 +3,7 @@ import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {
-    PauseProjectionCommand, ResumeProjectionCommand, StopProjectionCommand,
-    RestartProjectionCommand
-} from "./command/ProjectionCommand";
+import {StopProjectionCommand, RestartProjectionCommand} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
