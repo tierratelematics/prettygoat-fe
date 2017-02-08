@@ -13,10 +13,8 @@ class ApiCommandDispatcher extends CommandDispatcher {
                 @inject("IHttpClient") private httpClient: IHttpClient,
                 @inject("IBaseConfig") private config: IBaseConfig,
                 @inject("IBaseConfigRetriever") private baseConfigRetriever: IBaseConfigRetriever,
-                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever,
-                @inject("CommandDispatcher") private commandDispatcher: CommandDispatcher) {
+                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever) {
         super(dateRetriever, guidGenerator);
-        this.setNext(commandDispatcher);
     }
 
     canExecuteCommand(command: Object): boolean {

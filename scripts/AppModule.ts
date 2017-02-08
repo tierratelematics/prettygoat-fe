@@ -28,7 +28,6 @@ class AppModule implements IModule {
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
-        container.bind<CommandDispatcher>("CommandDispatcher").to(GetCommandDispatcher).inSingletonScope().whenInjectedInto(ApiCommandDispatcher);
 
         container.bind<IRouteStrategy>("RouteStrategy").to(AuthRouteStrategy).inSingletonScope().whenInjectedInto(TrackPageRouteStrategy);
 
