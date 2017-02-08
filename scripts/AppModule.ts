@@ -16,6 +16,7 @@ import ConfigRetriever from "./configs/ConfigRetriever";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {IAnalyticsConfig, TrackPageRouteStrategy} from "ninjagoat-analytics";
+import GetCommandDispatcher from "./command/GetCommandDispatcher";
 
 class AppModule implements IModule {
 
@@ -27,6 +28,7 @@ class AppModule implements IModule {
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
+        container.bind<CommandDispatcher>("CommandDispatcher").to(GetCommandDispatcher).inSingletonScope().whenInjectedInto(ApiCommandDispatcher);
 
         container.bind<IRouteStrategy>("RouteStrategy").to(AuthRouteStrategy).inSingletonScope().whenInjectedInto(TrackPageRouteStrategy);
 
@@ -51,7 +53,7 @@ class AppModule implements IModule {
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
         registry.add(DiagnosticViewModel,
-            () => modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "Size"))).forArea("dashboard");
+            () => modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "System"))).forArea("dashboard");
     }
 }
 

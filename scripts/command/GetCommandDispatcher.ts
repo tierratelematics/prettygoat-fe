@@ -6,27 +6,25 @@ import {IBaseConfigRetriever} from "../configs/IBaseConfigRetriever";
 import {ITokenRetriever} from "../configs/ITokenRetriever";
 
 @injectable()
-class ApiCommandDispatcher extends CommandDispatcher {
+class GetCommandDispatcher extends CommandDispatcher {
 
     constructor(@inject("IDateRetriever") dateRetriever: IDateRetriever,
                 @inject("IGUIDGenerator") guidGenerator: IGUIDGenerator,
                 @inject("IHttpClient") private httpClient: IHttpClient,
                 @inject("IBaseConfig") private config: IBaseConfig,
                 @inject("IBaseConfigRetriever") private baseConfigRetriever: IBaseConfigRetriever,
-                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever,
-                @inject("CommandDispatcher") private commandDispatcher: CommandDispatcher) {
+                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever) {
         super(dateRetriever, guidGenerator);
-        this.setNext(commandDispatcher);
     }
 
     canExecuteCommand(command: Object): boolean {
-        return this.transport === Transport.HTTP_Post && !this.authentication;
+        return this.transport === !Transport.HTTP_Post && !this.authentication;
     }
 
     executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
         this.config = this.baseConfigRetriever.baseConfig();
         let apiCommandConfig: Dictionary<string> = {'Authorization': this.tokenRetriever.token()};
-        return <Promise<CommandResponse>>this.httpClient.post(this.getEndpoint(envelope), envelope, apiCommandConfig).toPromise();
+        return <Promise<CommandResponse>>this.httpClient.get(this.getEndpoint(envelope), apiCommandConfig).toPromise();
     }
 
     private getEndpoint(envelope: CommandEnvelope){
@@ -36,4 +34,4 @@ class ApiCommandDispatcher extends CommandDispatcher {
 
 }
 
-export default ApiCommandDispatcher
+export default GetCommandDispatcher
