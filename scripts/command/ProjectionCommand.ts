@@ -5,10 +5,10 @@ import {Transport} from "ninjagoat-commands";
 @command.Endpoint("/api/projections/pause")
 @command.Transport(Transport.HTTP_Post)
 export class PauseProjectionCommand {
-    name: string;
+    projectionName: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(projectionName: string) {
+        this.projectionName = projectionName;
     }
 }
 
@@ -17,10 +17,10 @@ export class PauseProjectionCommand {
 @command.Endpoint("/api/projections/stop")
 @command.Transport(Transport.HTTP_Post)
 export class StopProjectionCommand {
-    name: string;
+    projectionName: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(projectionName: string) {
+        this.projectionName = projectionName;
     }
 }
 
@@ -29,9 +29,9 @@ export class StopProjectionCommand {
 @command.Endpoint("/api/projections/resume")
 @command.Transport(Transport.HTTP_Post)
 export class ResumeProjectionCommand {
-    name: string;
+    projectionName: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(projectionName: string) {
+        this.projectionName = projectionName;
     }
 }
