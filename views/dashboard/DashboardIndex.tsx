@@ -17,13 +17,13 @@ export default class DashboardIndex extends View<DashboardViewModel> {
             case ModelPhase.Ready:
                 return this.renderReadyPhase();
             case ModelPhase.Loading:
-                return(<div><Loader /></div>);
+                return (<div><Loader /></div>);
             case ModelPhase.Failed:
-                return(<div><ErrorAlert /></div>);
+                return (<div><ErrorAlert /></div>);
         }
     }
 
-    renderReadyPhase(){
+    renderReadyPhase() {
         let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
         let projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
