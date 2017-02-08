@@ -3,7 +3,10 @@ import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
+import {
+    PauseProjectionCommand, ResumeProjectionCommand, StopProjectionCommand,
+    RestartProjectionCommand
+} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
@@ -33,12 +36,12 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         this.model = data.model;
     }
 
-    async pause(name: string) {
-        await this.sendCommand(new PauseProjectionCommand(name), "Projection now is paused");
+    async stop(name: string) {
+        await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
     }
 
-    async resume(name: string) {
-        await this.sendCommand(new ResumeProjectionCommand(name), "Projection now is runned");
+    async restart(name: string) {
+        await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
     }
 
     async saveSnapshot(name: string) {

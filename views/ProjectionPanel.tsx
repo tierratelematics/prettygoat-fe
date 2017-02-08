@@ -13,17 +13,17 @@ export default class ProjectionPanel extends React.Component<IProjectionPanel,an
         return (
             <tr>
                 <td>{dependenciesList} { this.props.title } ({splitProjectionLabel})</td>
-                <td>{ this.props.projection.status }</td>
+                <td>{ this.props.projection.running.toString() }</td>
                 <td>{ this.props.projection.size }</td>
                 <td>{ this.props.projection.events }</td>
                 <td>{ this.props.projection.readModels }</td>
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>
-                            <Button onClick={() => this.props.pause(this.props.title)}
-                                    disabled={this.props.projection.status!='run'}>Pause</Button>
-                            <Button onClick={() => this.props.resume(this.props.title)}
-                                    disabled={this.props.projection.status!='pause'}>Resume</Button>
+                            <Button onClick={() => this.props.stop(this.props.title)}
+                                    disabled={this.props.projection.running}>Stop</Button>
+                            <Button onClick={() => this.props.restart(this.props.title)}
+                                    disabled={!this.props.projection.running}>Restart</Button>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </td>

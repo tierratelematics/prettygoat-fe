@@ -28,8 +28,8 @@ export default class DashboardIndex extends View<DashboardViewModel> {
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
         let projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
             return <ProjectionPanel title={key} projection={value}
-                                    pause={(name:string) => this.viewModel.pause(name)}
-                                    resume={(name:string) => this.viewModel.resume(name)}
+                                    stop={(name:string) => this.viewModel.stop(name)}
+                                    restart={(name:string) => this.viewModel.restart(name)}
                                     saveSnapshot={(name:string) => this.viewModel.saveSnapshot(name)}
                                     deleteSnapshot={(name:string) => this.viewModel.deleteSnapshot(name)}
                                     dependencies={(projection:IProjectionInfo) => this.viewModel.dependenciesOf(projection)}/>
@@ -46,7 +46,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     <thead>
                     <tr>
                         <th>Projection Name</th>
-                        <th>Status</th>
+                        <th>Running</th>
                         <th>Size</th>
                         <th>Events</th>
                         <th>ReadModels</th>
