@@ -1,10 +1,7 @@
 import {Dictionary} from "ninjagoat";
+import {ISystemInfo} from "./ISystemInfo";
 
 export interface ISystemProjection {
     events: number;
-    list: Dictionary<ISystemInfo>
-}
-
-export interface ISystemInfo {
-    dependencies: string[];
+    projections: Dictionary<ISystemInfo>;
 }

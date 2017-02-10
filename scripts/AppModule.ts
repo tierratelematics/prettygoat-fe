@@ -43,19 +43,19 @@ class AppModule implements IModule {
         container.bind<ISocketConfigRetriever>("ISocketConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ITokenRetriever>("ITokenRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<IEngineDataRetriever>("IEngineDataRetriever").to(ConfigRetriever).inSingletonScope();
-
-        container.bind<IModelRetriever>("DiagnosticModelRetriever").to(DiagnosticModelRetriever).inSingletonScope();
+        container.bind<DiagnosticModelRetriever>("DiagnosticModelRetriever").to(DiagnosticModelRetriever).inSingletonScope();
 
         container.bind<{}>("Views").toConstantValue(require('../views/export'));
     };
 
     register(registry: IViewModelRegistry, serviceLocator?: IServiceLocator, overrides?: any): void {
-        let modelRetriever = serviceLocator.get<IModelRetriever>("DiagnosticModelRetriever");
+        let modelRetriever = serviceLocator.get<IModelRetriever>("IModelRetriever");
+        let diagnosticModelRetriever: DiagnosticModelRetriever = serviceLocator.get<DiagnosticModelRetriever>("DiagnosticModelRetriever");
 
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
         registry.add(DiagnosticViewModel,
-            () => modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "System"))).forArea("dashboard");
+            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
     }
 }
 

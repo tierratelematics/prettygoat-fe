@@ -35,6 +35,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                                     dependencies={(projection:IProjectionInfo) => this.viewModel.dependenciesOf(projection)}/>
         });
 
+
         return (
             <div>
                 <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
@@ -62,7 +63,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                         <th>Total Number: {_.keys(this.viewModel.model.list).length}</th>
                         <th>&nbsp;</th>
                         <th>{this.viewModel.model.totalSize}</th>
-                        <th>{this.viewModel.model.processedEvents}</th>
+                        <th>{this.viewModel.model.events}</th>
                         <th>{this.viewModel.model.processedReadModels}</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
