@@ -17,6 +17,7 @@ import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {IAnalyticsConfig, TrackPageRouteStrategy} from "ninjagoat-analytics";
 import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
+import {ISystemProjection} from "./projection/ISystemProjection";
 
 class AppModule implements IModule {
 
@@ -55,7 +56,7 @@ class AppModule implements IModule {
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
         registry.add(DiagnosticViewModel,
-            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<IDiagnosticProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
+            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<ISystemProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
     }
 }
 

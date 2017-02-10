@@ -20,14 +20,16 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                 return (<div><Loader /></div>);
             case ModelPhase.Failed:
                 return (<div><ErrorAlert /></div>);
+            default:
+                return (<div><Loader /></div>);
         }
     }
 
     renderReadyPhase() {
         let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
-        let projections = _.map(this.viewModel.model.list, (value: any, key: string) => {
-            return <ProjectionPanel title={key} projection={value}
+        let projections = _.map(this.viewModel.model.list, (value: IProjectionInfo) => {
+            return <ProjectionPanel title={value.name} projection={value} key={value.name}
                                     stop={(name:string) => this.viewModel.stop(name)}
                                     restart={(name:string) => this.viewModel.restart(name)}
                                     saveSnapshot={(name:string) => this.viewModel.saveSnapshot(name)}
@@ -63,7 +65,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                         <th>Total Number: {_.keys(this.viewModel.model.list).length}</th>
                         <th>&nbsp;</th>
                         <th>{this.viewModel.model.totalSize}</th>
-                        <th>{this.viewModel.model.events}</th>
+                        <th>{this.viewModel.model.processedEvents}</th>
                         <th>{this.viewModel.model.processedReadModels}</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>

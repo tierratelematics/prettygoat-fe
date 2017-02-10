@@ -6,6 +6,8 @@ import {ISystemProjection} from "./projection/ISystemProjection";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
 import {Observable} from "rx";
+import {IProjectionStats} from "./projection/IProjectionStats";
+import DiagnosticProjection from "./projection/DiagnosticProjection";
 import * as _ from "lodash";
 
 @injectable()
@@ -21,22 +23,33 @@ export class DiagnosticModelRetriever {
             .flatMap((model: ModelState<ISystemProjection>) => {
                 return this.projectionStats(model);
             })
-            .combineLatest(modelObservable, (response: HttpResponse, model: ModelState<ISystemProjection>) => {
-                if (model.phase == ModelPhase.Failed)
-                    return ModelState.Failed<IDiagnosticProjection>(model.failure);
-                else if (model.phase == ModelPhase.Loading)
-                    return ModelState.Loading<IDiagnosticProjection>();
-                return ModelState.Ready<IDiagnosticProjection>(null);
+            .combineLatest<ModelState<ISystemProjection>, ModelState<IDiagnosticProjection>>
+                (modelObservable, (stats: IProjectionStats[], model: ModelState<ISystemProjection>) => {
+                    if (model.phase == ModelPhase.Failed){
+                        return ModelState.Failed<IDiagnosticProjection>(null);
+                    } else if(model.phase == ModelPhase.Loading){
+                        return ModelState.Loading<IDiagnosticProjection>();
+                    } else {
+                        let diagnosticProjection: IDiagnosticProjection = new DiagnosticProjection();
+                        _.forEach(stats, (stats: IProjectionStats) => {
+                            console.log(stats, model.model.projections[stats.name].dependencies);
+                            diagnosticProjection.merge(stats, model.model.projections[stats.name].dependencies);
+                        });
+                        return ModelState.Ready<IDiagnosticProjection>(diagnosticProjection);
+                    }
             });
     }
 
-    private projectionStats(model: ModelState<ISystemProjection>): Observable<HttpResponse> {
+    private projectionStats(model: ModelState<ISystemProjection>): Observable<IProjectionStats[]> {
         let header: Dictionary<string> = {'Authorization': this.tokenRetriever.token()};
         let endpoint = this.baseConfigRetriever.baseConfig().endpoint + "/api/projections/stats/";
 
-        return (model.phase!=ModelPhase.Ready) ? Observable.empty<HttpResponse>() : Observable.from(_.keys(model.model.projections))
+        return (model.phase!=ModelPhase.Ready) ? Observable.empty<IProjectionStats[]>() :
+            Observable.from(_.keys(model.model.projections))
                 .flatMap(nameProjection => {
                     return this.httpClient.get(endpoint+nameProjection, header)
-                });
+                })
+                .map<IProjectionStats>(httpResponse => httpResponse.response)
+                .toArray();
     }
 }

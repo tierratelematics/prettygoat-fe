@@ -29,7 +29,7 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     protected onData(data: ModelState<IDiagnosticProjection>): void {
-        this.modelPhase = data.phase;
+        this.modelPhase = (data.phase) ? data.phase : ModelPhase.Loading;
         this.model = data.model;
     }
 
