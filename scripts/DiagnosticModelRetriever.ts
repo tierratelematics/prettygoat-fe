@@ -26,7 +26,7 @@ export class DiagnosticModelRetriever {
             .combineLatest<ModelState<ISystemProjection>, ModelState<IDiagnosticProjection>>
                 (modelObservable, (stats: IProjectionStats[], model: ModelState<ISystemProjection>) => {
                     if (model.phase == ModelPhase.Failed){
-                        return ModelState.Failed<IDiagnosticProjection>(null);
+                        return ModelState.Failed<IDiagnosticProjection>(model.failure);
                     } else if(model.phase == ModelPhase.Loading){
                         return ModelState.Loading<IDiagnosticProjection>();
                     } else {
