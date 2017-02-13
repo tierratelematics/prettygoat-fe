@@ -2,6 +2,7 @@ import "reflect-metadata";
 import expect = require("expect.js");
 import * as TypeMoq from "typemoq";
 import * as Bluebird from "bluebird";
+import * as _ from "lodash";
 import DashboardViewModel from "../scripts/DashboardViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher, CommandResponse} from "ninjagoat-commands";
@@ -11,6 +12,7 @@ import {MockEngineDataRetriever} from "./fixtures/MockEngineDataRetriever";
 import {MockSocketConfigRetriever} from "./fixtures/MockSocketConfigRetriever";
 import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
 import {MockDialogService} from "./fixtures/MockDialogService";
+import DiagnosticProjection from "../scripts/projection/DiagnosticProjection";
 
 
 describe("Given a Dashboard ViewModel", () => {
@@ -22,15 +24,28 @@ describe("Given a Dashboard ViewModel", () => {
         errorResponse: CommandResponse;
 
     beforeEach(() => {
-            errorResponse = {response: {error: "error generic"}};
-            dialogService = TypeMoq.Mock.ofType(MockDialogService);
-            commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
-            engineDateRetriever = TypeMoq.Mock.ofType(MockEngineDataRetriever);
-            socketConfigRetriever = TypeMoq.Mock.ofType(MockSocketConfigRetriever);
-            subject = new DashboardViewModel(dialogService.object, commandDispatcher.object,
-                engineDateRetriever.object, socketConfigRetriever.object);
-        }
-    );
+        errorResponse = {response: {error: "error generic"}};
+        dialogService = TypeMoq.Mock.ofType(MockDialogService);
+        commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
+        engineDateRetriever = TypeMoq.Mock.ofType(MockEngineDataRetriever);
+        socketConfigRetriever = TypeMoq.Mock.ofType(MockSocketConfigRetriever);
+        subject = new DashboardViewModel(dialogService.object, commandDispatcher.object,
+            engineDateRetriever.object, socketConfigRetriever.object);
+
+        subject.model = _.assign({}, new DiagnosticProjection(), {
+            "list": {
+                "nameProjection": {
+                    "name": "nameProjection",
+                    "size": 10,
+                    "humanizedSize": "10 bytes",
+                    "events": 0,
+                    "readModels": 1,
+                    "running": false,
+                    "dependencies": []
+                }
+            }
+        });
+    });
 
     context("when a request to the API fails", () => {
         beforeEach(() => {
@@ -44,25 +59,27 @@ describe("Given a Dashboard ViewModel", () => {
         });
     });
 
-    context("when a projection is paused", () => {
+    context("when a projection is stopped", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
-            await subject.pause("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is paused"), TypeMoq.Times.once());
+            await subject.stop("nameProjection");
+            dialogService.verify(d => d.alert("Projection now is stopped"), TypeMoq.Times.once());
+            expect(subject.model.list["nameProjection"].running).to.not.be.ok();
         });
     });
 
-    context("when a projection is resumed", () => {
+    context("when a projection is restarted", () => {
         beforeEach(() => {
             commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
-            await subject.resume("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is runned"), TypeMoq.Times.once());
+            await subject.restart("nameProjection");
+            dialogService.verify(d => d.alert("Projection now is restarted"), TypeMoq.Times.once());
+            expect(subject.model.list["nameProjection"].running).to.be.ok();
         });
     });
 

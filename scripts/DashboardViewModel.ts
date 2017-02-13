@@ -3,7 +3,7 @@ import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {PauseProjectionCommand, ResumeProjectionCommand} from "./command/ProjectionCommand";
+import {StopProjectionCommand, RestartProjectionCommand} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
 import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
@@ -29,16 +29,20 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     protected onData(data: ModelState<IDiagnosticProjection>): void {
-        this.modelPhase = data.phase;
+        this.modelPhase = (data.phase) ? data.phase : ModelPhase.Loading;
         this.model = data.model;
     }
 
-    async pause(name: string) {
-        await this.sendCommand(new PauseProjectionCommand(name), "Projection now is paused");
+    async stop(name: string) {
+        let stopped: boolean = await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
+        if(stopped)
+            this.model.list[name].running = false;
     }
 
-    async resume(name: string) {
-        await this.sendCommand(new ResumeProjectionCommand(name), "Projection now is runned");
+    async restart(name: string) {
+        let restarted = await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
+        if(restarted)
+            this.model.list[name].running = true;
     }
 
     async saveSnapshot(name: string) {
@@ -50,13 +54,16 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
             await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
     }
 
-    async sendCommand(command: Object, successMessage: string) {
+    async sendCommand(command: Object, successMessage: string): Promise<boolean> {
         try {
             await this.commandDispatcher.dispatch(command);
             this.dialogService.alert(successMessage);
         } catch (error) {
             this.dialogService.alert(error.response.error);
+            return false;
         }
+
+        return true;
     }
 
     dependenciesOf(projection: IProjectionInfo) {

@@ -1,4 +1,4 @@
-export interface IProjectionInfo {
+export interface IProjectionStats {
     name: string;
     size: number;
     humanizedSize: string;
@@ -6,5 +6,4 @@ export interface IProjectionInfo {
     readModels: number;
     running: boolean;
     splits?: number;
-    dependencies: string[];
 }
