@@ -34,11 +34,15 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async stop(name: string) {
-        await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
+        let stopped: boolean = await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
+        if(stopped)
+            this.model.list[name].running = false;
     }
 
     async restart(name: string) {
-        await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
+        let restarted = await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
+        if(restarted)
+            this.model.list[name].running = true;
     }
 
     async saveSnapshot(name: string) {
@@ -50,13 +54,16 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
             await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
     }
 
-    async sendCommand(command: Object, successMessage: string) {
+    async sendCommand(command: Object, successMessage: string): Promise<boolean> {
         try {
             await this.commandDispatcher.dispatch(command);
             this.dialogService.alert(successMessage);
         } catch (error) {
             this.dialogService.alert(error.response.error);
+            return false;
         }
+
+        return true;
     }
 
     dependenciesOf(projection: IProjectionInfo) {
