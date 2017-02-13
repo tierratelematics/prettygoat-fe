@@ -32,7 +32,6 @@ export class DiagnosticModelRetriever {
                     } else {
                         let diagnosticProjection: IDiagnosticProjection = new DiagnosticProjection();
                         _.forEach(stats, (stats: IProjectionStats) => {
-                            console.log(stats, model.model.projections[stats.name].dependencies);
                             diagnosticProjection.merge(stats, model.model.projections[stats.name].dependencies);
                         });
                         return ModelState.Ready<IDiagnosticProjection>(diagnosticProjection);
