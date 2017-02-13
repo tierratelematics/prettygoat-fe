@@ -5,10 +5,10 @@ import {Transport} from "ninjagoat-commands";
 @command.Endpoint("/api/snapshots/save")
 @command.Transport(Transport.HTTP_Post)
 export class SaveSnapshotCommand {
-    name: string;
+    projectionName: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(projectionName: string) {
+        this.projectionName = projectionName;
     }
 }
 
@@ -17,9 +17,9 @@ export class SaveSnapshotCommand {
 @command.Endpoint("/api/snapshots/delete")
 @command.Transport(Transport.HTTP_Post)
 export class DeleteSnapshotCommand {
-    name: string;
+    projectionName: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(projectionName: string) {
+        this.projectionName = projectionName;
     }
 }

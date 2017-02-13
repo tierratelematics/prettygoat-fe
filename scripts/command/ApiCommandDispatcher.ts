@@ -24,7 +24,13 @@ class ApiCommandDispatcher extends CommandDispatcher {
     executeCommand(envelope: CommandEnvelope): Promise<CommandResponse> {
         this.config = this.baseConfigRetriever.baseConfig();
         let apiCommandConfig: Dictionary<string> = {'Authorization': this.tokenRetriever.token()};
-        return <Promise<CommandResponse>>this.httpClient.post(this.config.endpoint + this.endpoint, envelope, apiCommandConfig).toPromise();
+        return <Promise<CommandResponse>>this.httpClient.post(this.endPointFor(envelope), envelope, apiCommandConfig).toPromise();
+    }
+
+    private endPointFor(envelope: CommandEnvelope){
+        let projectionName = (<any>envelope.payload).projectionName || "";
+        let endpoint = this.config.endpoint + this.endpoint;
+        return (!projectionName) ? endpoint : `${endpoint}/${projectionName}`;
     }
 
 }
