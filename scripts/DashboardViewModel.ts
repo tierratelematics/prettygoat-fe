@@ -41,32 +41,32 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async stop(name: string){
-        if(await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped"))
+        if(await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped", name))
             this.model.list[name].running = false;
         this.applyRefresh();
     }
 
     async restart(name: string) {
-        if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted"))
+        if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name))
             this.model.list[name].running = true;
         this.applyRefresh();
     }
 
     async saveSnapshot(name: string) {
-        await this.sendCommand(new SaveSnapshotCommand(name), "Snapshot created");
+        await this.sendCommand(new SaveSnapshotCommand(name), "Snapshot created", name);
     }
 
     async deleteSnapshot(name: string) {
         if (!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
-            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
+            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed", name);
     }
 
-    async sendCommand(command: Object, successMessage: string): Promise<boolean> {
+    async sendCommand(command: Object, successMessage: string, nameProjection: string): Promise<boolean> {
         try {
             await this.commandDispatcher.dispatch(command);
-            this.messagesService.success(successMessage);
+            this.messagesService.success(successMessage, nameProjection);
         } catch (error) {
-            this.messagesService.failure(error.response.error);
+            this.messagesService.failure(error.response.error, nameProjection);
             return false;
         }
 
