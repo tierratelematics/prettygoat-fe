@@ -2,7 +2,7 @@ import {View} from "ninjagoat";
 import * as React from "react";
 import RootViewModel from "../scripts/RootViewModel";
 import {NinjagoatDialog} from "ninjagoat-dialogs";
-import {Button,Grid} from "react-bootstrap";
+import {Button, Grid} from "react-bootstrap";
 import {NinjagoatMessages} from "ninjagoat-messages";
 
 
@@ -10,7 +10,7 @@ export default class Master extends View<RootViewModel> {
 
     render() {
         let buttonLogout = (this.viewModel.getToken()) ?
-                <Button onClick={() => this.viewModel.logout()}>Logout</Button> : null;
+            <Button onClick={() => this.viewModel.logout()}>Logout</Button> : null;
 
         return (
             <Grid>
