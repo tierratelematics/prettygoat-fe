@@ -12,10 +12,12 @@ import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import {IProjectionInfo} from "./projection/IProjectionInfo";
 import * as _ from "lodash";
 import {IMessagesService} from "ninjagoat-messages";
+import {Page} from "ninjagoat-analytics";
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
 @Authorized()
+@Page()
 @autobind
 class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
