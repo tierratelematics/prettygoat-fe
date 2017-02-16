@@ -11,6 +11,7 @@ import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import {IProjectionInfo} from "./projection/IProjectionInfo";
 import * as _ from "lodash";
+import {IMessagesService} from "ninjagoat-messages";
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
@@ -24,7 +25,8 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
                 @inject("IEngineDataRetriever") public engineDataRetriever: IEngineDataRetriever,
-                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever) {
+                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever,
+                @inject("IMessagesService") private messagesService: IMessagesService) {
         super();
     }
 
