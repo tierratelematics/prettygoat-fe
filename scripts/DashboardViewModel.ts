@@ -59,9 +59,9 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     async sendCommand(command: Object, successMessage: string): Promise<boolean> {
         try {
             await this.commandDispatcher.dispatch(command);
-            this.dialogService.alert(successMessage);
+            this.messagesService.success(successMessage);
         } catch (error) {
-            this.dialogService.alert(error.response.error);
+            this.messagesService.failure(error.response.error);
             return false;
         }
 
