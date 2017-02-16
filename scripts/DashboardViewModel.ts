@@ -1,4 +1,4 @@
-import {ObservableViewModel, ViewModel} from "ninjagoat";
+import {ObservableViewModel, ViewModel, Refresh} from "ninjagoat";
 import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
@@ -33,16 +33,23 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         this.model = data.model;
     }
 
-    async stop(name: string) {
+    @Refresh
+    applyRefresh(){
+        return true;
+    }
+
+    async stop(name: string){
         let stopped: boolean = await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
         if(stopped)
             this.model.list[name].running = false;
+        this.applyRefresh();
     }
 
     async restart(name: string) {
         let restarted = await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
         if(restarted)
             this.model.list[name].running = true;
+        this.applyRefresh();
     }
 
     async saveSnapshot(name: string) {
