@@ -41,15 +41,13 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async stop(name: string){
-        let stopped: boolean = await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
-        if(stopped)
+        if(await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped"))
             this.model.list[name].running = false;
         this.applyRefresh();
     }
 
     async restart(name: string) {
-        let restarted = await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
-        if(restarted)
+        if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted"))
             this.model.list[name].running = true;
         this.applyRefresh();
     }
