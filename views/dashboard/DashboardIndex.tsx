@@ -26,6 +26,8 @@ export default class DashboardIndex extends View<DashboardViewModel> {
     }
 
     renderReadyPhase() {
+        console.log("REFRESH",this.viewModel.model.list);
+
         let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
         let projections = _.map(this.viewModel.model.list, (value: IProjectionInfo) => {
