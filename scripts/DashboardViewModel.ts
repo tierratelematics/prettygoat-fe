@@ -49,9 +49,11 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     }
 
     async restart(name: string) {
-        if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name))
-            this.model.list[name].running = true;
-        this.applyRefresh();
+        if (!await this.dialogService.confirm("Are you sure to restart this projection?")){
+            if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name))
+                this.model.list[name].running = true;
+            this.applyRefresh();
+        }
     }
 
     async saveSnapshot(name: string) {

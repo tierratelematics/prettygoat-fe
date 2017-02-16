@@ -6,6 +6,7 @@ import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager} from "ninjagoat";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {MessagesService} from "ninjagoat-messages";
+import {ModelState} from "ninjagoat-projections";
 
 @ViewModel("Root")
 class RootViewModel extends ObservableViewModel<any> {
@@ -25,6 +26,9 @@ class RootViewModel extends ObservableViewModel<any> {
 
     getToken(): string {
         return this.tokenRetriever.token();
+    }
+
+    protected onData(data: ModelState<any>): void {
     }
 }
 
