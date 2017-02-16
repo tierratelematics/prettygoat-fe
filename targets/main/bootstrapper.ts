@@ -7,9 +7,11 @@ import AppModule from "../../scripts/AppModule";
 import {CommandsModule} from "ninjagoat-commands";
 import {AnalyticsModule} from "ninjagoat-analytics";
 import {Application} from "ninjagoat";
+import {MessagesModule} from "ninjagoat-messages";
 
 let application = new Application();
 
+application.register(new MessagesModule());
 application.register(new DialogsModule());
 application.register(new CommandsModule());
 application.register(new ProjectionsModule());
