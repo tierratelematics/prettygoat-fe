@@ -42,7 +42,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
             <div>
                 <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
                     Projections - {engineData.name}
-                    <small>{socketConfig.endpoint + socketConfig.path}</small>
+                    &nbsp;<small>{socketConfig.endpoint + socketConfig.path}</small>
                 </PageHeader>
 
                 <table className="table table-striped">

@@ -6,11 +6,13 @@ import IndexViewModel from "../scripts/IndexViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager, INavigationManager} from "ninjagoat";
 import {MockDialogService} from "./fixtures/MockDialogService";
-import MockSettingsManager from "./fixtures/MockSettingsManager";
 import {ICommandDispatcher, CommandResponse} from "ninjagoat-commands";
 import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
 import {MockNavigationManager} from "./fixtures/MockNavigationManager";
 import AuthorizationCommand from "../scripts/command/AuthorizationCommand";
+import {IMessagesService} from "ninjagoat-messages";
+import MockMessagesService from "./fixtures/MockMessagesService";
+import MockSettingsManager from "./fixtures/MockSettingsManager";
 
 describe('Given a Index ViewModel', () => {
     let subject: IndexViewModel,
@@ -18,6 +20,7 @@ describe('Given a Index ViewModel', () => {
         navigationManager: TypeMoq.Mock<INavigationManager>,
         commandDispatcher: TypeMoq.Mock<ICommandDispatcher>,
         settingsManager: TypeMoq.Mock<ISettingsManager>,
+        messagesService: TypeMoq.Mock<IMessagesService>,
         authorizationCommand: Object;
 
     beforeEach(() => {
@@ -25,7 +28,9 @@ describe('Given a Index ViewModel', () => {
             settingsManager = TypeMoq.Mock.ofType(MockSettingsManager);
             commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
             navigationManager = TypeMoq.Mock.ofType(MockNavigationManager);
-            subject = new IndexViewModel(dialogService.object, commandDispatcher.object, navigationManager.object, settingsManager.object);
+            messagesService = TypeMoq.Mock.ofType(MockMessagesService);
+            subject = new IndexViewModel(dialogService.object, commandDispatcher.object,
+                navigationManager.object, settingsManager.object, messagesService.object);
         }
     );
 

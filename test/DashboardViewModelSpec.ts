@@ -13,6 +13,8 @@ import {MockSocketConfigRetriever} from "./fixtures/MockSocketConfigRetriever";
 import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
 import {MockDialogService} from "./fixtures/MockDialogService";
 import DiagnosticProjection from "../scripts/projection/DiagnosticProjection";
+import {IMessagesService} from "ninjagoat-messages";
+import MockMessagesService from "./fixtures/MockMessagesService";
 
 
 describe("Given a Dashboard ViewModel", () => {
@@ -21,6 +23,7 @@ describe("Given a Dashboard ViewModel", () => {
         commandDispatcher: TypeMoq.Mock<ICommandDispatcher>,
         engineDateRetriever: TypeMoq.Mock<IEngineDataRetriever>,
         socketConfigRetriever: TypeMoq.Mock<ISocketConfigRetriever>,
+        messagesService: TypeMoq.Mock<IMessagesService>,
         errorResponse: CommandResponse;
 
     beforeEach(() => {
@@ -29,8 +32,9 @@ describe("Given a Dashboard ViewModel", () => {
         commandDispatcher = TypeMoq.Mock.ofType(MockCommandDispatcher);
         engineDateRetriever = TypeMoq.Mock.ofType(MockEngineDataRetriever);
         socketConfigRetriever = TypeMoq.Mock.ofType(MockSocketConfigRetriever);
+        messagesService = TypeMoq.Mock.ofType(MockMessagesService);
         subject = new DashboardViewModel(dialogService.object, commandDispatcher.object,
-            engineDateRetriever.object, socketConfigRetriever.object);
+            engineDateRetriever.object, socketConfigRetriever.object, messagesService.object);
 
         subject.model = _.assign({}, new DiagnosticProjection(), {
             "list": {
@@ -53,9 +57,9 @@ describe("Given a Dashboard ViewModel", () => {
         });
 
         it("it should display a error", async() => {
-            await subject.sendCommand(null, "successMessage");
-            dialogService.verify(d => d.alert(errorResponse.response.error), TypeMoq.Times.once());
-            dialogService.verify(d => d.alert("successMessage"), TypeMoq.Times.never());
+            await subject.sendCommand(null, "successMessage", "nameProjection");
+            messagesService.verify(d => d.failure(errorResponse.response.error, "nameProjection"), TypeMoq.Times.once());
+            messagesService.verify(d => d.success("successMessage"), TypeMoq.Times.never());
         });
     });
 
@@ -66,7 +70,7 @@ describe("Given a Dashboard ViewModel", () => {
 
         it("it should display a success message", async() => {
             await subject.stop("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is stopped"), TypeMoq.Times.once());
+            messagesService.verify(d => d.success("Projection now is stopped", "nameProjection"), TypeMoq.Times.once());
             expect(subject.model.list["nameProjection"].running).to.not.be.ok();
         });
     });
@@ -78,7 +82,7 @@ describe("Given a Dashboard ViewModel", () => {
 
         it("it should display a success message", async() => {
             await subject.restart("nameProjection");
-            dialogService.verify(d => d.alert("Projection now is restarted"), TypeMoq.Times.once());
+            messagesService.verify(d => d.success("Projection now is restarted", "nameProjection"), TypeMoq.Times.once());
             expect(subject.model.list["nameProjection"].running).to.be.ok();
         });
     });
@@ -90,7 +94,7 @@ describe("Given a Dashboard ViewModel", () => {
 
         it("it should display a success message", async() => {
             await subject.saveSnapshot("nameProjection");
-            dialogService.verify(d => d.alert("Snapshot created"), TypeMoq.Times.once());
+            messagesService.verify(d => d.success("Snapshot created", "nameProjection"), TypeMoq.Times.once());
         });
     });
 
@@ -101,7 +105,7 @@ describe("Given a Dashboard ViewModel", () => {
 
         it("it should display a success message", async() => {
             await subject.deleteSnapshot("nameProjection");
-            dialogService.verify(d => d.alert("Snapshot removed"), TypeMoq.Times.once());
+            messagesService.verify(d => d.success("Snapshot removed", "nameProjection"), TypeMoq.Times.once());
         });
     });
 });

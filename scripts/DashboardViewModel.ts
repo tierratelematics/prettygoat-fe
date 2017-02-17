@@ -1,4 +1,4 @@
-import {ObservableViewModel, ViewModel} from "ninjagoat";
+import {ObservableViewModel, ViewModel, Refresh} from "ninjagoat";
 import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
@@ -11,10 +11,13 @@ import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import {IProjectionInfo} from "./projection/IProjectionInfo";
 import * as _ from "lodash";
+import {IMessagesService} from "ninjagoat-messages";
+import {Page} from "ninjagoat-analytics";
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
 @Authorized()
+@Page()
 @autobind
 class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
 
@@ -24,7 +27,8 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
                 @inject("IEngineDataRetriever") public engineDataRetriever: IEngineDataRetriever,
-                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever) {
+                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever,
+                @inject("IMessagesService") private messagesService: IMessagesService) {
         super();
     }
 
@@ -33,33 +37,35 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         this.model = data.model;
     }
 
-    async stop(name: string) {
-        let stopped: boolean = await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped");
-        if(stopped)
+    @Refresh
+    async stop(name: string){
+        if(await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped", name))
             this.model.list[name].running = false;
     }
 
+    @Refresh
     async restart(name: string) {
-        let restarted = await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted");
-        if(restarted)
-            this.model.list[name].running = true;
+        if (!await this.dialogService.confirm("Are you sure to restart this projection?")){
+            if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name))
+                this.model.list[name].running = true;
+        }
     }
 
     async saveSnapshot(name: string) {
-        await this.sendCommand(new SaveSnapshotCommand(name), "Snapshot created");
+        await this.sendCommand(new SaveSnapshotCommand(name), "Snapshot created", name);
     }
 
     async deleteSnapshot(name: string) {
         if (!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
-            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed");
+            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed", name);
     }
 
-    async sendCommand(command: Object, successMessage: string): Promise<boolean> {
+    async sendCommand(command: Object, successMessage: string, nameProjection: string): Promise<boolean> {
         try {
             await this.commandDispatcher.dispatch(command);
-            this.dialogService.alert(successMessage);
+            this.messagesService.success(successMessage, nameProjection);
         } catch (error) {
-            this.dialogService.alert(error.response.error);
+            this.messagesService.failure(error.response.error, nameProjection);
             return false;
         }
 
