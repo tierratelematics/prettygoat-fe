@@ -19,9 +19,9 @@ import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
 import {ISystemProjection} from "./projection/ISystemProjection";
 
 class AppModule implements IModule {
-    config:any;
+    config: any;
 
-    constructor(config:any){
+    constructor(config: any) {
         this.config = config;
     }
 
