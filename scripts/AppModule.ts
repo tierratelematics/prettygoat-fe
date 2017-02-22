@@ -1,6 +1,6 @@
 import * as Rx from "rx";
 import {interfaces} from "inversify";
-import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
+import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext, Dictionary} from "ninjagoat";
 import {IModelRetriever, INotificationManager, ISocketConfig, ModelRetriever} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
@@ -9,7 +9,6 @@ import AuthRouteStrategy from "./shared/AuthRouteStrategy";
 import ApiNotificationManager from "./shared/ApiNotificationManager";
 import IndexViewModel from "./IndexViewModel";
 import RootViewModel from "./RootViewModel";
-import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
 import {IBaseConfigRetriever} from "./configs/IBaseConfigRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
 import ConfigRetriever from "./configs/ConfigRetriever";
@@ -20,12 +19,17 @@ import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
 import {ISystemProjection} from "./projection/ISystemProjection";
 
 class AppModule implements IModule {
+    config:Dictionary<string> = {};
+
+    constructor(config:Dictionary<string>){
+        this.config = config;
+    }
 
     modules = (container: interfaces.Container) => {
 
         container.bind<IBaseConfig>("IBaseConfig").toConstantValue(null);
         container.bind<ISocketConfig>("ISocketConfig").toConstantValue(null);
-        container.bind<IAnalyticsConfig>("IAnalyticsConfig").toConstantValue({accountID: "UA-91359071-1"});
+        container.bind<IAnalyticsConfig>("IAnalyticsConfig").toConstantValue(this.config["analytics"]);
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
