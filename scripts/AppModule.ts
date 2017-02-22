@@ -1,7 +1,7 @@
 import * as Rx from "rx";
 import {interfaces} from "inversify";
-import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext, Dictionary} from "ninjagoat";
-import {IModelRetriever, INotificationManager, ISocketConfig, ModelRetriever} from "ninjagoat-projections";
+import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
+import {IModelRetriever, INotificationManager, ISocketConfig} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
@@ -19,9 +19,9 @@ import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
 import {ISystemProjection} from "./projection/ISystemProjection";
 
 class AppModule implements IModule {
-    config:Dictionary<string> = {};
+    config:any;
 
-    constructor(config:Dictionary<string>){
+    constructor(config:any){
         this.config = config;
     }
 
@@ -29,7 +29,7 @@ class AppModule implements IModule {
 
         container.bind<IBaseConfig>("IBaseConfig").toConstantValue(null);
         container.bind<ISocketConfig>("ISocketConfig").toConstantValue(null);
-        container.bind<IAnalyticsConfig>("IAnalyticsConfig").toConstantValue(this.config["analytics"]);
+        container.bind<IAnalyticsConfig>("IAnalyticsConfig").toConstantValue(this.config.analytics);
 
         container.unbind("CommandDispatcher");
         container.bind<CommandDispatcher>("CommandDispatcher").to(ApiCommandDispatcher).inSingletonScope();
