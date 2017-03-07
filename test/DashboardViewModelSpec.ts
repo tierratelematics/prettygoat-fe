@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import expect = require("expect.js");
 import * as TypeMoq from "typemoq";
-import * as Bluebird from "bluebird";
 import * as _ from "lodash";
 import DashboardViewModel from "../scripts/DashboardViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
@@ -53,7 +52,7 @@ describe("Given a Dashboard ViewModel", () => {
 
     context("when a request to the API fails", () => {
         beforeEach(() => {
-            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.reject<CommandResponse>(errorResponse));
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Promise.reject<CommandResponse>(errorResponse));
         });
 
         it("it should display a error", async() => {
@@ -65,7 +64,7 @@ describe("Given a Dashboard ViewModel", () => {
 
     context("when a projection is stopped", () => {
         beforeEach(() => {
-            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Promise.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
@@ -77,7 +76,7 @@ describe("Given a Dashboard ViewModel", () => {
 
     context("when a projection is restarted", () => {
         beforeEach(() => {
-            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Promise.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
@@ -89,7 +88,7 @@ describe("Given a Dashboard ViewModel", () => {
 
     context("when a snapshot is created", () => {
         beforeEach(() => {
-            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Promise.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
@@ -100,7 +99,7 @@ describe("Given a Dashboard ViewModel", () => {
 
     context("when a snapshot is removed", () => {
         beforeEach(() => {
-            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Bluebird.resolve<CommandResponse>(null));
+            commandDispatcher.setup(c => c.dispatch(TypeMoq.It.isAny())).returns(() => Promise.resolve<CommandResponse>(null));
         });
 
         it("it should display a success message", async() => {
