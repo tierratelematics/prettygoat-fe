@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import * as Bluebird from "bluebird";
 import expect = require("expect.js");
 import * as TypeMoq from "typemoq";
 import IndexViewModel from "../scripts/IndexViewModel";
@@ -72,8 +71,8 @@ describe('Given a Index ViewModel', () => {
 
             context("and authorization command doesn't failed", () => {
                 beforeEach(() => {
-                    let response: Bluebird<CommandResponse> =
-                        Bluebird.resolve<CommandResponse>({response: {environment: "production"}});
+                    let response: Promise<CommandResponse> =
+                        Promise.resolve<CommandResponse>({response: {environment: "production"}});
                     commandDispatcher.setup(d => d.dispatch(TypeMoq.It.isValue(authorizationCommand))).returns(() => response);
                 });
 
