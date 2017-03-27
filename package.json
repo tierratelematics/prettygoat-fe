@@ -4,7 +4,7 @@
   "dependencies": {
     "@types/core-decorators": "~0.10.30",
     "@types/history": "~2.0.41",
-    "@types/lodash": "~4.14.43",
+    "@types/lodash": "4.14.56",
     "@types/node": "~6.0.52",
     "@types/react": "~0.14.55",
     "@types/react-bootstrap": "~0.0.37",
