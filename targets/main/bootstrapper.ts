@@ -1,4 +1,3 @@
-import "bluebird";
 import "reflect-metadata";
 import {ProjectionsModule} from "ninjagoat-projections";
 import {DialogsModule} from "ninjagoat-dialogs";
