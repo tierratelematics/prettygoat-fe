@@ -41,14 +41,13 @@ export default class DashboardIndex extends View<DashboardViewModel> {
         return (
             <div>
                 <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
-                    Projections - {engineData.name}
-                    &nbsp;<small>{socketConfig.endpoint + socketConfig.path}</small>
+                    Projections - {engineData.name} <small>{socketConfig.endpoint + socketConfig.path}</small>
                 </PageHeader>
 
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th>Projection Name</th>
+                        <th>Projection Name (N. Splits)</th>
                         <th>Running</th>
                         <th>Size</th>
                         <th>Events</th>
@@ -63,12 +62,12 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     <tfoot>
                     <tr>
                         <th>Total Number: {_.keys(this.viewModel.model.list).length}</th>
-                        <th>&nbsp;</th>
+                        <th></th>
                         <th>{this.viewModel.model.totalSize}</th>
                         <th>{this.viewModel.model.processedEvents}</th>
                         <th>{this.viewModel.model.processedReadModels}</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </tfoot>
                 </table>
