@@ -16,8 +16,6 @@ export default class Master extends View<RootViewModel> {
             <Grid>
                 <div className="pull-right toolbar-button">{buttonLogout}</div>
                 {this.props.children}
-                <NinjagoatDialog />
-                <NinjagoatMessages />
             </Grid>
         );
     }
