@@ -47,7 +47,7 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th>Projection Name</th>
+                        <th>Projection Name (N. Splits)</th>
                         <th>Running</th>
                         <th>Size</th>
                         <th>Events</th>
