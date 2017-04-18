@@ -1,6 +1,6 @@
 import * as Rx from "rx";
 import {interfaces} from "inversify";
-import {IServiceLocator, IBaseConfig, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
+import {IServiceLocator, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
 import {IModelRetriever, INotificationManager, ISocketConfig} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
@@ -17,6 +17,7 @@ import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {IAnalyticsConfig, TrackPageRouteStrategy} from "ninjagoat-analytics";
 import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
 import {ISystemProjection} from "./projection/ISystemProjection";
+import IBaseConfig from "./configs/IBaseConfig";
 
 class AppModule implements IModule {
     config: any;
