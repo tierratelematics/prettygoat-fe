@@ -1,7 +1,7 @@
 import expect = require("expect.js");
 import * as TypeMoq from "typemoq";
 import {DiagnosticModelRetriever} from "../scripts/DiagnosticModelRetriever";
-import {IHttpClient, HttpResponse, IBaseConfig} from "ninjagoat";
+import {IHttpClient, HttpResponse} from "ninjagoat";
 import {IBaseConfigRetriever} from "../scripts/configs/IBaseConfigRetriever";
 import {ITokenRetriever} from "../scripts/configs/ITokenRetriever";
 import {MockHttpClient} from "./fixtures/MockHttpClient";
@@ -11,6 +11,7 @@ import {ISystemProjection} from "../scripts/projection/ISystemProjection";
 import {ModelState} from "ninjagoat-projections";
 import {Observable} from "rx";
 import {IDiagnosticProjection} from "../scripts/projection/IDiagnosticProjection";
+import IBaseConfig from "../scripts/configs/IBaseConfig";
 
 describe("Given a DiagnosticModelRetrieverSpec and an observable for System Projection", () => {
 
