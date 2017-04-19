@@ -1,11 +1,12 @@
 import {IBaseConfigRetriever} from "./IBaseConfigRetriever";
 import {ISocketConfigRetriever} from "./ISocketConfigRetriever";
 import {ISocketConfig} from "ninjagoat-projections";
-import {IBaseConfig, ISettingsManager} from "ninjagoat";
+import {ISettingsManager} from "ninjagoat";
 import {ITokenRetriever} from "./ITokenRetriever";
 import {injectable, inject} from "inversify";
 import {IEngineDataRetriever} from "./IEngineDataRetriever";
 import IEngineData from "./IEngineData";
+import IBaseConfig from "./IBaseConfig";
 
 @injectable()
 class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, ITokenRetriever, IEngineDataRetriever{

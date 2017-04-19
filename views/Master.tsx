@@ -1,10 +1,9 @@
 import {View} from "ninjagoat";
 import * as React from "react";
 import RootViewModel from "../scripts/RootViewModel";
-import {NinjagoatDialog} from "ninjagoat-dialogs";
 import {Button, Grid} from "react-bootstrap";
-import {NinjagoatMessages} from "ninjagoat-messages";
-
+import {NinjagoatDialog} from "ninjagoat-dialogs"
+import {NinjagoatMessages} from "ninjagoat-messages"
 
 export default class Master extends View<RootViewModel> {
 
@@ -16,8 +15,8 @@ export default class Master extends View<RootViewModel> {
             <Grid>
                 <div className="pull-right toolbar-button">{buttonLogout}</div>
                 {this.props.children}
-                <NinjagoatDialog dialogService={ this.viewModel.dialogService }/>
-                <NinjagoatMessages messagesService={ this.viewModel.messagesService}/>
+                <NinjagoatDialog />
+                <NinjagoatMessages />
             </Grid>
         );
     }

@@ -11,11 +11,9 @@ import {ModelState} from "ninjagoat-projections";
 @ViewModel("Root")
 class RootViewModel extends ObservableViewModel<any> {
 
-    constructor(@inject("IDialogService") public dialogService: NinjagoatDialogService,
-                @inject("INavigationManager") private navigationManager: INavigationManager,
+    constructor(@inject("INavigationManager") private navigationManager: INavigationManager,
                 @inject("ISettingsManager") private settingsManager: ISettingsManager,
-                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever,
-                @inject("IMessagesService") public messagesService: MessagesService){
+                @inject("ITokenRetriever") private tokenRetriever: ITokenRetriever){
         super();
     }
 

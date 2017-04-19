@@ -1,8 +1,9 @@
 import {injectable, inject} from "inversify";
-import {IDateRetriever, IBaseConfig, IGUIDGenerator, IHttpClient, Dictionary} from "ninjagoat";
+import {IDateRetriever, IGUIDGenerator, IHttpClient, Dictionary} from "ninjagoat";
 import {CommandResponse, CommandDispatcher, CommandEnvelope, Transport} from "ninjagoat-commands";
 import {IBaseConfigRetriever} from "../configs/IBaseConfigRetriever";
 import {ITokenRetriever} from "../configs/ITokenRetriever";
+import IBaseConfig from "../configs/IBaseConfig";
 
 @injectable()
 class ApiCommandDispatcher extends CommandDispatcher {
