@@ -10,7 +10,6 @@ import {Validate, validate, isValid} from "class-validator";
 import {Page} from "ninjagoat-analytics";
 import {NotBlank} from "./shared/Validators";
 import IEngineData from "./configs/IEngineData";
-import {IMessagesService} from "ninjagoat-messages";
 
 @autobind
 @ViewModel("Index")
@@ -29,8 +28,7 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
                 @inject("INavigationManager") private navigationManager: INavigationManager,
-                @inject("ISettingsManager") private settingsManager: ISettingsManager,
-                @inject("IMessagesService") private messagesService: IMessagesService) {
+                @inject("ISettingsManager") private settingsManager: ISettingsManager) {
         super();
     }
 
