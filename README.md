@@ -1,5 +1,5 @@
-#Prettygoat-fe
-Frontend for prettygoat v. 1.0.0-rc2
+# Prettygoat-fe
+Frontend for prettygoat with version >= 1.0.0
 
 ## License
 
