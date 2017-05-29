@@ -1,6 +1,7 @@
 import * as React from 'react';
+import {Dictionary} from "lodash";
 
-export default class Loader extends React.Component<void,never>{
+export default class Loader extends React.Component<Dictionary<string>,never>{
     render() {
         return (
             <div className="loader-container">
