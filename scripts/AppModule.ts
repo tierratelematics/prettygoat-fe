@@ -1,7 +1,7 @@
 import * as Rx from "rx";
 import {interfaces} from "inversify";
 import {IServiceLocator, IRouteStrategy, IViewModelRegistry, IModule, ViewModelContext} from "ninjagoat";
-import {IModelRetriever, INotificationManager, ISocketConfig} from "ninjagoat-projections";
+import {ISocketConfig} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
@@ -18,6 +18,7 @@ import {IAnalyticsConfig, TrackPageRouteStrategy} from "ninjagoat-analytics";
 import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
 import {ISystemProjection} from "./projection/ISystemProjection";
 import IBaseConfig from "./configs/IBaseConfig";
+import {IModelRetriever, INotificationManager, ModelContext} from "chupacabras";
 
 class AppModule implements IModule {
     config: any;
@@ -61,7 +62,7 @@ class AppModule implements IModule {
         registry.master(RootViewModel, context => Rx.Observable.empty());
         registry.index(IndexViewModel, context => Rx.Observable.empty());
         registry.add(DiagnosticViewModel,
-            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<ISystemProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
+            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<ISystemProjection>(new ModelContext("__diagnostic", "System")))).forArea("dashboard");
     }
 }
 

@@ -1,9 +1,10 @@
-import {INotificationManager, Notification, ISocketConfig} from "ninjagoat-projections";
-import * as Rx from "rx";
-import {ViewModelContext, IObjectContainer} from "ninjagoat";
+import {ISocketConfig} from "ninjagoat-projections";
+import {Observable} from "rx";
+import {IObjectContainer} from "ninjagoat";
 import {injectable, inject} from "inversify";
 import * as io from "socket.io-client";
 import {ISocketConfigRetriever} from "../configs/ISocketConfigRetriever";
+import {INotificationManager, Notification, ModelContext} from "chupacabras";
 
 @injectable()
 class ApiNotificationManager implements INotificationManager {
@@ -15,31 +16,26 @@ class ApiNotificationManager implements INotificationManager {
                 @inject("ISocketConfigRetriever") private socketConfigRetriever: ISocketConfigRetriever) {
     }
 
-    notificationsFor(context: ViewModelContext): Rx.Observable<Notification> {
+    notificationsFor(context: ModelContext): Observable<Notification> {
         this.subscribeToChannel(context);
         return this.getNotificationStream(context).finally(() => this.unsubscribeFromChannel(context));
     }
 
-    protected getNotificationStream(context: ViewModelContext): Rx.Observable<Notification> {
-        this.updateClientSocket();
-        return Rx.Observable.fromEvent<Notification>(this.client, `${context.area}:${context.viewmodelId}`);
+    protected getNotificationStream(context: ModelContext): Observable<Notification> {
+        return Observable.fromEvent<Notification>(this.client, `${context.area}:${context.modelId}`);
     }
 
-    private subscribeToChannel(context: ViewModelContext): void {
+    private subscribeToChannel(context: ModelContext): void {
         this.operateOnChannel('subscribe', context);
     }
 
-    private unsubscribeFromChannel(context: ViewModelContext): void {
+    private unsubscribeFromChannel(context: ModelContext): void {
         this.operateOnChannel('unsubscribe', context);
     }
 
-    private operateOnChannel(operation: string, context: ViewModelContext): void {
+    private operateOnChannel(operation: string, context: ModelContext): void {
         this.updateClientSocket();
-        this.client.emit(operation, {
-            area: context.area,
-            viewmodelId: context.viewmodelId,
-            parameters: context.parameters
-        });
+        this.client.emit(operation, context);
     }
 
     private updateClientSocket(): void {
