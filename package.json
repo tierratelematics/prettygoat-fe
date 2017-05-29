@@ -21,7 +21,6 @@
     "inversify": "~3.0.0-rc.2",
     "lodash": "~4.10.0",
     "ninjagoat": "^2.3.0",
-    "ninjagoat-analytics": "^0.2.0",
     "ninjagoat-auth": "^1.0.0",
     "ninjagoat-commands": "^1.0.0",
     "ninjagoat-dialogs": "^1.1.0",
