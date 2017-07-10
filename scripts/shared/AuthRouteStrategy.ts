@@ -1,7 +1,7 @@
 import {injectable, inject} from "inversify";
 import {IRouteStrategy, ISettingsManager} from "ninjagoat";
-import RouterState = ReactRouter.RouterState;
 import {RegistryEntry} from "ninjagoat";
+import {RouterState} from "react-router";
 
 @injectable()
 class AuthRouteStrategy implements IRouteStrategy {
