@@ -45,8 +45,8 @@ export class DiagnosticModelRetriever {
 
         return (model.phase!=ModelPhase.Ready) ? Observable.empty<IProjectionStats[]>() :
             Observable.from(_.keys(model.model.projections))
-                .flatMap(nameProjection => {
-                    return this.httpClient.get(endpoint+nameProjection, header)
+                .flatMap((nameProjection: string) => {
+                    return this.httpClient.get(endpoint+encodeURIComponent(nameProjection), header)
                 })
                 .map<IProjectionStats>(httpResponse => httpResponse.response)
                 .toArray();
