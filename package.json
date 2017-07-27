@@ -6,7 +6,7 @@
     "@types/history": "~2.0.41",
     "@types/lodash": "4.14.56",
     "@types/node": "~6.0.52",
-    "@types/react": "0.14.57",
+    "@types/react": "^15.0.39",
     "@types/socket.io": "~1.4.27",
     "@types/socket.io-client": "~1.4.29",
     "autobind-decorator": "^1.3.4",
@@ -22,14 +22,14 @@
     "ninjagoat-commands": "^3.1.0",
     "ninjagoat-dialogs": "^1.3.0",
     "ninjagoat-messages": "^1.0.0",
-    "ninjagoat-projections": "^2.2.1",
+    "ninjagoat-projections": "^3.0.0-0",
     "ninjagoat-translations": "^3.1.0",
-    "chupacabras": "^0.2.0",
+    "chupacabras": "^2.0.0-0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-bootstrap": "^0.31.0",
     "reflect-metadata": "~0.1.3",
-    "rx": "~4.1.0",
+    "rxjs": "^5.4.2",
     "socket.io": "~1.4.6",
     "socket.io-client": "~1.4.6"
   },
@@ -37,10 +37,9 @@
     "@types/expect.js": "~0.3.29",
     "@types/mocha": "~2.2.33",
     "expect.js": "~0.3.1",
-    "typemoq": "0.3.3",
+    "typemoq": "~1.4.0",
     "smild-extra": "1.0.0"
   },
-  "peerDependencies": {},
   "scripts": {
     "test": "smild test"
   }

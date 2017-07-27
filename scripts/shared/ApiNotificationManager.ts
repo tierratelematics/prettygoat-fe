@@ -1,5 +1,5 @@
 import {ISocketConfig} from "ninjagoat-projections";
-import {Observable} from "rx";
+import {Observable} from "rxjs";
 import {IObjectContainer} from "ninjagoat";
 import {injectable, inject} from "inversify";
 import * as io from "socket.io-client";

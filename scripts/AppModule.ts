@@ -1,9 +1,9 @@
-import * as Rx from "rx";
 import {interfaces} from "inversify";
 import {
     IServiceLocator, IRouteStrategy, IViewModelRegistry, IModule, HttpClient, IHttpClient,
     ViewModelContext
 } from "ninjagoat";
+import {Observable} from "rxjs";
 import {ISocketConfig, IModelRetriever, ModelRetriever} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
@@ -58,8 +58,8 @@ class AppModule implements IModule {
         let modelRetriever = serviceLocator.get<IModelRetriever>("IModelRetriever");
         let diagnosticModelRetriever: DiagnosticModelRetriever = serviceLocator.get<DiagnosticModelRetriever>("DiagnosticModelRetriever");
 
-        registry.master(RootViewModel, context => Rx.Observable.empty());
-        registry.index(IndexViewModel, context => Rx.Observable.empty());
+        registry.master(RootViewModel, context => Observable.empty());
+        registry.index(IndexViewModel, context => Observable.empty());
         registry.add(DiagnosticViewModel,
             () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<ISystemProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
     }
