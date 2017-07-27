@@ -9,7 +9,6 @@ import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
 import AuthRouteStrategy from "./shared/AuthRouteStrategy";
-import ApiNotificationManager from "./shared/ApiNotificationManager";
 import IndexViewModel from "./IndexViewModel";
 import RootViewModel from "./RootViewModel";
 import {IBaseConfigRetriever} from "./configs/IBaseConfigRetriever";
@@ -36,14 +35,6 @@ class AppModule implements IModule {
 
         container.unbind("IRouteStrategy");
         container.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
-
-        container.unbind("INotificationManager");
-        container.bind<INotificationManager>("INotificationManager").to(ApiNotificationManager).inSingletonScope();
-
-        container.unbind("SocketIOClient.Socket");
-        container.bind<SocketIOClient.Socket>("SocketIOClient.Socket").toDynamicValue(() => {
-            return null;
-        });
 
         container.bind<IBaseConfigRetriever>("IBaseConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ISocketConfigRetriever>("ISocketConfigRetriever").to(ConfigRetriever).inSingletonScope();
