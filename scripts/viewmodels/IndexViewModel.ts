@@ -27,9 +27,6 @@ class IndexViewModel extends ObservableViewModel<void> {
                 @inject("IEngineConfig") private engineConfig: IEngineConfig,
                 @inject("ICommandsConfig") private commandsConfig: ICommandsConfig) {
         super();
-        this.endpoint = this.commandsConfig.endpoint;
-        this.token = this.engineConfig.token;
-        this.friendlyName = this.engineConfig.friendlyName;
     }
 
     @Refresh
