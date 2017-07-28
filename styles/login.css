@@ -28,7 +28,7 @@
 }
 .form-signin input[type="text"]
 {
-    margin-bottom: -1px;
+    margin-bottom: 12px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -50,7 +50,7 @@
 .login-title
 {
     color: #555;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 400;
     display: block;
 }

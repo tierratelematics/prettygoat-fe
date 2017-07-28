@@ -1,14 +1,14 @@
 import {View} from "ninjagoat";
 import * as React from "react";
-import RootViewModel from "../scripts/RootViewModel";
 import {Button, Grid} from "react-bootstrap";
 import {NinjagoatDialog} from "ninjagoat-dialogs"
 import {NinjagoatMessages} from "ninjagoat-messages"
+import MasterViewModel from "../scripts/viewmodels/MasterViewModel";
 
-export default class Master extends View<RootViewModel> {
+export default class Master extends View<MasterViewModel> {
 
     render() {
-        let buttonLogout = (this.viewModel.getToken()) ?
+        let buttonLogout = (this.viewModel.isLogged()) ?
             <Button onClick={() => this.viewModel.logout()}>Logout</Button> : null;
 
         return (
