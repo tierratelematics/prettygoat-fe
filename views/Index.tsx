@@ -10,7 +10,7 @@ export default class Index extends View<IndexViewModel> {
             <div>
                 <Row>
                     <div className="col-sm-8 col-md-6 col-md-offset-3">
-                        <h1 className="text-center login-title">Prettygoat's command and control</h1>
+                        <h1 className="text-center login-title">Prettygoat 4.x command and control</h1>
                         <div className="account-wall">
                             <form className="form-signin" onSubmit={event => {
                                 event.preventDefault();
