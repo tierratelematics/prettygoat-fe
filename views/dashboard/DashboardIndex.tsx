@@ -6,7 +6,7 @@ import {ModelPhase} from "ninjagoat-projections";
 import {Alert} from "react-bootstrap";
 import {Dictionary} from "lodash";
 import DashboardViewModel from "../../scripts/viewmodels/DashboardViewModel";
-import ProjectionPanel from "./ProjectionPanel";
+import ProjectionPanel from "./ProjectionListItem";
 import {ICommandsConfig} from "ninjagoat-commands";
 import IEngineConfig from "../../scripts/interfaces/IEngineConfig";
 
@@ -41,8 +41,11 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th>Projection Name</th>
+                        <th>Name</th>
                         <th>Running</th>
+                        <th>Failed</th>
+                        <th>Realtime</th>
+                        <th>Last event</th>
                         <th>Size</th>
                         <th>Events</th>
                         <th>Actions</th>
@@ -50,17 +53,19 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     </tr>
                     </thead>
                     <tbody>
-                    {_.map(this.viewModel.model, value => {
-                        return <ProjectionPanel title={value.name} projection={value} key={value.name}
-                                                stop={(name: string) => this.viewModel.stop(name)}
-                                                restart={(name: string) => this.viewModel.restart(name)}
-                                                saveSnapshot={(name: string) => this.viewModel.saveSnapshot(name)}
-                                                deleteSnapshot={(name: string) => this.viewModel.deleteSnapshot(name)}/>
-                    })}
+                    {_.map(this.viewModel.model, stats => <ProjectionPanel
+                        stats={stats} key={stats.name}
+                        stop={(name: string) => this.viewModel.stop(name)}
+                        restart={(name: string) => this.viewModel.restart(name)}
+                        saveSnapshot={(name: string) => this.viewModel.saveSnapshot(name)}
+                        deleteSnapshot={(name: string) => this.viewModel.deleteSnapshot(name)}/>)}
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Total Number: {this.viewModel.projectionsList}</th>
+                        <th>Total: {this.viewModel.projectionsList.length}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th>{this.viewModel.totalSize}</th>
                         <th>{this.viewModel.totalEvents}</th>

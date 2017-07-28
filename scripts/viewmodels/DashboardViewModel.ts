@@ -38,12 +38,12 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IProjectionStats
     }
 
     async stop(name: string) {
-        await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped", name)
+        await this.sendCommand(new StopProjectionCommand(name), "Projection is now stopped", name)
     }
 
     async restart(name: string) {
-        if (!await this.dialogService.confirm("Are you sure to restart this projection?")) {
-            await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name)
+        if (!await this.dialogService.confirm("Are you sure you want to restart this projection?")) {
+            await this.sendCommand(new RestartProjectionCommand(name), "Projection is now restarted", name)
         }
     }
 
@@ -52,8 +52,8 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IProjectionStats
     }
 
     async deleteSnapshot(name: string) {
-        if (!await this.dialogService.confirm("Are you sure to delete this snapshot?"))
-            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot removed", name);
+        if (!await this.dialogService.confirm("Are you sure you want to delete this snapshot?"))
+            await this.sendCommand(new DeleteSnapshotCommand(name), "Snapshot deleted", name);
     }
 
     async sendCommand(command: Object, successMessage: string, nameProjection: string): Promise<boolean> {

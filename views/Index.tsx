@@ -12,7 +12,10 @@ export default class Index extends View<IndexViewModel> {
                     <div className="col-sm-8 col-md-6 col-md-offset-3">
                         <h1 className="text-center login-title">Prettygoat's command and control</h1>
                         <div className="account-wall">
-                            <form className="form-signin">
+                            <form className="form-signin" onSubmit={event => {
+                                event.preventDefault();
+                                this.viewModel.login();
+                            }}>
                                 <input className="form-control" value={this.viewModel.endpoint}
                                        placeholder="Prettygoat endpoint" onChange={this.viewModel.setEndpoint}/>
                                 <input className="form-control" value={this.viewModel.token}
@@ -20,7 +23,7 @@ export default class Index extends View<IndexViewModel> {
                                 <input className="form-control" value={this.viewModel.friendlyName}
                                        placeholder="Friendly Name" onChange={this.viewModel.setFriendlyName}/>
                                 <br/>
-                                <Button onClick={() => this.viewModel.doLogin()} type="button" bsStyle="primary"
+                                <Button onClick={() => this.viewModel.login()} type="submit" bsStyle="primary"
                                         bsSize="large" block>Enter</Button>
                             </form>
                         </div>

@@ -1,8 +1,7 @@
 import {IProjectionStats} from "./IProjectionStats";
 
 export interface IProjectionListItem {
-    title: string;
-    projection: IProjectionStats;
+    stats: IProjectionStats;
 
     stop(name: string): void;
 

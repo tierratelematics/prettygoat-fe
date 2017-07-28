@@ -20,10 +20,8 @@ export class StatsModelRetriever implements IModelRetriever {
             .map(httpResponse => httpResponse.response)
             .flatMap((projections: string[]) => {
                 return Observable.from(projections)
-                    .flatMap<any, any>(name => {
-                        return this.httpClient.get(endpoint + "/api/projections/stats/" + encodeURIComponent(name))
-                    })
-                    .map<any, any>(httpResponse => httpResponse.response)
+                    .flatMap(name => this.httpClient.get(endpoint + "/api/projections/stats/" + encodeURIComponent(name)))
+                    .map(httpResponse => httpResponse.response)
                     .toArray();
             })
             .map(model => ModelState.Ready(model))
