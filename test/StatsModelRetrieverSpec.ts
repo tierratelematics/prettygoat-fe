@@ -1,25 +1,14 @@
 import expect = require("expect.js");
 import {IMock, Mock, Times, It} from "typemoq";
-import {DiagnosticModelRetriever} from "../scripts/DiagnosticModelRetriever";
 import {IHttpClient, HttpResponse} from "ninjagoat";
-import {IBaseConfigRetriever} from "../scripts/configs/IBaseConfigRetriever";
-import {ITokenRetriever} from "../scripts/configs/ITokenRetriever";
-import MockBaseConfigRetriever from "./fixtures/MockBaseConfigRetriever";
-import MockTokenRetriever from "./fixtures/MockTokenRetriever";
-import {ISystemProjection} from "../scripts/projection/ISystemProjection";
 import {ModelState} from "ninjagoat-projections";
-import {Observable} from "rxjs";
-import {IDiagnosticProjection} from "../scripts/projection/IDiagnosticProjection";
-import IBaseConfig from "../scripts/configs/IBaseConfig";
+import {Observable} from "rx";
+import {StatsModelRetriever} from "../scripts/StatsModelRetriever";
 
-describe("Given a DiagnosticModelRetrieverSpec and an observable for System Projection", () => {
+describe("Given a stats model retriever", () => {
 
     let httpClient: IMock<IHttpClient>,
-        baseConfigRetriever: IMock<IBaseConfigRetriever>,
-        tokenRetriever: IMock<ITokenRetriever>,
-        systemProjection: ISystemProjection,
-        baseConfig: IBaseConfig,
-        subject: DiagnosticModelRetriever;
+        subject: StatsModelRetriever;
 
     beforeEach(() => {
         httpClient = Mock.ofType<IHttpClient>();
@@ -28,7 +17,7 @@ describe("Given a DiagnosticModelRetrieverSpec and an observable for System Proj
         subject = new DiagnosticModelRetriever(httpClient.object, baseConfigRetriever.object, tokenRetriever.object);
     });
 
-    context("when receive a notification", () => {
+    context("when a notification is received", () => {
         beforeEach(() => {
             systemProjection = {"events": 10, "projections": {"Crop": {"dependencies": []}}};
             baseConfig = {"endpoint": "testEndpoint"};

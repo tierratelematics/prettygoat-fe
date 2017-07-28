@@ -1,16 +1,16 @@
 import * as React from "react";
 import {ButtonGroup, Glyphicon, ButtonToolbar, Button} from "react-bootstrap";
-import {IProjectionPanel} from "../scripts/interfaces/IProjectionPanel";
+import {IProjectionListItem} from "../../scripts/interfaces/IProjectionListItem";
 
-export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
+export default class ProjectionPanel extends React.Component<IProjectionListItem, any> {
 
     render() {
         return (
             <tr>
-                <td>{ this.props.projection.name }</td>
-                <td>{ this.props.projection.running.toString() }</td>
-                <td>{ this.props.projection.size }</td>
-                <td>{ this.props.projection.events }</td>
+                <td>{this.props.projection.name}</td>
+                <td>{this.props.projection.running.toString()}</td>
+                <td>{this.props.projection.size}</td>
+                <td>{this.props.projection.events}</td>
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>

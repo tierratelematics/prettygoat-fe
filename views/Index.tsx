@@ -1,7 +1,7 @@
 import {View} from "ninjagoat";
-import IndexViewModel from "../scripts/IndexViewModel";
 import * as React from "react";
 import {Button, Row} from "react-bootstrap";
+import IndexViewModel from "../scripts/viewmodels/IndexViewModel";
 
 export default class Index extends View<IndexViewModel> {
 
@@ -13,11 +13,11 @@ export default class Index extends View<IndexViewModel> {
                         <h1 className="text-center login-title">Prettygoat's command and control</h1>
                         <div className="account-wall">
                             <form className="form-signin">
-                                <input className="form-control" id="endpoint" value={this.viewModel.endPoint}
-                                       placeholder="Prettygoat endpoint" onChange={this.viewModel.setEndPoint}/>
-                                <input className="form-control" id="apiKey" value={this.viewModel.token}
+                                <input className="form-control" value={this.viewModel.endpoint}
+                                       placeholder="Prettygoat endpoint" onChange={this.viewModel.setEndpoint}/>
+                                <input className="form-control" value={this.viewModel.token}
                                        placeholder="API Key" onChange={this.viewModel.setToken}/>
-                                <input className="form-control" id="friendlyName" value={this.viewModel.friendlyName}
+                                <input className="form-control" value={this.viewModel.friendlyName}
                                        placeholder="Friendly Name" onChange={this.viewModel.setFriendlyName}/>
                                 <br/>
                                 <Button onClick={() => this.viewModel.doLogin()} type="button" bsStyle="primary"

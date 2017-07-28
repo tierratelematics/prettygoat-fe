@@ -1,39 +1,25 @@
 import "reflect-metadata";
-import expect = require("expect.js");
 import {IMock, Mock, Times, It} from "typemoq";
 import * as _ from "lodash";
-import DashboardViewModel from "../scripts/DashboardViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher, CommandResponse} from "ninjagoat-commands";
-import {IEngineDataRetriever} from "../scripts/configs/IEngineDataRetriever";
-import {ISocketConfigRetriever} from "../scripts/configs/ISocketConfigRetriever";
-import {MockEngineDataRetriever} from "./fixtures/MockEngineDataRetriever";
-import {MockSocketConfigRetriever} from "./fixtures/MockSocketConfigRetriever";
-import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
-import {MockDialogService} from "./fixtures/MockDialogService";
-import DiagnosticProjection from "../scripts/projection/DiagnosticProjection";
 import {IMessagesService} from "ninjagoat-messages";
-import MockMessagesService from "./fixtures/MockMessagesService";
+import DashboardViewModel from "../scripts/viewmodels/DashboardViewModel";
 
 
 describe("Given a Dashboard ViewModel", () => {
     let subject: DashboardViewModel,
         dialogService: IMock<IDialogService>,
         commandDispatcher: IMock<ICommandDispatcher>,
-        engineDateRetriever: IMock<IEngineDataRetriever>,
-        socketConfigRetriever: IMock<ISocketConfigRetriever>,
         messagesService: IMock<IMessagesService>,
         errorResponse: CommandResponse;
 
     beforeEach(() => {
         errorResponse = {response: {error: "error generic"}};
-        dialogService = Mock.ofType(MockDialogService);
-        commandDispatcher = Mock.ofType(MockCommandDispatcher);
-        engineDateRetriever = Mock.ofType(MockEngineDataRetriever);
-        socketConfigRetriever = Mock.ofType(MockSocketConfigRetriever);
-        messagesService = Mock.ofType(MockMessagesService);
-        subject = new DashboardViewModel(dialogService.object, commandDispatcher.object,
-            engineDateRetriever.object, socketConfigRetriever.object, messagesService.object);
+        dialogService = Mock.ofType<IDialogService>();
+        commandDispatcher = Mock.ofType<ICommandDispatcher>();
+        messagesService = Mock.ofType<IMessagesService>();
+        subject = new DashboardViewModel(dialogService.object, commandDispatcher.object, messagesService.object);
 
         subject.model = _.assign({}, new DiagnosticProjection(), {
             "list": {
@@ -70,7 +56,6 @@ describe("Given a Dashboard ViewModel", () => {
         it("it should display a success message", async() => {
             await subject.stop("nameProjection");
             messagesService.verify(d => d.success("Projection now is stopped", "nameProjection"), Times.once());
-            expect(subject.model.list["nameProjection"].running).to.not.be.ok();
         });
     });
 
@@ -82,7 +67,6 @@ describe("Given a Dashboard ViewModel", () => {
         it("it should display a success message", async() => {
             await subject.restart("nameProjection");
             messagesService.verify(d => d.success("Projection now is restarted", "nameProjection"), Times.once());
-            expect(subject.model.list["nameProjection"].running).to.be.ok();
         });
     });
 

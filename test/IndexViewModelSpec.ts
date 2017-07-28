@@ -1,15 +1,11 @@
 import "reflect-metadata";
 import expect = require("expect.js");
 import {IMock, Mock, Times, It} from "typemoq";
-import IndexViewModel from "../scripts/IndexViewModel";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager, INavigationManager} from "ninjagoat";
-import {MockDialogService} from "./fixtures/MockDialogService";
-import {ICommandDispatcher, CommandResponse} from "ninjagoat-commands";
-import MockCommandDispatcher from "./fixtures/MockCommandDispatcher";
-import {MockNavigationManager} from "./fixtures/MockNavigationManager";
-import AuthorizationCommand from "../scripts/command/AuthorizationCommand";
-import MockSettingsManager from "./fixtures/MockSettingsManager";
+import IndexViewModel from "../scripts/viewmodels/IndexViewModel";
+import {CommandResponse, ICommandDispatcher} from "ninjagoat-commands";
+import AuthorizationCommand from "../scripts/commands/AuthorizationCommand";
 
 describe('Given a Index ViewModel', () => {
     let subject: IndexViewModel,
@@ -20,10 +16,10 @@ describe('Given a Index ViewModel', () => {
         authorizationCommand: Object;
 
     beforeEach(() => {
-            dialogService = Mock.ofType(MockDialogService);
-            settingsManager = Mock.ofType(MockSettingsManager);
-            commandDispatcher = Mock.ofType(MockCommandDispatcher);
-            navigationManager = Mock.ofType(MockNavigationManager);
+            dialogService = Mock.ofType<IDialogService>();
+            settingsManager = Mock.ofType<ISettingsManager>();
+            commandDispatcher = Mock.ofType<ICommandDispatcher>();
+            navigationManager = Mock.ofType<INavigationManager>();
             subject = new IndexViewModel(dialogService.object, commandDispatcher.object,
                 navigationManager.object, settingsManager.object);
         }
@@ -72,7 +68,7 @@ describe('Given a Index ViewModel', () => {
                     commandDispatcher.setup(d => d.dispatch(It.isValue(authorizationCommand))).returns(() => response);
                 });
 
-                it("should save user's credentials", async() => {
+                it("should save user's credentials", async () => {
                     await subject.doLogin();
                     commandDispatcher.verify(d => d.dispatch(It.isValue(authorizationCommand)), Times.once());
                     dialogService.verify(d => d.alert(It.isAnyString()), Times.never());
