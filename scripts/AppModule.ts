@@ -1,10 +1,9 @@
 import {interfaces} from "inversify";
 import {
-    IServiceLocator, IRouteStrategy, IViewModelRegistry, IModule, HttpClient, IHttpClient,
-    ViewModelContext
+    IServiceLocator, IRouteStrategy, IViewModelRegistry, IModule, HttpClient, IHttpClient
 } from "ninjagoat";
-import {Observable} from "rxjs";
-import {ISocketConfig, IModelRetriever, ModelRetriever} from "ninjagoat-projections";
+import {Observable} from "rx";
+import {ISocketConfig, IModelRetriever} from "ninjagoat-projections";
 import {CommandDispatcher} from "ninjagoat-commands";
 import DiagnosticViewModel from "./DashboardViewModel";
 import ApiCommandDispatcher from "./command/ApiCommandDispatcher";
@@ -17,7 +16,6 @@ import ConfigRetriever from "./configs/ConfigRetriever";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {DiagnosticModelRetriever} from "./DiagnosticModelRetriever";
-import {ISystemProjection} from "./projection/ISystemProjection";
 import IBaseConfig from "./configs/IBaseConfig";
 import {INotificationManager, ModelContext} from "chupacabras";
 
@@ -36,6 +34,9 @@ class AppModule implements IModule {
         container.unbind("IRouteStrategy");
         container.bind<IRouteStrategy>("IRouteStrategy").to(AuthRouteStrategy).inSingletonScope();
 
+        container.unbind("SocketIOClient.Socket");
+        container.bind<SocketIOClient.Socket>("SocketIOClient.Socket").toDynamicValue(() => null);
+
         container.bind<IBaseConfigRetriever>("IBaseConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ISocketConfigRetriever>("ISocketConfigRetriever").to(ConfigRetriever).inSingletonScope();
         container.bind<ITokenRetriever>("ITokenRetriever").to(ConfigRetriever).inSingletonScope();
@@ -51,8 +52,7 @@ class AppModule implements IModule {
 
         registry.master(RootViewModel, context => Observable.empty());
         registry.index(IndexViewModel, context => Observable.empty());
-        registry.add(DiagnosticViewModel,
-            () => diagnosticModelRetriever.diagnostic(modelRetriever.modelFor<ISystemProjection>(new ViewModelContext("__diagnostic", "System")))).forArea("dashboard");
+        registry.add(DiagnosticViewModel,context => diagnosticModelRetriever.modelFor(context)).forArea("dashboard");
     }
 }
 

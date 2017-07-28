@@ -28,30 +28,28 @@ export default class DashboardIndex extends View<DashboardViewModel> {
     renderReadyPhase() {
         let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
         let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
-        let projections = _.map(this.viewModel.model.list, (value: IProjectionInfo) => {
+        let projections = _.map(this.viewModel.model, (value: IProjectionInfo) => {
             return <ProjectionPanel title={value.name} projection={value} key={value.name}
                                     stop={(name:string) => this.viewModel.stop(name)}
                                     restart={(name:string) => this.viewModel.restart(name)}
                                     saveSnapshot={(name:string) => this.viewModel.saveSnapshot(name)}
-                                    deleteSnapshot={(name:string) => this.viewModel.deleteSnapshot(name)}
-                                    dependencies={(projection:IProjectionInfo) => this.viewModel.dependenciesOf(projection)}/>
+                                    deleteSnapshot={(name:string) => this.viewModel.deleteSnapshot(name)} />
         });
 
 
         return (
             <div>
                 <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
-                    Projections - {engineData.name}<br /><small>{socketConfig.endpoint + socketConfig.path}</small>
+                    Projections - {engineData.name}<br /><small>{socketConfig.endpoint}</small>
                 </PageHeader>
 
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th>Projection Name (N. Splits)</th>
+                        <th>Projection Name</th>
                         <th>Running</th>
                         <th>Size</th>
                         <th>Events</th>
-                        <th>ReadModels</th>
                         <th>Actions</th>
                         <th>Snapshot</th>
                     </tr>
@@ -61,11 +59,10 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Total Number: {_.keys(this.viewModel.model.list).length}</th>
+                        <th>Total Number: {this.viewModel.projectionsList}</th>
                         <th></th>
-                        <th>{this.viewModel.model.totalSize}</th>
-                        <th>{this.viewModel.model.processedEvents}</th>
-                        <th>{this.viewModel.model.processedReadModels}</th>
+                        <th>{this.viewModel.totalSize}</th>
+                        <th>{this.viewModel.totalEvents}</th>
                         <th></th>
                         <th></th>
                     </tr>

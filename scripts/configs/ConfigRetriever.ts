@@ -25,12 +25,11 @@ class ConfigRetriever implements IBaseConfigRetriever,ISocketConfigRetriever, IT
 
     socketConfig(): ISocketConfig {
         let endPoint:string = this.settingsManager.getValue<string>("endpoint");
-        let path:string = this.settingsManager.getValue<string>("path");
 
-        if(!endPoint || !path)
+        if(!endPoint)
             throw Error("Endpoint or Path non found");
 
-        return {"endpoint":endPoint,"path":path};
+        return {"endpoint":endPoint};
     }
 
 

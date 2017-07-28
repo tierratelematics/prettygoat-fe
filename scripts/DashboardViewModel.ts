@@ -6,21 +6,24 @@ import {ICommandDispatcher} from "ninjagoat-commands";
 import {StopProjectionCommand, RestartProjectionCommand} from "./command/ProjectionCommand";
 import {Authorized} from "ninjagoat-auth";
 import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
-import {IDiagnosticProjection} from "./projection/IDiagnosticProjection";
 import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
 import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
-import {IProjectionInfo} from "./projection/IProjectionInfo";
-import * as _ from "lodash";
+import {map, sumBy} from "lodash";
 import {IMessagesService} from "ninjagoat-messages";
+import {IProjectionStats} from "./projection/IProjectionStats";
+const humanize = require("humanize");
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
 @Authorized()
 @autobind
-class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProjection>> {
+class DashboardViewModel extends ObservableViewModel<ModelState<IProjectionStats[]>> {
 
-    model: IDiagnosticProjection;
+    model: IProjectionStats[];
     modelPhase: ModelPhase;
+    totalEvents: number;
+    totalSize: string;
+    projectionsList: string[];
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -30,22 +33,23 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         super();
     }
 
-    protected onData(data: ModelState<IDiagnosticProjection>): void {
+    protected onData(data: ModelState<IProjectionStats[]>): void {
         this.modelPhase = (data.phase) ? data.phase : ModelPhase.Loading;
         this.model = data.model;
+
+        this.totalEvents = sumBy(data.model, stat => stat.events);
+        let bytesSize = sumBy(data.model, stat => stat.size);
+        this.totalSize = humanize.filesize(bytesSize);
+        this.projectionsList = map(data.model, stat => stat.name);
     }
 
-    @Refresh
-    async stop(name: string){
-        if(await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped", name))
-            this.model.list[name].running = false;
+    async stop(name: string) {
+        await this.sendCommand(new StopProjectionCommand(name), "Projection now is stopped", name)
     }
 
-    @Refresh
     async restart(name: string) {
-        if (!await this.dialogService.confirm("Are you sure to restart this projection?")){
-            if(await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name))
-                this.model.list[name].running = true;
+        if (!await this.dialogService.confirm("Are you sure to restart this projection?")) {
+            await this.sendCommand(new RestartProjectionCommand(name), "Projection now is restarted", name)
         }
     }
 
@@ -68,10 +72,6 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IDiagnosticProje
         }
 
         return true;
-    }
-
-    dependenciesOf(projection: IProjectionInfo) {
-        this.dialogService.alert(_.join(projection.dependencies, ","));
     }
 
 }

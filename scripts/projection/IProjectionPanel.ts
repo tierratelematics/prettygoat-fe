@@ -7,5 +7,4 @@ export interface IProjectionPanel {
     restart(name: string): void;
     saveSnapshot(name: string): void;
     deleteSnapshot(name: string): void;
-    dependencies(projection: IProjectionInfo): void;
 }

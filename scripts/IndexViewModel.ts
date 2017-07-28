@@ -20,8 +20,6 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
     token: string;
     @Validate(NotBlank, {message: "The Endpoint is required"})
     endPoint: string;
-    @Validate(NotBlank, {message: "The Path is required"})
-    path: string;
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
@@ -38,10 +36,6 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         this.endPoint = event.target.value;
     }
 
-    setPath(event) {
-        this.path = event.target.value;
-    }
-
     setFriendlyName(event) {
         this.friendlyName = event.target.value;
     }
@@ -53,7 +47,6 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
         }
 
         this.settingsManager.setValue<string>("endpoint", this.endPoint);
-        this.settingsManager.setValue<string>("path", this.path);
         this.settingsManager.setValue<string>("tokenAPI", this.token);
 
         try {
@@ -63,9 +56,8 @@ class IndexViewModel extends ObservableViewModel<ModelState<any[]>> {
             this.navigationManager.navigate("dashboard");
         }
         catch (error) {
-            let messageError:string = (error) ? "Endpoint not valid" : error.response.error;
+            let messageError:string = "Endpoint not valid";
             this.dialogService.alert(messageError);
-            this.settingsManager.setValue<string>("tokenAPI", "");
         }
     }
 

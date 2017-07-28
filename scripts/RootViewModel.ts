@@ -1,11 +1,8 @@
 import {ObservableViewModel, ViewModel} from "ninjagoat";
 import {inject} from "inversify";
-import {NinjagoatDialogService} from "ninjagoat-dialogs";
 import {INavigationManager} from "ninjagoat";
-import {IDialogService} from "ninjagoat-dialogs";
 import {ISettingsManager} from "ninjagoat";
 import {ITokenRetriever} from "./configs/ITokenRetriever";
-import {MessagesService} from "ninjagoat-messages";
 import {ModelState} from "ninjagoat-projections";
 
 @ViewModel("Root")
