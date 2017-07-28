@@ -3,7 +3,8 @@ export interface IProjectionStats {
     size: number;
     humanizedSize: string;
     events: number;
-    readModels: number;
     running: boolean;
-    splits?: number;
+    failed: boolean;
+    lastEvent: string;
+    realtime: boolean;
 }

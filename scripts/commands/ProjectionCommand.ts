@@ -23,13 +23,3 @@ export class RestartProjectionCommand {
         this.projectionName = projectionName;
     }
 }
-
-@command.Type("StatsProjection")
-@command.Endpoint("/api/projections/stats")
-export class StatsProjectionCommand {
-    projectionName: string;
-
-    constructor(projectionName: string) {
-        this.projectionName = projectionName;
-    }
-}

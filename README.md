@@ -1,5 +1,6 @@
 # Prettygoat-fe
-Frontend for prettygoat with version >= 1.0.0
+
+Command and control module for [prettygoat](https://github.com/tierratelematics/prettygoat).
 
 ## License
 

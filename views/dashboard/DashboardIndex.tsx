@@ -1,76 +1,108 @@
-import {View} from "ninjagoat";
+import {lazyInject, View} from "ninjagoat";
 import * as React from "react";
 import {PageHeader} from "react-bootstrap";
 import * as _ from "lodash";
-import ProjectionPanel from "../ProjectionPanel";
-import Loader from "../shared/Loader";
-import DashboardViewModel from "../../scripts/DashboardViewModel";
-import {ISocketConfig, ModelPhase} from "ninjagoat-projections";
-import IEngineData from "../../scripts/configs/IEngineData";
-import {IProjectionInfo} from "../../scripts/projection/IProjectionInfo";
-import ErrorAlert from "../shared/ErrorAlert";
+import {ModelPhase} from "ninjagoat-projections";
+import {Alert} from "react-bootstrap";
+import {Dictionary} from "lodash";
+import DashboardViewModel from "../../scripts/viewmodels/DashboardViewModel";
+import ProjectionPanel from "./ProjectionListItem";
+import {ICommandsConfig} from "ninjagoat-commands";
+import IEngineConfig from "../../scripts/interfaces/IEngineConfig";
 
 export default class DashboardIndex extends View<DashboardViewModel> {
+
+    @lazyInject("ICommandsConfig")
+    private commandsConfig: ICommandsConfig;
+    @lazyInject("IEngineConfig")
+    private engineConfig: IEngineConfig;
 
     render() {
         switch (this.viewModel.modelPhase) {
             case ModelPhase.Ready:
-                return this.renderReadyPhase();
+                return this.renderProjections();
             case ModelPhase.Loading:
-                return (<div><Loader /></div>);
+                return (<div><Loader/></div>);
             case ModelPhase.Failed:
-                return (<div><ErrorAlert /></div>);
+                return (<div><ErrorAlert/></div>);
             default:
-                return (<div><Loader /></div>);
+                return (<div><Loader/></div>);
         }
     }
 
-    renderReadyPhase() {
-        let engineData: IEngineData = this.viewModel.engineDataRetriever.engineData();
-        let socketConfig: ISocketConfig = this.viewModel.socketConfigRetriever.socketConfig();
-        let projections = _.map(this.viewModel.model.list, (value: IProjectionInfo) => {
-            return <ProjectionPanel title={value.name} projection={value} key={value.name}
-                                    stop={(name:string) => this.viewModel.stop(name)}
-                                    restart={(name:string) => this.viewModel.restart(name)}
-                                    saveSnapshot={(name:string) => this.viewModel.saveSnapshot(name)}
-                                    deleteSnapshot={(name:string) => this.viewModel.deleteSnapshot(name)}
-                                    dependencies={(projection:IProjectionInfo) => this.viewModel.dependenciesOf(projection)}/>
-        });
-
-
+    renderProjections() {
         return (
             <div>
-                <PageHeader className={ _.startsWith(engineData.type,'prod') ? 'header-prod-env' : '' }>
-                    Projections - {engineData.name}<br /><small>{socketConfig.endpoint + socketConfig.path}</small>
+                <PageHeader className={_.startsWith(this.engineConfig.type, 'prod') ? 'header-prod-env' : ''}>
+                    Projections - {this.engineConfig.friendlyName}<br/>
+                    <small>{this.commandsConfig.endpoint}</small>
                 </PageHeader>
 
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th>Projection Name (N. Splits)</th>
+                        <th>Name</th>
                         <th>Running</th>
+                        <th>Failed</th>
+                        <th>Realtime</th>
+                        <th>Last event</th>
                         <th>Size</th>
                         <th>Events</th>
-                        <th>ReadModels</th>
                         <th>Actions</th>
                         <th>Snapshot</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {projections}
+                    {_.map(this.viewModel.model, stats => <ProjectionPanel
+                        stats={stats} key={stats.name}
+                        stop={(name: string) => this.viewModel.stop(name)}
+                        restart={(name: string) => this.viewModel.restart(name)}
+                        saveSnapshot={(name: string) => this.viewModel.saveSnapshot(name)}
+                        deleteSnapshot={(name: string) => this.viewModel.deleteSnapshot(name)}/>)}
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Total Number: {_.keys(this.viewModel.model.list).length}</th>
+                        <th>Total: {this.viewModel.projectionsList.length}</th>
                         <th></th>
-                        <th>{this.viewModel.model.totalSize}</th>
-                        <th>{this.viewModel.model.processedEvents}</th>
-                        <th>{this.viewModel.model.processedReadModels}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>{this.viewModel.totalSize}</th>
+                        <th>{this.viewModel.totalEvents}</th>
                         <th></th>
                         <th></th>
                     </tr>
                     </tfoot>
                 </table>
+            </div>
+        );
+    }
+}
+
+class ErrorAlert extends React.Component<Dictionary<string>, never> {
+    render() {
+        return (
+            <Alert bsStyle="warning">
+                <strong>Error!</strong> Something is gone wrong
+            </Alert>
+        );
+    }
+}
+
+class Loader extends React.Component<Dictionary<string>, never> {
+    render() {
+        return (
+            <div className="loader-container">
+                <div id="loader">
+                    <div id="loader_1" className="loader"></div>
+                    <div id="loader_2" className="loader"></div>
+                    <div id="loader_3" className="loader"></div>
+                    <div id="loader_4" className="loader"></div>
+                    <div id="loader_5" className="loader"></div>
+                    <div id="loader_6" className="loader"></div>
+                    <div id="loader_7" className="loader"></div>
+                    <div id="loader_8" className="loader"></div>
+                </div>
             </div>
         );
     }
