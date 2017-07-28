@@ -12,7 +12,7 @@ export class StatsModelRetriever implements IModelRetriever {
                 @inject("ICommandsConfig") private commandsConfig: ICommandsConfig) {
     }
 
-    modelFor(context: ViewModelContext): Observable<ModelState<Dictionary<IProjectionStats>>> {
+    modelFor(context: ViewModelContext): Observable<ModelState<Dictionary<IProjectionStats[]>>> {
         let endpoint = this.commandsConfig.endpoint;
 
         return Observable.timer(0, 5000)
