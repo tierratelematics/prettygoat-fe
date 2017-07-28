@@ -1,21 +1,17 @@
-import {ObservableViewModel, ViewModel, Refresh} from "ninjagoat";
+import {ObservableViewModel, ViewModel} from "ninjagoat";
 import {ModelState, ModelPhase} from "ninjagoat-projections";
 import {inject} from "inversify";
 import {IDialogService} from "ninjagoat-dialogs";
 import {ICommandDispatcher} from "ninjagoat-commands";
-import {StopProjectionCommand, RestartProjectionCommand} from "./command/ProjectionCommand";
-import {Authorized} from "ninjagoat-auth";
-import {SaveSnapshotCommand, DeleteSnapshotCommand} from "./command/SnapshotCommand";
-import {IEngineDataRetriever} from "./configs/IEngineDataRetriever";
-import {ISocketConfigRetriever} from "./configs/ISocketConfigRetriever";
+import {StopProjectionCommand, RestartProjectionCommand} from "../commands/ProjectionCommand";
+import {SaveSnapshotCommand, DeleteSnapshotCommand} from "../commands/SnapshotCommand";
 import {map, sumBy} from "lodash";
 import {IMessagesService} from "ninjagoat-messages";
-import {IProjectionStats} from "./projection/IProjectionStats";
+import {IProjectionStats} from "../interfaces/IProjectionStats";
 const humanize = require("humanize");
 let autobind = require("autobind-decorator");
 
 @ViewModel("DashboardIndex")
-@Authorized()
 @autobind
 class DashboardViewModel extends ObservableViewModel<ModelState<IProjectionStats[]>> {
 
@@ -27,8 +23,6 @@ class DashboardViewModel extends ObservableViewModel<ModelState<IProjectionStats
 
     constructor(@inject("IDialogService") private dialogService: IDialogService,
                 @inject("ICommandDispatcher") private commandDispatcher: ICommandDispatcher,
-                @inject("IEngineDataRetriever") public engineDataRetriever: IEngineDataRetriever,
-                @inject("ISocketConfigRetriever") public socketConfigRetriever: ISocketConfigRetriever,
                 @inject("IMessagesService") private messagesService: IMessagesService) {
         super();
     }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ButtonGroup, Glyphicon, ButtonToolbar, Button} from "react-bootstrap";
-import {IProjectionPanel} from "../scripts/projection/IProjectionPanel";
+import {IProjectionPanel} from "../scripts/interfaces/IProjectionPanel";
 
 export default class ProjectionPanel extends React.Component<IProjectionPanel,any> {
 

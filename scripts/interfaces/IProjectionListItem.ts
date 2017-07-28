@@ -1,10 +1,14 @@
-import {IProjectionInfo} from "./IProjectionInfo";
+import {IProjectionStats} from "./IProjectionStats";
 
-export interface IProjectionPanel {
+export interface IProjectionListItem {
     title: string;
-    projection: IProjectionInfo;
+    projection: IProjectionStats;
+
     stop(name: string): void;
+
     restart(name: string): void;
+
     saveSnapshot(name: string): void;
+
     deleteSnapshot(name: string): void;
 }
