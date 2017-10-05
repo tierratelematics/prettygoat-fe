@@ -18,7 +18,7 @@ export default class Index extends View<IndexViewModel> {
                             }}>
                                 <input className="form-control" value={this.viewModel.endpoint}
                                        placeholder="Prettygoat endpoint" onChange={this.viewModel.setEndpoint}/>
-                                <input className="form-control" value={this.viewModel.token}
+                                <input className="form-control" value={this.viewModel.token} type="password"
                                        placeholder="API Key" onChange={this.viewModel.setToken}/>
                                 <input className="form-control" value={this.viewModel.friendlyName}
                                        placeholder="Friendly Name" onChange={this.viewModel.setFriendlyName}/>

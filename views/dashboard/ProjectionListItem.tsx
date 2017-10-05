@@ -12,7 +12,7 @@ export default class ProjectionPanel extends React.Component<IProjectionListItem
                 <td>{this.props.stats.failed.toString()}</td>
                 <td>{this.props.stats.realtime.toString()}</td>
                 <td>{this.props.stats.lastEvent}</td>
-                <td>{this.props.stats.size}</td>
+                <td>{this.props.stats.humanizedSize}</td>
                 <td>{this.props.stats.events}</td>
                 <td>
                     <ButtonToolbar>
