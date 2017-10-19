@@ -1,13 +1,20 @@
 import * as React from "react";
 import {ButtonGroup, Glyphicon, ButtonToolbar, Button} from "react-bootstrap";
 import {IProjectionListItem} from "../../scripts/interfaces/IProjectionListItem";
+import IEngineConfig from "../../scripts/interfaces/IEngineConfig";
+import {lazyInject} from "ninjagoat";
+import {ICommandsConfig} from "ninjagoat-commands";
 
 export default class ProjectionPanel extends React.Component<IProjectionListItem, any> {
 
+    @lazyInject("ICommandsConfig") private commandsConfig: ICommandsConfig;
+    @lazyInject("IEngineConfig") private engineConfig: IEngineConfig;
+
     render() {
+        let stateUrl = `${this.commandsConfig.endpoint}/api/projections/state/${this.props.stats.name}?authorization=${this.engineConfig.token}`;
         return (
             <tr>
-                <td>{this.props.stats.name}</td>
+                <td><a href={stateUrl} target="_blank">{this.props.stats.name}</a></td>
                 <td>{this.props.stats.running.toString()}</td>
                 <td>{this.props.stats.failed.toString()}</td>
                 <td>{this.props.stats.realtime.toString()}</td>
