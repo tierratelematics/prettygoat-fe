@@ -8,6 +8,7 @@ import AuthorizationCommand from "../commands/AuthorizationCommand";
 import {Validate, validate, isValid} from "class-validator";
 import {NotBlank} from "../Validators";
 import IEngineConfig from "../interfaces/IEngineConfig";
+import {trimEnd} from "lodash";
 
 @autobind
 @ViewModel("Index")
@@ -52,7 +53,7 @@ class IndexViewModel extends ObservableViewModel<void> {
 
         this.engineConfig.friendlyName = this.friendlyName;
         this.engineConfig.token = this.token;
-        this.commandsConfig.endpoint = this.endpoint;
+        this.commandsConfig.endpoint = trimEnd(this.endpoint, "/");
 
         try {
             let commandResponse: CommandResponse = await this.commandDispatcher.dispatch(new AuthorizationCommand(this.token));
