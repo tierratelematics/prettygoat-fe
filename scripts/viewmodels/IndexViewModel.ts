@@ -63,9 +63,8 @@ class IndexViewModel extends ObservableViewModel<void> {
             this.settingsManager.setValue("prettygoat_fe_token", this.engineConfig.token);
             this.settingsManager.setValue("prettygoat_fe_endpoint", this.commandsConfig.endpoint);
             this.navigationManager.navigate("dashboard");
-        }
-        catch (error) {
-            let messageError: string = "Endpoint not valid";
+        } catch (error) {
+            let messageError = "Endpoint not valid";
             this.dialogService.alert(messageError);
         }
     }
