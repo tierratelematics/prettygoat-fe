@@ -45,7 +45,6 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                         <th>Running</th>
                         <th>Failed</th>
                         <th>Realtime</th>
-                        <th>Last event</th>
                         <th>Size</th>
                         <th>Events</th>
                         <th>Actions</th>
@@ -63,7 +62,6 @@ export default class DashboardIndex extends View<DashboardViewModel> {
                     <tfoot>
                     <tr>
                         <th>Total: {this.viewModel.projectionsList.length}</th>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>

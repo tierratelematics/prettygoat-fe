@@ -12,15 +12,15 @@ export default class ProjectionPanel extends React.Component<IProjectionListItem
 
     render() {
         let stateUrl = `${this.commandsConfig.endpoint}/api/projections/state/${this.props.stats.name}?authorization=${this.engineConfig.token}`;
+        let statsUrl = `${this.commandsConfig.endpoint}/api/projections/stats/${this.props.stats.name}?authorization=${this.engineConfig.token}`;
         return (
             <tr>
                 <td><a href={stateUrl} target="_blank">{this.props.stats.name}</a></td>
                 <td>{this.props.stats.running.toString()}</td>
                 <td>{this.props.stats.failed.toString()}</td>
                 <td>{this.props.stats.realtime.toString()}</td>
-                <td>{this.props.stats.lastEvent}</td>
                 <td>{this.props.stats.humanizedSize}</td>
-                <td>{this.props.stats.events}</td>
+                <td><a href={statsUrl} target="_blank">{this.props.stats.events}</a></td>
                 <td>
                     <ButtonToolbar>
                         <ButtonGroup>
