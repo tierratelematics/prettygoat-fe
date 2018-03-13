@@ -5,6 +5,14 @@ export interface IProjectionStats {
     events: number;
     running: boolean;
     failed: boolean;
-    lastEvent: string;
+    lastEvents: Event[];
     realtime: boolean;
+}
+
+export interface Event<T = any> {
+    id?: string;
+    type: string;
+    payload: T;
+    timestamp: Date;
+    metadata?: any;
 }
